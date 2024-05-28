@@ -1,0 +1,18 @@
+{
+  "name": "presentations",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "dev:gitops-cluster": "slidev --remote --open how-to-gitops.md",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@iconify-json/mdi": "^1.1.66",
+    "@slidev/cli": "^0.49.2",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest",
+    "vue": "^3.4.27"
+  }
+}
