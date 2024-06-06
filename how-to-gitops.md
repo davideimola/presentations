@@ -25,6 +25,7 @@ func main() {
             "Go",
             "Open Source",
             "BBQ",
+            "Cybersecurity",
         },
     } 
 }
@@ -156,6 +157,16 @@ It is one of the most popular tools for GitOps with ArgoCD.
     <img class="w-70" src="/flux.png" />
 </div>
 </div>
+
+---
+transition: slide-left
+handle: DavideImola
+logoHeader: /logo.svg
+website: links.davideimola.dev
+layout: statement
+---
+
+It's time to GitOps! <mdi-rocket />
 
 ---
 transition: slide-left

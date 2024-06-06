@@ -1,5 +1,13 @@
+.statement {
+    @apply text-5xl font-700;
+}
+
 .slidev-layout {
     @apply h-full flex flex-col;
+
+    strong {
+        @apply color-stone;
+    }
 
     h1 + p {
         @apply -mt-2 opacity-50 mb-4;

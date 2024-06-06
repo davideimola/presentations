@@ -6,6 +6,7 @@
     "build": "slidev build",
     "dev": "slidev --open",
     "dev:gitops-cluster": "slidev --remote --open how-to-gitops.md",
+    "dev:greenops": "slidev --remote --open greenops.md",
     "export": "slidev export"
   },
   "dependencies": {
