@@ -71,7 +71,7 @@ website: links.davideimola.dev
 - <mdi-hammer-wrench /> More complex applications and more content (images, videos, etc.)
 - <mdi-account-details /> More users and more data to manage
 - <mdi-shield-off /> Scalability and security are more important than ever
-- Spreading of services and applications across multiple environments
+- <mdi-application-braces-outline /> Spreading of services and applications across multiple environments
 
 </v-clicks>
 
@@ -289,6 +289,23 @@ We can use tools like **Kubernetes** to scale our applications based on the dema
 **Knative**, **Horizontal Pod Autoscaling**, and **KubeGreen** can help us to reduce the energy consumption on a Kubernetes cluster.
 
 Also, **FinOps** tools can help us to reduce all the waste in the cloud.
+
+---
+transition: slide-left
+handle: DavideImola
+logoHeader: /logo.svg
+website: links.davideimola.dev
+---
+
+# In conclusion...
+
+... I know that it's not easy to change the way we work and the way we build our applications.
+
+But we can start with small steps and small changes, and we can make a big difference.
+
+We can't change the world in one day, but we can start to make it better.
+
+If you want to learn more: https://envirotechnical.eu/
 
 ---
 transition: slide-left
