@@ -70,7 +70,7 @@ and maintain.
 </div>
 
 <div class="flex items-center justify-center">
-    <img class="w-70" src="/go-ddd/kingdom.png" />
+    <img class="w-70" src="/go-ddd/kingdom.webp" />
 </div>
 </div>
 
@@ -184,18 +184,177 @@ logoHeader: /logo.svg
 website: links.davideimola.dev
 ---
 
-# The Hexagonal Castle
+# The Onion Castle
 
-In the heart of the Domain-Driven Land lies the <span v-mark="{ at: 1, color: '#f00', type: 'underline' }">Hexagonal Architecture</span>.
+In the heart of the Domain-Driven Land lies the Onion Castle.
 
-This architectural pattern is like a castle with six sides, each representing a different layer of the system:
+<div grid="~ cols-2 gap-4">
+<div>
 
-- **Domain Model**: The core of the castle, where the domain logic resides.
-- **Application Services**: The gatekeepers of the castle, handling requests and coordinating the domain.
-- **Adapters**: The bridges between the castle and the outside world, translating requests and responses.
-- **Ports**: The drawbridges that allow external systems to interact with the castle.
-- **Infrastructure**: The moat and walls that protect the castle, handling persistence, communication, and other
-  technical concerns.
+The Onion Castle is a fortress of code, with layers upon layers of protection.
+
+Each layer represents a different part of the domain, from the core entities at the center to the outermost services and
+interfaces.
+
+By organizing the code in this way, we can create a clear separation of concerns and ensure that each part of the domain
+is properly encapsulated.
+
+</div>
+
+<div class="flex items-center justify-center">
+    <img class="w-70" src="/go-ddd/onion-castle.webp" />
+</div>
+</div>
+
+---
+transition: slide-left
+handle: DavideImola
+logoHeader: /logo.svg
+website: links.davideimola.dev
+---
+
+# The Onion Castle: Domain
+
+<div grid="~ cols-2 gap-4">
+
+<div>
+
+At the core of the Onion Castle lies the Domain layer.
+
+Here, we find the heart of the domain, where the core entities and value objects reside.
+
+No business logic or external dependencies are allowed in this layer; it's all about the domain and nothing else.
+
+</div>
+
+<div>
+
+```go
+type Order struct {
+    ID        string
+    CreatedAt time.Time
+    UpdatedAt time.Time
+    Status    string
+}
+
+func (o *Order) Ship() {
+    o.Status = "Shipped"
+    o.UpdatedAt = time.Now()
+}
+
+func (o *Order) Cancel() {
+    o.Status = "Cancelled"
+    o.UpdateAt = time.Now()
+}
+```
+
+</div>
+
+</div>
+
+
+---
+transition: slide-left
+handle: DavideImola
+logoHeader: /logo.svg
+website: links.davideimola.dev
+---
+
+# The Onion Castle: Application
+
+<div grid="~ cols-2 gap-4">
+
+<div>
+
+Surrounding the Domain layer is the Application layer.
+
+Here, we find the use cases and business logic that drive the application.
+
+</div>
+
+<div>
+
+```go
+type OrderService struct {
+    orderRepo OrderRepository
+}
+
+func (s *OrderService) ShipOrder(id string) error {
+    order, err := s.orderRepo.GetOrder(id)
+    if err != nil {
+        return err
+    }
+
+    order.Ship()
+    return s.orderRepo.UpdateOrder(order)
+}
+
+```
+
+</div>
+
+</div>
+
+
+---
+transition: slide-left
+handle: DavideImola
+logoHeader: /logo.svg
+website: links.davideimola.dev
+---
+
+# The Onion Castle: Infrastructure
+
+<div grid="~ cols-2 gap-4">
+
+<div>
+
+At the outermost layer of the Onion Castle lies the Infrastructure layer.
+
+Here, we find the code that interacts with external systems, such as databases, APIs, and services.
+
+They are passed down to the Application layer, through dependency injection, to ensure that the domain remains pure and
+free from external concerns.
+
+</div>
+
+<div>
+
+```go
+type OrderHTTPService struct {
+    orderSvc OrderService
+}
+
+func (s *OrderHTTPService) Ship(r *http.Request) error {
+    err := s.orderSvc.Ship(r.URL.Query().Get("id"))
+    if err != nil {
+        return err
+    }
+    
+    return nil
+}
+
+```
+
+</div>
+
+</div>
+
+---
+transition: slide-left
+handle: DavideImola
+logoHeader: /logo.svg
+website: links.davideimola.dev
+layout: statement
+---
+
+And now the magic begins! <mdi-magic-staff />
+
+<v-clicks>
+
+Let's adventure into the code! <mdi-skull-crossbones />
+
+</v-clicks>
 
 ---
 transition: slide-left
@@ -234,7 +393,8 @@ Let's take a look at some of the challenges of Domain-Driven Design:
 
 - **Complexity**: DDD can be complex, especially for large systems with many domains and bounded contexts.
 - **Learning Curve**: DDD has a steep learning curve, and it can take time to fully understand and implement.
-- **Huge Effort**: DDD requires a significant effort to implement correctly, and it may not be suitable for all projects.
+- **Huge Effort**: DDD requires a significant effort to implement correctly, and it may not be suitable for all
+  projects.
 
 </v-clicks>
 
@@ -253,8 +413,10 @@ If you're considering embarking on your own journey into the world of Domain-Dri
 
 - **Start Small**: Begin by identifying a single domain and creating a bounded context around it.
 - **Collaborate**: Work closely with domain experts and stakeholders to ensure you're modeling the domain accurately.
-- **Iterate**: Don't try to model the entire domain at once. Start with a small part and iterate as you learn more!! All the kingdoms were not built in a day.
-- **Learn**: Take the time to learn about DDD and its concepts. There are many great resources available to help you get started.
+- **Iterate**: Don't try to model the entire domain at once. Start with a small part and iterate as you learn more!! All
+  the kingdoms were not built in a day.
+- **Learn**: Take the time to learn about DDD and its concepts. There are many great resources available to help you get
+  started.
 
 </v-clicks>
 
@@ -264,8 +426,23 @@ handle: DavideImola
 logoHeader: /logo.svg
 website: links.davideimola.dev
 layout: center
+addons:
+- slidev-addon-qrcode
 ---
 
-# Thank you for your attention!
+## Thank you for joining me today on this epic quest!
 
-## Questions?
+<div class="flex flex-col items-center">
+
+<QRCode
+:width="300"
+:height="300"
+type="svg"
+data="https://github.com/davideimola/ddd-onion-go"
+:margin="10"
+:imageOptions="{ margin: 10 }"
+:dotsOptions="{ type: 'square', color: 'white' }"
+image="/logo.svg"
+/>
+
+</div>
