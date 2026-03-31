@@ -1,11 +1,11 @@
 <template>
   <div class="slidev-layout cover">
-    <LayoutHeader :logoHeader="logoHeader" />
-    <div class="flex-1 flex flex-col justify-center">
+    <LayoutHeader />
+    <div class="slidev-layout__content flex-1 flex flex-col justify-center px-16 py-8">
       <div class="cover-accent-line" />
       <slot />
     </div>
-    <LayoutFooter :website="website" :handle="handle" />
+    <LayoutFooter :website="website" />
   </div>
 </template>
 
@@ -14,9 +14,7 @@ import LayoutHeader from '../components/LayoutHeader.vue'
 import LayoutFooter from '../components/LayoutFooter.vue'
 
 defineProps({
-  logoHeader: { type: String },
-  website:    { type: String },
-  handle:     { type: String },
+  website: { type: String },
 })
 </script>
 

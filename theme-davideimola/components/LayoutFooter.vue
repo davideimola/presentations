@@ -1,12 +1,9 @@
 <template>
-  <footer class="akane-footer" v-if="website || handle">
+  <footer class="akane-footer" v-if="website">
     <div class="akane-footer__accent" />
     <div class="akane-footer__content">
-      <span v-if="website" class="akane-footer__item">
+      <span class="akane-footer__item">
         <span class="akane-footer__prefix">// </span>{{ website }}
-      </span>
-      <span v-if="handle" class="akane-footer__item akane-footer__handle">
-        @{{ handle }}
       </span>
     </div>
   </footer>
@@ -15,7 +12,6 @@
 <script setup lang="ts">
 defineProps({
   website: { type: String },
-  handle:  { type: String },
 })
 </script>
 
@@ -38,8 +34,7 @@ defineProps({
 .akane-footer__content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 64px;
+  padding: 0 24px;
   height: 100%;
 }
 
@@ -52,9 +47,5 @@ defineProps({
 
 .akane-footer__prefix {
   color: #C91F37;
-}
-
-.akane-footer__handle {
-  color: #9A948E;
 }
 </style>

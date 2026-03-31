@@ -30,7 +30,7 @@
 .akane-header__content {
   display: flex;
   align-items: center;
-  padding: 0 64px;
+  padding: 0 24px;
   width: 100%;
 }
 

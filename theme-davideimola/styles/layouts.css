@@ -2,6 +2,8 @@
 
 .slidev-layout {
   @apply h-full flex flex-col;
+  position: relative;
+  overflow: hidden;
   background-color: var(--bg);
   color: var(--text-1);
   font-family: 'IBM Plex Sans', sans-serif;
@@ -19,6 +21,19 @@
 
   strong { color: var(--text-1); @apply font-semibold; }
 
+  em { color: var(--text-2); font-style: italic; }
+
+  del { color: var(--text-3); text-decoration: line-through; }
+
+  u { color: var(--text-1); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+
+  mark {
+    background-color: rgba(201, 31, 55, 0.15);
+    color: var(--text-1);
+    border-radius: 2px;
+    padding: 0 3px;
+  }
+
   a {
     color: var(--accent);
     @apply no-underline;
@@ -31,7 +46,8 @@
 
   li::marker { color: var(--accent); }
 
-  code {
+  /* inline code only — exclude code inside pre (code blocks) */
+  :not(pre) > code {
     font-family: 'JetBrains Mono', monospace;
     background-color: var(--bg-card);
     border: 1px solid var(--border);
@@ -70,37 +86,30 @@
 
 .slidev-layout > * { position: relative; z-index: 1; }
 
-/* ── Default ─────────────────────────────────────────────────────────── */
-
-.slidev-layout.default {
-  @apply px-16 py-10;
-}
-
 /* ── Cover ───────────────────────────────────────────────────────────── */
 
-.slidev-layout.cover {
-  @apply px-16 py-0 justify-center;
-
+.slidev-layout.cover .slidev-layout__content {
   h1 {
     @apply text-6xl font-bold leading-tight mb-4;
   }
 
   h1 .accent { color: var(--accent); }
 
-  p { @apply text-lg; }
-}
+  p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--text-3);
 
-/* ── Intro (speaker bio) ─────────────────────────────────────────────── */
-
-.slidev-layout.intro {
-  @apply px-16 py-0 justify-center;
+    &::before {
+      content: '$ ';
+      color: var(--accent);
+    }
+  }
 }
 
 /* ── Section break ───────────────────────────────────────────────────── */
 
-.slidev-layout.section {
-  @apply px-16 py-0 justify-center;
-
+.slidev-layout.section .slidev-layout__content {
   h1 {
     @apply text-6xl font-bold leading-tight;
   }
@@ -108,9 +117,7 @@
 
 /* ── Fact / big number ───────────────────────────────────────────────── */
 
-.slidev-layout.fact {
-  @apply px-16 py-0 justify-center text-center;
-
+.slidev-layout.fact .slidev-layout__content {
   h1 {
     @apply text-9xl font-bold;
     color: var(--accent);
@@ -126,24 +133,108 @@
 
 /* ── Quote ───────────────────────────────────────────────────────────── */
 
-.slidev-layout.quote {
-  @apply px-16 py-0 justify-center;
+/* Watermark decorativo */
+.slidev-layout.quote::after {
+  content: '\201C';
+  position: absolute;
+  top: 50%;
+  left: 56px;
+  transform: translateY(-58%);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 360px;
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0.06;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.slidev-layout.quote .slidev-layout__content {
+  position: relative;
+  z-index: 1;
 
   h1 {
-    @apply text-4xl leading-snug;
+    @apply text-5xl leading-tight;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    font-style: italic;
     color: var(--text-1);
+    letter-spacing: -0.02em;
   }
 
   h1 + p {
-    @apply mt-4 text-sm;
+    @apply mt-8 text-xs tracking-widest uppercase;
+    font-family: 'JetBrains Mono', monospace;
     color: var(--text-3);
+
+    &::before {
+      content: '// ';
+      color: var(--accent);
+    }
   }
+}
+
+/* ── Center ──────────────────────────────────────────────────────────── */
+
+.slidev-layout.center .slidev-layout__content {
+  h1 { @apply text-5xl font-bold; }
+  p  { @apply text-lg; }
+}
+
+/* ── Statement ───────────────────────────────────────────────────────── */
+
+.slidev-layout.statement .slidev-layout__content {
+  h1 {
+    @apply text-6xl font-bold leading-tight;
+  }
+
+  p {
+    @apply text-xl mt-4;
+    color: var(--text-2);
+  }
+}
+
+/* ── Image right / left ──────────────────────────────────────────────── */
+
+.slidev-layout.image-right .slidev-layout__content,
+.slidev-layout.image-left .slidev-layout__content {
+  @apply p-0;
+}
+
+/* ── Tables ──────────────────────────────────────────────────────────── */
+
+.slidev-layout table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-3);
+    border-bottom: 1px solid var(--border-mid);
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  td {
+    color: var(--text-2);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 12px;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  th:first-child, td:first-child { padding-left: 0; }
+  th:last-child,  td:last-child  { padding-right: 0; }
 }
 
 /* ── Two cols ────────────────────────────────────────────────────────── */
 
-.slidev-layout.two-cols {
-  @apply px-16 py-10 gap-10;
+.slidev-layout.two-cols .slidev-layout__content {
+  @apply flex flex-row gap-10;
 
   .col-left, .col-right { @apply flex-1; }
 }
@@ -151,7 +242,17 @@
 /* ── Code highlighting ───────────────────────────────────────────────── */
 
 .slidev-code {
+  box-shadow: 0 0 0 1px var(--border);
+  @apply rounded overflow-hidden;
+}
+
+/* Override Shiki backgrounds — .slidev-code can be the <pre> itself or a wrapper */
+.slidev-code,
+.slidev-code pre,
+.slidev-code code {
   background-color: var(--bg-card) !important;
-  border: 1px solid var(--border);
-  @apply rounded;
+}
+
+.slidev-code .line {
+  background-color: transparent !important;
 }

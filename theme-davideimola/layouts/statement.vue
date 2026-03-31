@@ -1,7 +1,7 @@
 <template>
-  <div class="slidev-layout default">
+  <div class="slidev-layout statement">
     <LayoutHeader />
-    <div class="slidev-layout__content flex-1 flex flex-col justify-center px-16 py-8">
+    <div class="slidev-layout__content flex-1 flex flex-col items-center justify-center text-center px-20 py-8">
       <slot />
     </div>
     <LayoutFooter :website="website" />

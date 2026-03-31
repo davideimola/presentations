@@ -1,7 +1,7 @@
 <template>
   <div class="slidev-layout intro">
-    <LayoutHeader :logoHeader="logoHeader" />
-    <div class="flex-1 flex items-center gap-16">
+    <LayoutHeader />
+    <div class="slidev-layout__content flex-1 flex items-center gap-16 px-16 py-8">
       <figure v-if="imageSrc" class="shrink-0">
         <img
           :src="imageSrc"
@@ -14,7 +14,7 @@
         <slot />
       </div>
     </div>
-    <LayoutFooter :website="website" :handle="handle" />
+    <LayoutFooter :website="website" />
   </div>
 </template>
 
@@ -26,9 +26,7 @@ import LayoutFooter from '../components/LayoutFooter.vue'
 
 const props = defineProps({
   introImage: { type: String },
-  logoHeader: { type: String },
   website:    { type: String },
-  handle:     { type: String },
 })
 
 const imageSrc = computed(() => props.introImage ? resolveAssetUrl(props.introImage) : null)
