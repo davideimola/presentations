@@ -1,5 +1,5 @@
 ---
-theme: ../../theme-davideimola
+theme: ../../theme
 title: "GreenOps: Bridging the Gap Between DevOps and Sustainability"
 highlighter: shiki
 transition: slide-left

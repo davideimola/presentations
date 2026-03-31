@@ -1,5 +1,5 @@
 ---
-theme: ../../theme-davideimola
+theme: ../../theme
 title: How to GitOps your cluster with Flux
 highlighter: shiki
 transition: slide-left

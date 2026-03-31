@@ -1,5 +1,5 @@
 ---
-theme: ../../theme-davideimola
+theme: ../../theme
 title: "Gophers Gone Domain-Driven: A Tale of Golang and DDD"
 highlighter: shiki
 transition: slide-left
