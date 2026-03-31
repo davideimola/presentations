@@ -4,8 +4,9 @@ title: "slidev-theme-davideimola — example"
 highlighter: shiki
 transition: slide-left
 mdc: true
-website: davideimola.dev
 layout: cover
+defaults:
+  website: davideimola.dev
 ---
 
 # Talk Title
@@ -15,7 +16,6 @@ go run talk.go --topic="your subtitle here"
 ---
 layout: intro
 introImage: /me.png
-website: davideimola.dev
 ---
 
 ```go
@@ -35,7 +35,6 @@ func main() {
 
 ---
 layout: default
-website: davideimola.dev
 ---
 
 # Content slide
@@ -50,7 +49,6 @@ A regular slide with text, list items, and inline code.
 
 ---
 layout: default
-website: davideimola.dev
 ---
 
 # Typography — weight & style
@@ -62,7 +60,6 @@ website: davideimola.dev
 
 ---
 layout: default
-website: davideimola.dev
 ---
 
 # Typography — decorations & code
@@ -74,7 +71,6 @@ website: davideimola.dev
 
 ---
 layout: default
-website: davideimola.dev
 ---
 
 # Heading hierarchy
@@ -86,7 +82,69 @@ website: davideimola.dev
 
 ---
 layout: default
-website: davideimola.dev
+---
+
+# Badges <Badge>default</Badge> <Badge type="accent">accent</Badge> <Badge type="success">success</Badge> <Badge type="warning">warning</Badge>
+
+Use badges inline to label technologies, status, or versions.
+
+- Go <Badge type="accent">v1.23</Badge> — latest stable release
+- Feature X <Badge type="warning">beta</Badge> — not production ready
+- Migration <Badge type="success">done</Badge> — completed last sprint
+
+---
+layout: default
+---
+
+# Callouts
+
+<Callout type="note">Use this for neutral context or background information.</Callout>
+
+<Callout type="tip">This is a best practice or recommended approach.</Callout>
+
+<Callout type="warning">Pay attention — this might have side effects.</Callout>
+
+<Callout type="danger">Breaking change — requires immediate action.</Callout>
+
+---
+layout: default
+---
+
+# Click animations — v-click
+
+Reveal content step by step. Each `v-click` advances on <kbd>Space</kbd> or <kbd>→</kbd>.
+
+<v-clicks>
+
+- First point — visible immediately
+- Second point — appears on first click
+- Third point — appears on second click
+
+</v-clicks>
+
+<v-click>
+
+<Callout type="tip">This callout appears after all list items.</Callout>
+
+</v-click>
+
+---
+layout: default
+---
+
+# Keyboard shortcuts — kbd
+
+Use `<kbd>` to show keyboard shortcuts in your slides.
+
+- Advance: <kbd>Space</kbd> or <kbd>→</kbd>
+- Go back: <kbd>←</kbd>
+- Overview: <kbd>O</kbd>
+- Fullscreen: <kbd>F</kbd>
+- Open terminal: <kbd>Ctrl</kbd>+<kbd>`</kbd>
+- Run command: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
+
+---
+layout: default
 ---
 
 # Table
@@ -99,7 +157,6 @@ website: davideimola.dev
 
 ---
 layout: default
-website: davideimola.dev
 ---
 
 # Code with step highlighting
@@ -122,7 +179,6 @@ func (r *userRepository) FindByID(ctx context.Context, id uuid.UUID) (User, erro
 ---
 layout: section
 label: "01 / section"
-website: davideimola.dev
 ---
 
 # Section Break
@@ -131,14 +187,12 @@ Visual separator between talk sections
 
 ---
 layout: statement
-website: davideimola.dev
 ---
 
 # A bold statement
 
 ---
 layout: fact
-website: davideimola.dev
 ---
 
 # 17+
@@ -147,7 +201,6 @@ talks & conferences
 
 ---
 layout: quote
-website: davideimola.dev
 ---
 
 # "What you learn, you must share."
@@ -156,7 +209,6 @@ Cit. — davideimola.dev/about
 
 ---
 layout: center
-website: davideimola.dev
 ---
 
 # Centered slide
@@ -165,12 +217,11 @@ Horizontally and vertically centered content
 
 ---
 layout: two-cols
-website: davideimola.dev
 ---
 
 # Two Columns
 
-Use this layout to compare concepts or show code alongside text.
+Use this to compare concepts or pair text with code.
 
 - Left point one
 - Left point two
@@ -186,9 +237,60 @@ func NewService(repo Repository) *Service {
 ```
 
 ---
+layout: two-cols-header
+---
+
+# Title spanning both columns
+
+::left::
+
+Left column content — text, lists, context.
+
+- First point
+- Second point
+
+::right::
+
+```go
+// Right column — code
+func example() error {
+  return nil
+}
+```
+
+---
+layout: split-code
+---
+
+###### concept
+
+# Repository Pattern
+
+Separates data access logic from business logic. The domain layer depends on an abstraction, not a concrete implementation.
+
+<Badge type="accent">Go</Badge> <Badge>DDD</Badge>
+
+::right::
+
+```go
+type UserRepository interface {
+  FindByID(ctx context.Context, id uuid.UUID) (User, error)
+  Save(ctx context.Context, u User) error
+}
+
+type userRepo struct{ db *sql.DB }
+
+func (r *userRepo) FindByID(
+  ctx context.Context,
+  id uuid.UUID,
+) (User, error) {
+  // query db...
+}
+```
+
+---
 layout: image-right
 image: /me.png
-website: davideimola.dev
 ---
 
 # Image Right
@@ -202,7 +304,6 @@ Image on the right, content on the left.
 ---
 layout: image-left
 image: /me.png
-website: davideimola.dev
 ---
 
 # Image Left
@@ -216,7 +317,6 @@ Image on the left, content on the right.
 ---
 layout: terminal
 title: "~/project $ go run main.go"
-website: davideimola.dev
 ---
 
 ```sh
@@ -234,11 +334,8 @@ $ curl -s localhost:8080/health | jq
 
 ---
 layout: cover
-website: davideimola.dev
 ---
 
 # Thank you
 
-Q&A
-
-`davideimola.dev` · `@DavideImola`
+exit 0

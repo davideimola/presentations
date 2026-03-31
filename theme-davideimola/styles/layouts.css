@@ -13,7 +13,7 @@
     color: var(--text-1);
   }
 
-  h1 { @apply text-4xl font-bold mb-4 leading-tight; }
+  h1 { @apply text-3xl font-bold mb-4 leading-tight; }
   h2 { @apply text-2xl font-semibold mb-3; }
   h3 { @apply text-xl font-semibold mb-2; }
 
@@ -104,7 +104,19 @@
       content: '$ ';
       color: var(--accent);
     }
+
+    &::after {
+      content: '▋';
+      color: var(--accent);
+      margin-left: 2px;
+      animation: cursor-blink 1.2s step-end infinite;
+    }
   }
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
 
 /* ── Section break ───────────────────────────────────────────────────── */
@@ -239,6 +251,48 @@
   .col-left, .col-right { @apply flex-1; }
 }
 
+/* ── Split code ──────────────────────────────────────────────────────── */
+
+.slidev-layout.split-code .slidev-layout__content {
+  @apply p-0;
+}
+
+/* ── Two cols header ─────────────────────────────────────────────────── */
+
+.slidev-layout.two-cols-header .slidev-layout__content {
+  .two-cols-header__top {
+    h1 { @apply mb-0; }
+  }
+}
+
+/* ── v-click transitions ─────────────────────────────────────────────── */
+
+.slidev-vclick-target {
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.slidev-vclick-hidden {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+}
+
+/* ── kbd ─────────────────────────────────────────────────────────────── */
+
+.slidev-layout kbd {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72em;
+  color: var(--text-1);
+  background: var(--bg-card);
+  border: 1px solid var(--border-mid);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  padding: 1px 7px;
+  line-height: 1.8;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
 /* ── Code highlighting ───────────────────────────────────────────────── */
 
 .slidev-code {
@@ -255,4 +309,10 @@
 
 .slidev-code .line {
   background-color: transparent !important;
+  transition: opacity 0.3s ease;
+}
+
+/* Dim non-focused lines during step highlight */
+.slidev-code .line.dim {
+  opacity: 0.2;
 }

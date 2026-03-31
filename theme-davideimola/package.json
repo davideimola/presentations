@@ -8,6 +8,7 @@
   },
   "slidev": {
     "defaults": {
+      "canvasWidth": 960,
       "fonts": {
         "sans": "IBM Plex Sans",
         "mono": "JetBrains Mono",

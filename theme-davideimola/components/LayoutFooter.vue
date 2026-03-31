@@ -5,14 +5,21 @@
       <span class="akane-footer__item">
         <span class="akane-footer__prefix">// </span>{{ website }}
       </span>
+      <span class="akane-footer__item akane-footer__page">
+        {{ currentPage }} / {{ total }}
+      </span>
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
+import { useNav } from '@slidev/client'
+
 defineProps({
   website: { type: String },
 })
+
+const { currentPage, total } = useNav()
 </script>
 
 <style scoped>
@@ -34,6 +41,7 @@ defineProps({
 .akane-footer__content {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 24px;
   height: 100%;
 }
@@ -47,5 +55,9 @@ defineProps({
 
 .akane-footer__prefix {
   color: #C91F37;
+}
+
+.akane-footer__page {
+  color: #3a3530;
 }
 </style>
