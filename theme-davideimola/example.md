@@ -16,22 +16,12 @@ go run talk.go --topic="your subtitle here"
 ---
 layout: intro
 introImage: /me.png
+github: davideimola
+bluesky: "@davideimola.dev"
+linkedin: davideimola
 ---
 
-```go
-func main() {
-  me := Person{
-    Name:      "Davide Imola",
-    Role:      "Tech Lead",
-    Company:   "RedCarbon SA",
-    Community: "Schrödinger Hat",
-    Location:  "Verona, Italy",
-    Interests: []string{
-      "Go", "DevOps", "Security", "Open Source",
-    },
-  }
-}
-```
+<WhoAmI />
 
 ---
 layout: default
@@ -340,3 +330,8 @@ layout: cover
 # Thank you
 
 exit 0
+
+<div class="absolute bottom-20 right-20 flex flex-col items-center gap-3">
+  <QRCode value="https://links.davideimola.dev" :size="140" dark="#eae5df" light="#080807" />
+  <span class="text-xs font-mono" style="color: #7E7874;">links.davideimola.dev</span>
+</div>

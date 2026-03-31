@@ -324,5 +324,5 @@
 
 /* Dim non-focused lines during step highlight */
 .slidev-code .line.dim {
-  opacity: 0.2;
+  opacity: 0.4;
 }

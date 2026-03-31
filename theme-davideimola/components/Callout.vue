@@ -54,24 +54,24 @@ const icons: Record<string, string> = {
 /* note */
 .callout--note {
   background: #0f0e0d;
-  border-color: #252220;
-  .callout__icon { color: #7e7874; }
-  .callout__body { color: #9a948e; }
+  border-color: #4a4540;
+  .callout__icon { color: #9a948e; }
+  .callout__body { color: #b5aea6; }
 }
 
 /* tip */
 .callout--tip {
-  background: rgba(74, 158, 110, 0.06);
-  border-color: rgba(74, 158, 110, 0.4);
+  background: rgba(74, 158, 110, 0.08);
+  border-color: rgba(74, 158, 110, 0.6);
   .callout__icon { color: #4a9e6e; }
   .callout__body { color: #eae5df; }
 }
 
 /* warning */
 .callout--warning {
-  background: rgba(196, 134, 10, 0.06);
-  border-color: rgba(196, 134, 10, 0.4);
-  .callout__icon { color: #c4860a; }
+  background: rgba(212, 149, 15, 0.08);
+  border-color: rgba(212, 149, 15, 0.6);
+  .callout__icon { color: #d4950f; }
   .callout__body { color: #eae5df; }
 }
 

@@ -58,6 +58,6 @@ const { currentPage, total } = useNav()
 }
 
 .akane-footer__page {
-  color: #3a3530;
+  color: #7e7874;
 }
 </style>
