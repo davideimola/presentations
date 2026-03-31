@@ -1,7 +1,10 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "buildCommand": "node scripts/build.mjs",
+  "outputDirectory": "dist",
+  "redirects": [
+    { "source": "/", "destination": "https://davideimola.dev/sharing", "permanent": false }
   ],
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "rewrites": [
+    { "source": "/:talk/:path+", "destination": "/:talk/index.html" }
+  ]
 }

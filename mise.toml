@@ -1,0 +1,4 @@
+[tools]
+node = "22.22.2"
+pnpm = "9.15.9"
+"npm:@slidev/cli" = "52.14.1"

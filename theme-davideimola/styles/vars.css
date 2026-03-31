@@ -1,0 +1,17 @@
+:root {
+  --bg:           #080807;
+  --bg-card:      #0F0E0D;
+  --bg-hover:     #141311;
+  --border:       #1C1A18;
+  --border-mid:   #252220;
+  --text-1:       #EAE5DF;
+  --text-2:       #9A948E;
+  --text-3:       #7E7874;
+  --accent:       #C91F37;
+  --accent-dim:   rgba(201, 31, 55, 0.15);
+
+  /* Slidev overrides */
+  --slidev-theme-primary:    var(--accent);
+  --slidev-theme-background: var(--bg);
+  --slidev-code-background:  var(--bg-card);
+}

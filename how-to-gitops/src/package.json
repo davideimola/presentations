@@ -1,0 +1,10 @@
+{
+  "name": "talk-how-to-gitops",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "slidev --open slides.md",
+    "build": "slidev build slides.md",
+    "export": "slidev export slides.md"
+  }
+}

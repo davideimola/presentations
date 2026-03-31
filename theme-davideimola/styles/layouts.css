@@ -1,0 +1,157 @@
+/* ── Base ────────────────────────────────────────────────────────────── */
+
+.slidev-layout {
+  @apply h-full flex flex-col;
+  background-color: var(--bg);
+  color: var(--text-1);
+  font-family: 'IBM Plex Sans', sans-serif;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-1);
+  }
+
+  h1 { @apply text-4xl font-bold mb-4 leading-tight; }
+  h2 { @apply text-2xl font-semibold mb-3; }
+  h3 { @apply text-xl font-semibold mb-2; }
+
+  p  { color: var(--text-2); @apply text-base leading-relaxed; }
+
+  strong { color: var(--text-1); @apply font-semibold; }
+
+  a {
+    color: var(--accent);
+    @apply no-underline;
+  }
+
+  ul, ol {
+    color: var(--text-2);
+    @apply pl-5 space-y-2;
+  }
+
+  li::marker { color: var(--accent); }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-1);
+    @apply px-1.5 py-0.5 rounded text-sm;
+  }
+
+  blockquote {
+    border-left: 2px solid var(--accent);
+    @apply pl-5 py-1 my-4;
+
+    p { color: var(--text-1); @apply text-xl italic; }
+  }
+
+  /* red // prefix for h6 labels */
+  h6 {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    @apply text-xs font-medium tracking-widest uppercase mb-2;
+  }
+
+  h6::before { content: '// '; }
+}
+
+/* ── Dot grid background ─────────────────────────────────────────────── */
+
+.slidev-layout::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(234,229,223,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  z-index: 0;
+}
+
+.slidev-layout > * { position: relative; z-index: 1; }
+
+/* ── Default ─────────────────────────────────────────────────────────── */
+
+.slidev-layout.default {
+  @apply px-16 py-10;
+}
+
+/* ── Cover ───────────────────────────────────────────────────────────── */
+
+.slidev-layout.cover {
+  @apply px-16 py-0 justify-center;
+
+  h1 {
+    @apply text-6xl font-bold leading-tight mb-4;
+  }
+
+  h1 .accent { color: var(--accent); }
+
+  p { @apply text-lg; }
+}
+
+/* ── Intro (speaker bio) ─────────────────────────────────────────────── */
+
+.slidev-layout.intro {
+  @apply px-16 py-0 justify-center;
+}
+
+/* ── Section break ───────────────────────────────────────────────────── */
+
+.slidev-layout.section {
+  @apply px-16 py-0 justify-center;
+
+  h1 {
+    @apply text-6xl font-bold leading-tight;
+  }
+}
+
+/* ── Fact / big number ───────────────────────────────────────────────── */
+
+.slidev-layout.fact {
+  @apply px-16 py-0 justify-center text-center;
+
+  h1 {
+    @apply text-9xl font-bold;
+    color: var(--accent);
+  }
+
+  h1 + p {
+    @apply text-2xl font-semibold mt-2;
+    color: var(--text-1);
+  }
+
+  p { @apply text-base; }
+}
+
+/* ── Quote ───────────────────────────────────────────────────────────── */
+
+.slidev-layout.quote {
+  @apply px-16 py-0 justify-center;
+
+  h1 {
+    @apply text-4xl leading-snug;
+    color: var(--text-1);
+  }
+
+  h1 + p {
+    @apply mt-4 text-sm;
+    color: var(--text-3);
+  }
+}
+
+/* ── Two cols ────────────────────────────────────────────────────────── */
+
+.slidev-layout.two-cols {
+  @apply px-16 py-10 gap-10;
+
+  .col-left, .col-right { @apply flex-1; }
+}
+
+/* ── Code highlighting ───────────────────────────────────────────────── */
+
+.slidev-code {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border);
+  @apply rounded;
+}

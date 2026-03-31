@@ -3,27 +3,27 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "slidev build",
-    "dev": "slidev --open",
-    "dev:gitops-cluster": "slidev --remote --open how-to-gitops.md",
-    "dev:greenops": "slidev --remote --open greenops.md",
-    "dev:go-ddd": "slidev --remote --open go-ddd.md",
-    "export": "slidev export"
-  },
-  "slidev": {
-    "addons": [
-      "slidev-addon-qrcode"
-    ]
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "export": "pnpm -r export"
   },
   "dependencies": {
-    "@iconify-json/mdi": "^1.1.66",
-    "@slidev/cli": "^0.49.29",
-    "@slidev/theme-default": "latest",
-    "@slidev/theme-seriph": "latest",
-    "slidev-addon-qrcode": "^1.0.2",
-    "vue": "^3.4.27"
+    "@iconify-json/mdi": "catalog:",
+    "@slidev/cli": "catalog:",
+    "@slidev/theme-default": "catalog:",
+    "@slidev/theme-seriph": "catalog:",
+    "slidev-addon-qrcode": "catalog:",
+    "vue": "catalog:"
   },
   "devDependencies": {
-    "playwright-chromium": "^1.48.2"
+    "@inquirer/prompts": "^8.3.2",
+    "playwright-chromium": "catalog:"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "shiki"
+      ]
+    }
   }
 }
