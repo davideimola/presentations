@@ -179,6 +179,7 @@ func (r *userRepository) FindByID(ctx context.Context, id uuid.UUID) (User, erro
 ---
 layout: section
 label: "01 / section"
+transition: fade
 ---
 
 # Section Break

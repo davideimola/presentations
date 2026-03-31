@@ -35,8 +35,11 @@
   }
 
   a {
-    color: var(--accent);
-    @apply no-underline;
+    color: var(--text-3);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
   }
 
   ul, ol {
@@ -70,6 +73,13 @@
   }
 
   h6::before { content: '// '; }
+}
+
+/* ── PDF export — progress bar always full ───────────────────────────── */
+
+.slidev-export .akane-header__progress {
+  width: 100% !important;
+  transition: none !important;
 }
 
 /* ── Dot grid background ─────────────────────────────────────────────── */
