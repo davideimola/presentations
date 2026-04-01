@@ -58,8 +58,6 @@ importers:
         specifier: 'catalog:'
         version: 1.58.2
 
-  brand-demo/src: {}
-
   go-ddd/src: {}
 
   greenops/src: {}

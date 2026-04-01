@@ -29,11 +29,20 @@ for (const talk of talks) {
   console.log(`✓ ${talk} → dist/${talk}/\n`)
 }
 
+const themeDemoOut = resolve(root, 'dist', 'demo')
+console.log('▶ Building theme demo...')
+await run('pnpm', [
+  'exec', 'slidev', 'build', 'example.md',
+  '--base', '/demo/',
+  '--out', themeDemoOut,
+], resolve(root, 'theme-davideimola'))
+console.log('✓ theme-davideimola/example.md → dist/demo/\n')
+
 console.log('All talks built successfully.')
 
-function run(cmd, args) {
+function run(cmd, args, cwd = root) {
   return new Promise((resolve, reject) => {
-    const child = spawn(cmd, args, { stdio: 'inherit', shell: true, cwd: root })
+    const child = spawn(cmd, args, { stdio: 'inherit', shell: true, cwd })
     child.on('exit', code => code === 0 ? resolve() : reject(new Error(`${cmd} exited with code ${code}`)))
   })
 }
