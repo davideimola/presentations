@@ -1,0 +1,32 @@
+# Securing Go for Production: Best Practices, Supply Chain, Testing
+
+- **Issue**: #1
+- **Thesis**: The Go compiler saves you from memory bugs. It does NOT save you from auth bugs, vulnerable dependencies, or stale CVEs. The Go toolchain gives you the base — and beyond that, AI is the next tool in the defender's belt. Use everything you have. Validate everything.
+- **Tagline (intro slide)**: "The compiler won't save you. Your toolchain might."
+- **Audience**: Go developers, intermediate level. Familiarity with `go test` and `go mod` basics. NOT required: `govulncheck`, `go test -fuzz`, `sumdb` internals, AI-assisted security tooling.
+- **Takeaways**:
+  - Add `govulncheck` to your CI this week — one PR, one workflow file (prebuilt GitHub Action provided).
+  - Write one fuzz test as a property test on your most critical auth path.
+  - Use AI for vulnerability assessment as a hypothesis generator — validate every finding with a test. Attackers are already using AI; defenders should too.
+- **Outline**:
+  - (4min) INTRO: incident urgency stat + auth bug teaser + thesis + roadmap
+  - (16min) SEZ 1 — Code you write: warm-up with obvious (`crypto/rand`, SSRF, recap slide) → climax with bug story walkthrough (manual exploratory → AI vulnerability assessment with caveat → property-based fuzz test → fix + CI)
+  - (14min) SEZ 2 — Code you use: Axios cautionary tale + sumdb arch (with `go mod verify` inline) + `govulncheck` LIVE DEMO expanded (focus on call graph) + transition to "next step"
+  - (6min) SEZ 3 — Make it routine: checklist + SBOM/SLSA "go see other Golab talks" + prebuilt GitHub Action CTA + AI as next step + closing
+  - (10min) Q&A
+- **Demo plan**:
+  - Main live demo (sez 2, ~9min): `govulncheck` on CVE-2025-61728 (zip DoS, stdlib). Plan B: `GOVULNDB` local mirror + asciinema + screenshots.
+  - Bug story walkthrough (sez 1, ~9min): slide-based, NOT a live demo. One optional live `go test -fuzz` shot at step 3 (low risk, local repo).
+  - NO live exploit PoC (zip DoS described conceptually only).
+  - NO live AI demo (static screenshots of the real incident's prompt + output).
+- **Anti-vendor rules**:
+  - Never mention RedCarbon by name.
+  - No commercial product screenshots — only generic LLMs (Claude, GPT, Llama) and OSS tooling.
+  - AI caveat inline in bug story ("1 real lead, 2 false positives") to keep it honest, not a pitch.
+- **Open questions**:
+  - Exact Axios attack numbers (weekly downloads, exposure window, payload) — prepare before talk
+  - RedCarbon incident stats (YoY growth) — ask Boss
+  - Build the **prebuilt composite GitHub Action** before the talk: wraps `govulncheck` + `go test` + SBOM generation (cyclonedx-gomod / syft) + SLSA provenance (slsa-github-generator). Adoption pitch: `uses: davideimola/<action>@v1`. Repo + Action name TBD.
+  - Optional Go-side supply chain incident as secondary example
+- **Format**: 40 min talk + 10 min Q&A, EN
+- **Conference**: Golab 2026 (accepted)
