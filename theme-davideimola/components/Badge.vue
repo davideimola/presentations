@@ -27,13 +27,13 @@ defineProps({
 }
 
 .badge--default {
-  color: #9a948e;
-  border-color: #252220;
-  background: #0f0e0d;
+  color: var(--text-2);
+  border-color: var(--border-mid);
+  background: var(--bg-card);
 }
 
 .badge--accent {
-  color: #C91F37;
+  color: var(--accent-text);
   border-color: rgba(201, 31, 55, 0.3);
   background: rgba(201, 31, 55, 0.08);
 }

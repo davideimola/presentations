@@ -47,7 +47,7 @@
 .whoami__table td { border: none; padding: 2px 0; }
 
 .whoami__key {
-  color: #7e7874;
+  color: var(--text-3);
   padding-right: 16px !important;
   width: 90px;
   white-space: nowrap;
@@ -55,6 +55,6 @@
 }
 
 .whoami__val {
-  color: #eae5df;
+  color: var(--text-1);
 }
 </style>

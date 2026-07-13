@@ -32,7 +32,7 @@ defineProps({
 
 <style scoped>
 .terminal-window {
-  border: 1px solid #252220;
+  border: 1px solid var(--border-mid);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
@@ -43,8 +43,8 @@ defineProps({
   align-items: center;
   gap: 12px;
   padding: 10px 16px;
-  background: #0f0e0d;
-  border-bottom: 1px solid #1c1a18;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
 }
 
 .terminal-dots {
@@ -58,26 +58,26 @@ defineProps({
   border-radius: 50%;
 }
 
-.dot--close    { background: #C91F37; }
+.dot--close    { background: var(--accent); }
 .dot--minimize { background: #3a3530; }
 .dot--expand   { background: #3a3530; }
 
 .terminal-title {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: #7e7874;
+  color: var(--text-3);
   flex: 1;
   text-align: center;
   margin-right: 52px; /* bilancia i dots */
 }
 
 .terminal-body {
-  background: #080807;
+  background: var(--bg);
   padding: 24px 28px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.85rem;
   line-height: 1.7;
-  color: #eae5df;
+  color: var(--text-1);
 }
 
 /* Rimuove lo stile dei code block dentro il terminale — la finestra è già il contesto */

@@ -3,7 +3,7 @@
     <div class="akane-footer__accent" />
     <div class="akane-footer__content">
       <span class="akane-footer__item">
-        <span class="akane-footer__prefix">// </span>{{ website }}
+        <span class="akane-footer__name">{{ siteName }}</span><span v-if="siteTld" class="akane-footer__tld">{{ siteTld }}</span>
       </span>
       <span class="akane-footer__item akane-footer__page">
         {{ currentPage }} / {{ total }}
@@ -14,10 +14,21 @@
 
 <script setup lang="ts">
 import { useNav } from '@slidev/client'
+import { computed } from 'vue'
 
-defineProps({
+const props = defineProps({
   website: { type: String },
 })
+
+/* Domain lockup: nome in quiet ink, TLD (dall'ultimo punto) in accent.
+   Senza punto, il testo resta intero in quiet ink. */
+const dotIndex = computed(() => props.website?.lastIndexOf('.') ?? -1)
+const siteName = computed(() =>
+  dotIndex.value > 0 ? props.website!.slice(0, dotIndex.value) : props.website,
+)
+const siteTld = computed(() =>
+  dotIndex.value > 0 ? props.website!.slice(dotIndex.value) : '',
+)
 
 const { currentPage, total } = useNav()
 </script>
@@ -35,7 +46,7 @@ const { currentPage, total } = useNav()
   left: 0;
   right: 0;
   height: 1px;
-  background: #1C1A18;
+  background: var(--border);
 }
 
 .akane-footer__content {
@@ -49,15 +60,19 @@ const { currentPage, total } = useNav()
 .akane-footer__item {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: #7E7874;
+  color: var(--text-3);
   letter-spacing: 0.02em;
 }
 
-.akane-footer__prefix {
-  color: #C91F37;
+.akane-footer__name {
+  color: var(--text-2);
+}
+
+.akane-footer__tld {
+  color: var(--accent-text);
 }
 
 .akane-footer__page {
-  color: #7e7874;
+  color: var(--text-3);
 }
 </style>

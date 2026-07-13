@@ -64,12 +64,12 @@ const hasSocials = computed(() => props.github || props.bluesky || props.linkedi
 .intro-prompt {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.8rem;
-  color: #7e7874;
+  color: var(--text-3);
   margin: 0;
 }
 
 .intro-prompt__dollar {
-  color: #C91F37;
+  color: var(--accent);
   margin-right: 8px;
 }
 
@@ -88,7 +88,7 @@ const hasSocials = computed(() => props.github || props.bluesky || props.linkedi
   object-fit: cover;
   object-position: top;
   border-radius: 4px;
-  border: 1px solid #1C1A18;
+  border: 1px solid var(--border);
   filter: grayscale(100%);
 }
 
@@ -111,17 +111,17 @@ const hasSocials = computed(() => props.github || props.bluesky || props.linkedi
 }
 
 .intro-socials__prefix {
-  color: #C91F37;
+  color: var(--accent-text);
   flex-shrink: 0;
 }
 
 .intro-socials__key {
-  color: #7e7874;
+  color: var(--text-3);
   width: 60px;
   flex-shrink: 0;
 }
 
 .intro-socials__val {
-  color: #7e7874;
+  color: var(--text-3);
 }
 </style>

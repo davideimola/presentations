@@ -40,6 +40,6 @@ const imageSrc = computed(() => props.image ? resolveAssetUrl(props.image) : nul
   flex-shrink: 0;
   background-size: cover;
   background-position: center;
-  border-left: 1px solid #1C1A18;
+  border-left: 1px solid var(--border);
 }
 </style>

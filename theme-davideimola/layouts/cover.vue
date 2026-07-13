@@ -22,7 +22,7 @@ defineProps({
 .cover-accent-line {
   width: 48px;
   height: 3px;
-  background: #C91F37;
+  background: var(--accent);
   margin-bottom: 24px;
 }
 </style>

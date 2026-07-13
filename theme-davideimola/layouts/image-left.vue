@@ -35,7 +35,7 @@ const imageSrc = computed(() => props.image ? resolveAssetUrl(props.image) : nul
   flex-shrink: 0;
   background-size: cover;
   background-position: center;
-  border-right: 1px solid #1C1A18;
+  border-right: 1px solid var(--border);
 }
 
 .image-left__body {

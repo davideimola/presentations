@@ -53,9 +53,9 @@ const icons: Record<string, string> = {
 
 /* note */
 .callout--note {
-  background: #0f0e0d;
+  background: var(--bg-card);
   border-color: #4a4540;
-  .callout__icon { color: #9a948e; }
+  .callout__icon { color: var(--text-2); }
   .callout__body { color: #b5aea6; }
 }
 
@@ -64,7 +64,7 @@ const icons: Record<string, string> = {
   background: rgba(74, 158, 110, 0.08);
   border-color: rgba(74, 158, 110, 0.6);
   .callout__icon { color: #4a9e6e; }
-  .callout__body { color: #eae5df; }
+  .callout__body { color: var(--text-1); }
 }
 
 /* warning */
@@ -72,14 +72,14 @@ const icons: Record<string, string> = {
   background: rgba(212, 149, 15, 0.08);
   border-color: rgba(212, 149, 15, 0.6);
   .callout__icon { color: #d4950f; }
-  .callout__body { color: #eae5df; }
+  .callout__body { color: var(--text-1); }
 }
 
 /* danger */
 .callout--danger {
   background: rgba(201, 31, 55, 0.06);
-  border-color: #C91F37;
-  .callout__icon { color: #C91F37; }
-  .callout__body { color: #eae5df; }
+  border-color: var(--accent);
+  .callout__icon { color: var(--accent-text); }
+  .callout__body { color: var(--text-1); }
 }
 </style>

@@ -26,7 +26,7 @@ defineProps({
 .split-code__text {
   width: 42%;
   flex-shrink: 0;
-  border-right: 1px solid #1c1a18;
+  border-right: 1px solid var(--border);
 }
 
 .split-code__code {

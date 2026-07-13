@@ -4,7 +4,7 @@
     <div class="akane-header__progress" :style="{ width: `${progress}%` }" />
     <div class="akane-header__content">
       <span class="akane-header__logo">
-        <span class="akane-header__tilde">~</span>/davideimola
+        davideimola<span class="akane-header__cursor" aria-hidden="true" />
       </span>
     </div>
   </header>
@@ -33,7 +33,7 @@ const progress = computed(() => (currentPage.value / total.value) * 100)
   left: 0;
   right: 0;
   height: 2px;
-  background: rgba(201, 31, 55, 0.15);
+  background: var(--accent-glow);
 }
 
 .akane-header__progress {
@@ -41,7 +41,7 @@ const progress = computed(() => (currentPage.value / total.value) * 100)
   top: 0;
   left: 0;
   height: 2px;
-  background: #C91F37;
+  background: var(--accent);
   transition: width 0.4s ease;
   max-width: 100%;
 }
@@ -54,14 +54,20 @@ const progress = computed(() => (currentPage.value / total.value) * 100)
 }
 
 .akane-header__logo {
+  display: inline-flex;
+  align-items: center;
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
-  font-weight: 500;
-  color: #EAE5DF;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.03em;
 }
 
-.akane-header__tilde {
-  color: #C91F37;
+.akane-header__cursor {
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  margin-left: 3px;
+  background: var(--accent);
 }
 </style>

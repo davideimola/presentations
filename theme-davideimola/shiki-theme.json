@@ -7,14 +7,14 @@
     "editor.lineHighlightBackground": "#0f0e0d",
     "editor.selectionBackground":     "#1c1a18",
     "editorCursor.foreground":        "#C91F37",
-    "editorLineNumber.foreground":    "#3a3530",
-    "editorLineNumber.activeForeground": "#7e7874"
+    "editorLineNumber.foreground":    "#4A4540",
+    "editorLineNumber.activeForeground": "#8A847E"
   },
   "tokenColors": [
     {
       "name": "Comment",
       "scope": ["comment", "punctuation.definition.comment", "string.comment"],
-      "settings": { "foreground": "#7e7874", "fontStyle": "italic" }
+      "settings": { "foreground": "#8A847E", "fontStyle": "italic" }
     },
     {
       "name": "Keyword / Storage",
@@ -26,7 +26,7 @@
         "storage.type",
         "storage.modifier"
       ],
-      "settings": { "foreground": "#C91F37" }
+      "settings": { "foreground": "#E0475C" }
     },
     {
       "name": "Variable / Parameter",
@@ -36,7 +36,7 @@
     {
       "name": "Variable special (this/self)",
       "scope": ["variable.language"],
-      "settings": { "foreground": "#C91F37", "fontStyle": "italic" }
+      "settings": { "foreground": "#E0475C", "fontStyle": "italic" }
     },
     {
       "name": "Function / Method",

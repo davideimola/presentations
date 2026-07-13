@@ -15,7 +15,7 @@ go run talk.go --topic="your subtitle here"
 
 ---
 layout: intro
-introImage: /me.png
+introImage: /theme/me.png
 github: davideimola
 bluesky: "@davideimola.dev"
 linkedin: davideimola
@@ -95,6 +95,19 @@ layout: default
 <Callout type="warning">Pay attention — this might have side effects.</Callout>
 
 <Callout type="danger">Breaking change — requires immediate action.</Callout>
+
+---
+layout: default
+---
+
+# Chat mockup
+
+Simulate an AI chat exchange — for prompts, anti-patterns, or dialogue examples.
+
+<Chat>
+  <ChatBubble user>is my app secure?</ChatBubble>
+  <ChatBubble>Great question! It looks quite secure to me 👍</ChatBubble>
+</Chat>
 
 ---
 layout: default
@@ -281,7 +294,7 @@ func (r *userRepo) FindByID(
 
 ---
 layout: image-right
-image: /me.png
+image: /theme/me.png
 ---
 
 # Image Right
@@ -294,7 +307,7 @@ Image on the right, content on the left.
 
 ---
 layout: image-left
-image: /me.png
+image: /theme/me.png
 ---
 
 # Image Left

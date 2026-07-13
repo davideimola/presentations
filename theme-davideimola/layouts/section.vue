@@ -23,7 +23,7 @@ defineProps({
 .section-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: #C91F37;
+  color: var(--accent-text);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 16px;

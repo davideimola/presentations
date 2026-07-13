@@ -6,9 +6,14 @@
   --border-mid:   #252220;
   --text-1:       #EAE5DF;
   --text-2:       #9A948E;
-  --text-3:       #7E7874;
+  --text-3:       #A39C95;
   --accent:       #C91F37;
-  --accent-dim:   rgba(201, 31, 55, 0.15);
+  /* Akane Red schiarito per testo piccolo su fondo scuro — 4.99:1 su --bg,
+     4.80:1 su --bg-card (WCAG AA). #C91F37 resta per usi large, UI e fill. */
+  --accent-text:  #E0475C;
+  --accent-hover: #A8192E;
+  --accent-glow:  rgba(201, 31, 55, 0.12);
+  --border-hover: rgba(201, 31, 55, 0.3);
 
   /* Slidev overrides */
   --slidev-theme-primary:    var(--accent);

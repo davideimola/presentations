@@ -6,10 +6,10 @@
         <slot />
       </div>
       <div class="two-cols-header__columns flex-1 flex flex-row gap-10 min-h-0">
-        <div class="col-left flex-1 flex flex-col justify-center min-w-0">
+        <div class="col-left flex-1 flex flex-col justify-start min-w-0">
           <slot name="left" />
         </div>
-        <div class="col-right flex-1 flex flex-col justify-center min-w-0">
+        <div class="col-right flex-1 flex flex-col justify-start min-w-0">
           <slot name="right" />
         </div>
       </div>
