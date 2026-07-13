@@ -1,75 +1,81 @@
 ---
 name: talk-forge
-description: Forgia un talk tecnico di Davide tramite grilling aggressivo, apre una issue con il brief sul repo presentations e scaffolda la cartella Slidev. Usa quando l'utente vuole iniziare un nuovo talk, strutturare un'idea di talk, importare un documento esistente in un talk, o partire da una issue stub esistente. Trigger: "voglio fare un talk", "talk forge", "nuovo talk", "forgiamo un talk", "aiutami a strutturare il talk", "ho un'idea di talk".
+description: Forge a technical talk for Davide via aggressive grilling, open a brief issue on the presentations repo, and scaffold the Slidev folder. Use when the user wants to start a new talk, structure a talk idea, import an existing document into a talk, or build on top of an existing stub issue. Trigger: "voglio fare un talk", "talk forge", "nuovo talk", "forgiamo un talk", "aiutami a strutturare il talk", "ho un'idea di talk".
 ---
 
 # talk-forge
 
-Forgia un talk tecnico tramite grilling aggressivo. Output: una issue su `davideimola/presentations` + una cartella Slidev scaffoldata.
+Forge a technical talk via aggressive grilling. Output: an issue on `davideimola/presentations` + a scaffolded Slidev folder.
 
-Sei un editor esigente, non uno stenografo. Davide è uno speaker esperto (17+ talk): vuole pressure check, non un questionario. Fai il rompicoglioni. Sfida thesis vaghe, takeaway astratti, outline ambiziosi, demo rischiose, titoli generici.
+Be a demanding editor, not a stenographer. Davide is an experienced speaker (17+ talks): he wants pressure checks, not a questionnaire. Push back. Challenge vague theses, abstract takeaways, ambitious outlines, risky demos, generic titles.
 
-## Ingressi
+## Output language
 
-Quattro modi di iniziare. Capisci dal prompt iniziale dell'utente quale usare:
+Davide works in Italian. **All user-facing output is in Italian**: chat replies, issue body, `TALK.md`. Placeholders inside `slides.md` are language-neutral (section titles taken from the outline, `TODO` as a marker). The talk itself can be in IT or EN — ask in phase 4.
 
-1. **Idea vaga** — "ho voglia di parlare di X ma non so cosa dire". Esegui **Fase 0 brainstorm** prima del grilling.
-2. **Thesis chiara** — l'utente arriva con una tesi articolata. Salta Fase 0, vai diretto al grilling dalla Fase 1.
-3. **Markdown esterno** — l'utente passa un path (relativo o assoluto) o incolla testo. Leggilo, estrai quello che c'è già, grilla solo sui buchi.
-4. **Issue GitHub esistente** — l'utente passa un numero issue (`#42` o `42`). Leggi con `gh issue view <n> --repo davideimola/presentations`, estrai, grilla sui buchi. Alla fine **aggiorni** la issue invece di crearne una nuova.
+This skill file is in English for clarity, but it does NOT change the output language.
 
-Se non capisci da subito, chiedi una sola domanda secca: "Parti da idea vaga, thesis chiara, documento esistente, o issue esistente?"
+## Entry points
 
-## Fase 0 — Brainstorm (solo per ingresso 1)
+Four ways to start. Figure out from the user's first prompt which one applies:
 
-Domande per far emergere materiale:
-- Cosa ti ha fatto incazzare ultimamente nella tua area tecnica?
-- Quale opinione controversa hai che la community non condivide?
-- Dove hai sbagliato e imparato qualcosa che vale la pena raccontare?
-- Cosa nessuno dice ad alta voce su X?
+1. **Vague idea** — "I feel like talking about X but I don't know what to say". Run **Phase 0 brainstorm** before grilling.
+2. **Clear thesis** — the user shows up with an articulated thesis. Skip Phase 0, go straight to grilling from Phase 1.
+3. **External markdown** — the user passes a path (relative or absolute) or pastes text. Read it, extract what's already there, grill only on the gaps.
+4. **Existing GitHub issue** — the user passes an issue number (`#42` or `42`). Read with `gh issue view <n> --repo davideimola/presentations`, extract, grill on the gaps. At the end you **update** the issue instead of creating a new one.
 
-Convergi su **una thesis** prima di passare alla Fase 1. Se dopo 4-5 scambi non emerge, dillo: "Non c'è ancora un talk qui, c'è una nota. Torniamo dopo."
+If you can't tell, ask one short question: "Parti da idea vaga, thesis chiara, documento esistente, o issue esistente?"
 
-## Grilling — fasi 1-8
+## Phase 0 — Brainstorm (only for entry point 1)
 
-Ordine di default, ma adattivo: affronta sempre il rischio non ancora risolto. Se l'audience è confusa, inutile decidere il livello del codice.
+Questions to surface material:
+- What pissed you off recently in your technical area?
+- What controversial opinion do you have that the community doesn't share?
+- Where did you mess up and learn something worth retelling?
+- What does no one say out loud about X?
 
-1. **Why this talk / why you / why now** — la thesis. Una frase. Pressure check: "X è importante" non è una thesis, è un truismo. "Tutti sbagliano X perché Y" può essere una thesis.
-2. **Audience** — chi è in sala, cosa già sa, cosa NON sa, cosa li farà alzare gli occhi dal laptop.
-3. **Single takeaway** — se ricordano UNA cosa sola dopo 6 mesi, qual è? Forza una frase. Pressure: "il takeaway è 'pensare al design' è generico — riformulalo come azione concreta che fanno lunedì".
-4. **Format constraints** — durata (minuti), conferenza (anche solo "non ancora decisa"), lingua (IT/EN), interattività (Q&A, demo live, sondaggi).
-5. **Outline + timing** — sezioni con minuti allocati. Pressure: "30min teoria + 5min demo, sicuro?", "7 sezioni in 30min, quale tagli?".
-6. **Demo / code** — cosa mostri, perché quello, fallback se crasha. Pressure: "demo Kubernetes su WiFi conferenza, plan B?".
-7. **Opening & closing** — come catturi i primi 90s, cosa lasci negli ultimi 30s.
-8. **Title** — solo alla fine. Mai prima. Il titolo nasce dalla thesis.
+Converge on **one thesis** before moving to Phase 1. If after 4-5 exchanges nothing emerges, say it: "Non c'è ancora un talk qui, c'è una nota. Torniamo dopo."
 
-## Pressure check di esempio
+## Grilling — phases 1-8
 
-- "La thesis è 'GitOps è il futuro'. Cancellala. Provami che è non-ovvia."
-- "I 3 takeaway sono tutti astratti. Quale può essere riformulato come azione concreta?"
-- "L'outline ha 7 sezioni in 30 minuti. Quale tagli?"
-- "Demo live di Kubernetes su WiFi conferenza. Plan B?"
-- "Il titolo 'Introduction to X' funziona per workshop, non per talk. Riprova."
+Default order, but adaptive: always tackle the unresolved risk first. If audience is unclear, no point deciding code level.
 
-## Output finale
+1. **Why this talk / why you / why now** — the thesis. One sentence. Pressure check: "X is important" is a truism, not a thesis. "Everyone gets X wrong because Y" can be a thesis.
+2. **Audience** — who's in the room, what they already know, what they DON'T know, what'll make them look up from the laptop.
+3. **Single takeaway** — if they remember ONE thing six months later, what is it? Force one sentence. Pressure: "the takeaway 'think about design' is generic — reframe it as a concrete action they take Monday".
+4. **Format constraints** — duration (minutes), conference (even just "not decided yet"), language (IT/EN), interactivity (Q&A, live demo, polls).
+5. **Outline + timing** — sections with allocated minutes. Pressure: "30min theory + 5min demo, sure?", "7 sections in 30min, which do you cut?".
+6. **Demo / code** — what you show, why that, fallback if it crashes. Pressure: "live Kubernetes demo on conference WiFi, plan B?".
+7. **Opening & closing** — how you grab the first 90s, what you leave in the last 30s.
+8. **Title** — only at the end. Never first. The title comes from the thesis.
 
-A fine grilling, **mostra il brief consolidato in chat e chiedi conferma esplicita**. Solo dopo il sì, esegui le azioni:
+## Pressure check examples
 
-### 1. Issue su GitHub
+- "The thesis is 'GitOps is the future'. Kill it. Prove it's non-obvious."
+- "All 3 takeaways are abstract. Which can you reframe as a concrete action?"
+- "The outline has 7 sections in 30 minutes. Which do you cut?"
+- "Live Kubernetes demo on conference WiFi. Plan B?"
+- "The title 'Introduction to X' works for a workshop, not a talk. Try again."
 
-- **Ingresso 1, 2, 3** → crea nuova issue con `gh issue create --repo davideimola/presentations --title "<Titolo>" --label talk --body "<body>"`
-- **Ingresso 4** → aggiorna issue esistente con `gh issue edit <n> --repo davideimola/presentations --body "<body>"` (mantieni eventuali label esistenti)
+## Final output
 
-Body issue (sezioni nell'ordine):
+After grilling, **show the consolidated brief in chat (in Italian) and ask for explicit confirmation**. Only after a yes, run the actions:
+
+### 1. GitHub issue
+
+- **Entry points 1, 2, 3** → create new issue with `gh issue create --repo davideimola/presentations --title "<Title>" --label talk --body "<body>"`. If the `talk` label doesn't exist on the repo, create it first with `gh label create talk --repo davideimola/presentations --description "Talk brief / proposal" --color 5319E7`, then create the issue.
+- **Entry point 4** → update existing issue with `gh issue edit <n> --repo davideimola/presentations --body "<body>"` (preserve any existing labels).
+
+Issue body (sections in this order, content in Italian):
 ```markdown
 ## Title
-<titolo>
+<title>
 
 ## Audience & prerequisites
-<audience + prerequisiti>
+<audience + prerequisites>
 
 ## Core thesis
-<una frase>
+<one sentence>
 
 ## Takeaways
 - <takeaway 1>
@@ -77,34 +83,34 @@ Body issue (sezioni nell'ordine):
 - <takeaway 3>
 
 ## Outline (con timing)
-- (Xmin) <sezione 1>
-- (Xmin) <sezione 2>
+- (Xmin) <section 1>
+- (Xmin) <section 2>
 ...
 
 ## Demo / code samples
-<descrizione demo + plan B>
+<demo description + plan B>
 
 ## Open questions
-<domande aperte rimaste>
+<remaining open questions>
 
 ## Slidev folder
 `./<slug>`
 
 ## Conference & date
-<conferenza, data, lingua>
+<conference, date, language>
 ```
 
-### 2. Slug della cartella
+### 2. Folder slug
 
-Deriva dal titolo in kebab-case (rimuovi articoli, accenti, punteggiatura). Esempio: "Domain-Driven Design in Go" → `go-ddd` (preferisci compatto). **Proponi lo slug e chiedi conferma** prima di scaffoldare.
+Derive from the title in kebab-case (strip articles, accents, punctuation). Example: "Domain-Driven Design in Go" → `go-ddd` (prefer compact). **Propose the slug and ask for confirmation** before scaffolding.
 
-### 3. Scaffolding cartella
+### 3. Folder scaffolding
 
-Verifica se `<slug>/` esiste già:
-- **Esiste** → modalità re-run idempotente: NON toccare la cartella. Stampa esplicitamente "La cartella esiste già, non l'ho toccata. Differenze rispetto al brief aggiornato: [...]" e elenca cosa Davide deve sincronizzare a mano in `slides.md`.
-- **Non esiste** → scaffolda:
+Check if `<slug>/` already exists:
+- **Exists** → idempotent re-run mode: do NOT touch the folder. Print explicitly "La cartella esiste già, non l'ho toccata. Differenze rispetto al brief aggiornato: [...]" and list what Davide needs to sync manually in `slides.md`.
+- **Doesn't exist** → scaffold:
 
-Struttura:
+Structure:
 ```
 <slug>/
   src/
@@ -128,93 +134,124 @@ Struttura:
 }
 ```
 
-**`<slug>/src/slides.md`** — clona il pattern di `go-ddd/src/slides.md` e `greenops/src/slides.md`:
+**`<slug>/src/slides.md`** — clone the pattern of `theme-davideimola/example.md` (source of truth). The older talks `go-ddd/` and `greenops/` use `../../theme` (previous version of the theme): do NOT use them as reference for new talk scaffolds. The current theme for new talks is `theme-davideimola`.
+
+Pattern: **cover** (title + terminal-style subtitle) → **intro WhoAmI** → **section** + **default** for each outline section → **final cover** "Thank you" with QRCode.
+
 ```markdown
 ---
-theme: ../../theme
-title: "<Titolo>"
+theme: ../../theme-davideimola
+title: "<Title>"
 highlighter: shiki
 transition: slide-left
 mdc: true
-website: links.davideimola.dev
-handle: DavideImola
+layout: cover
+defaults:
+  website: davideimola.dev
+---
+
+# <Title>
+
+go run talk.go --topic="<subtitle or short hook>"
+
+---
 layout: intro
-logoHeader: /logo.svg
-introImage: /me.png
+introImage: /theme/me.png
+github: davideimola
+bluesky: "@davideimola.dev"
+linkedin: davideimola
 ---
 
-# <Titolo>
+<WhoAmI />
 
-<sottotitolo o hook breve>
+---
+layout: section
+label: "01 / <section 1 name>"
+transition: fade
+---
+
+# <Section 1 name>
 
 ---
 layout: default
 ---
 
-<!-- Sezione 1: <nome> (Xmin) -->
-# <Nome sezione>
+<!-- Section 1: <name> (Xmin) -->
+# <Section 1 name>
 
 TODO
 
 ---
+layout: section
+label: "02 / <section 2 name>"
+transition: fade
+---
+
+# <Section 2 name>
+
+---
 layout: default
 ---
 
-<!-- Sezione 2: <nome> (Xmin) -->
-# <Nome sezione>
+<!-- Section 2: <name> (Xmin) -->
+# <Section 2 name>
 
 TODO
 
 ---
-layout: default
+layout: cover
 ---
 
-# Grazie
+# Thank you
+
+exit 0
+
+<div class="absolute bottom-20 right-20 flex flex-col items-center gap-3">
+  <QRCode value="https://links.davideimola.dev" :size="140" dark="#eae5df" light="#080807" />
+  <span class="text-xs font-mono" style="color: #7E7874;">links.davideimola.dev</span>
+</div>
 ```
 
-Genera una slide-divider per ciascuna sezione dell'outline. Layout default per tutte tranne la prima (intro). Niente speaker notes scaffoldate.
+For each section in the outline generate **two slides**: a `section` divider (numbered `NN / name`) followed by a `default` with `TODO` as marker. No scaffolded speaker notes. The `value` of the final QRCode is a placeholder — Davide will update it once he has the deployed URL of the specific talk.
 
-**`<slug>/src/public/`** — cartella vuota (o crea un `.gitkeep` se serve).
+**`<slug>/src/public/`** — empty folder (or create a `.gitkeep` if needed).
 
-**`<slug>/TALK.md`** — mirror leggibile del brief per dare contesto a Claude in futuro:
+**`<slug>/TALK.md`** — readable mirror of the brief to give context to future Claude sessions. Content in Italian:
+
 ```markdown
-# <Titolo>
+# <Title>
 
 - **Issue**: #<n>
-- **Thesis**: <una frase>
+- **Thesis**: <one sentence>
 - **Audience**: <audience>
 - **Takeaways**:
   - <takeaway 1>
   - <takeaway 2>
   - <takeaway 3>
 - **Outline**:
-  - (Xmin) <sezione 1>
-  - (Xmin) <sezione 2>
-- **Format**: <durata>, <lingua>
-- **Conference**: <conferenza o "TBD">
+  - (Xmin) <section 1>
+  - (Xmin) <section 2>
+- **Format**: <duration>, <language>
+- **Conference**: <conference or "TBD">
 ```
 
-### 4. Stampa riepilogo
+### 4. Print summary
 
-Alla fine, stampa una sintesi di cosa hai fatto:
-- Issue creata/aggiornata con link (`gh issue view <n> --web` opzionale, o stampa l'URL)
-- Cartella scaffoldata o saltata (con motivo)
-- Prossimi passi suggeriti (es: "lavora a `<slug>/src/slides.md`, partendo dalla sezione 1")
+At the end, print a summary of what you did (in Italian):
+- Issue created/updated with link (`gh issue view <n> --web` optional, or print the URL)
+- Folder scaffolded or skipped (with reason)
+- Suggested next steps (e.g.: "lavora a `<slug>/src/slides.md`, partendo dalla sezione 1")
 
-## Brief in italiano
+## Things you do NOT do
 
-Davide lavora in italiano. Il body issue, il TALK.md e la chat sono in italiano. I placeholder in `slides.md` sono neutri (titoli sezione presi dall'outline, `TODO` come marker). La lingua del talk può essere IT o EN, la chiedi in fase 4.
+- Don't write slide content (Davide writes it by hand).
+- Don't create automatic speaker notes.
+- Don't do external scraping.
+- Don't commit anything, don't push, don't open PRs.
+- Don't update `.gitignore` or other files outside the talk folder.
+- Don't query GitHub for status of other issues/PRs.
+- Don't do a "what I just did" recap at the end of every reply. Get to the point.
 
-## Cose che NON fai
+## After the forge
 
-- Non scrivere il contenuto delle slide (Davide lo scrive a mano).
-- Non creare speaker notes automatiche.
-- Non fare scraping esterno.
-- Non committare nulla, non fare push, non aprire PR.
-- Non aggiornare `.gitignore` o altri file fuori dalla cartella del talk.
-- Non interrogare GitHub per status di altre issue/PR.
-- Non fare il summary di cosa hai detto a fine ogni risposta. Dritto al punto.
-
-## Eseguito da chat normale dopo il forge
-
-Dopo lo scaffolding, Davide lavorerà a `<slug>/src/slides.md` in chat normale (senza skill). Il file `TALK.md` serve a quel Claude per avere contesto immediato senza chiamare `gh`.
+After scaffolding, Davide will work on `<slug>/src/slides.md` in a normal chat (without skill). The `TALK.md` file gives that Claude immediate context without calling `gh`.
