@@ -64,7 +64,7 @@ layout: statement
 
 <v-click>
 
-# <span style="color: var(--accent);">You just haven't been breached yet.</span>
+# <span class="accent">You just haven't been breached yet.</span>
 
 </v-click>
 
@@ -76,23 +76,11 @@ layout: default
 <!-- Sources verified 2026-07: CrowdStrike Global Threat Report 2026 / Sonatype State of the Software Supply Chain 2026 / ISC2 Workforce Study 2024 -->
 # Let's face the truth
 
-<div class="grid grid-cols-3 gap-10 mt-14 text-center">
-  <div v-click>
-    <div class="text-6xl font-bold font-mono" style="color: var(--accent);">27s</div>
-    <div class="mt-4 text-sm" style="color: var(--text-2);">fastest breakout ever observed: access to lateral movement</div>
-    <div class="mt-2 text-xs font-mono" style="color: var(--text-3);">CrowdStrike GTR 2026</div>
-  </div>
-  <div v-click>
-    <div class="text-6xl font-bold font-mono" style="color: var(--accent);">454k+</div>
-    <div class="mt-4 text-sm" style="color: var(--text-2);">new malicious OSS packages in 2025 alone</div>
-    <div class="mt-2 text-xs font-mono" style="color: var(--text-3);">Sonatype 2026</div>
-  </div>
-  <div v-click>
-    <div class="text-6xl font-bold font-mono" style="color: var(--accent);">4.8M</div>
-    <div class="mt-4 text-sm" style="color: var(--text-2);">security professionals missing worldwide</div>
-    <div class="mt-2 text-xs font-mono" style="color: var(--text-3);">ISC2 2024</div>
-  </div>
-</div>
+<StatGrid class="mt-14">
+  <Stat v-click value="27s" source="CrowdStrike GTR 2026">fastest breakout ever observed: access to lateral movement</Stat>
+  <Stat v-click value="454k+" source="Sonatype 2026">new malicious OSS packages in 2025 alone</Stat>
+  <Stat v-click value="4.8M" source="ISC2 2024">security professionals missing worldwide</Stat>
+</StatGrid>
 
 ---
 layout: fact
@@ -148,10 +136,10 @@ layout: default
 
 
 ---
-layout: center
+layout: statement
 ---
 
-<!-- Opening 7/7 (~45s): the bridge + question to the room. Hold this slide during audience interaction, then section break -->
+<!-- Opening 7/7 (~45s): the bridge + question to the room. Hold this slide during audience interaction, then section break. Statement (not center) for rhetorical weight -->
 # You already use AI for code. Why not for security?
 
 ---
@@ -189,7 +177,7 @@ layout: statement
 
 <v-click>
 
-# <span style="color: var(--accent);">AI hallucinates.</span>
+# <span class="accent">AI hallucinates.</span>
 
 </v-click>
 
@@ -265,14 +253,12 @@ layout: default
 
 You scale effort, not budget.
 
-<v-clicks>
-
-- **① Ready-made skills**: zero code, works today
-- **② Your own skills**: your context, your rules
-- **③ MCP & tooling**: deterministic findings
-- **④ Agents**: a colleague, not a chat
-
-</v-clicks>
+<Ladder class="mt-6">
+  <LadderRung v-click :n="1" title="Ready-made skills">zero code, works today</LadderRung>
+  <LadderRung v-click :n="2" title="Your own skills">your context, your rules</LadderRung>
+  <LadderRung v-click :n="3" title="MCP & tooling">deterministic findings</LadderRung>
+  <LadderRung v-click :n="4" title="Agents">a colleague, not a chat</LadderRung>
+</Ladder>
 
 ---
 layout: two-cols-header
@@ -280,7 +266,7 @@ layout: two-cols-header
 
 <!-- Ladder 2/15 — rung ① the catalog (~1min): ready-made skills exist everywhere, don't reinvent the wheel. The terminal slide right after is the proof -->
 <!-- Verified 2026-07: Claude Code /security-review built-in; Codex /review built-in + official security plugin (security-diff-scan); OpenCode via community skills (e.g. opencode-power-pack) -->
-###### rung 01
+<Rungs :active="1" />
 
 # Don't reinvent the wheel
 
@@ -330,7 +316,7 @@ layout: default
 
 <!-- Ladder 4/15 — rung ① cost & privacy (~1min): the objection killer, placed right after they SAW a run. TODO Davide: fill the cost cell with your real numbers -->
 <!-- Verbal: "quel run che avete appena visto? Ecco quanto è costato, ed ecco dove è andato il codice" -->
-###### rung 01
+<Rungs :active="1" />
 
 # What does it cost? Where does my code go?
 
@@ -348,7 +334,7 @@ layout: split-code
 <!-- The example skill is deliberately funny (callback to "that .env you committed once") but the FORMAT is dead serious — that's what makes it land -->
 <!-- Delivery: after the laugh, pivot: "questa è scema, ma il formato è identico a quella vera — e ora vi racconto cosa ha trovato quella vera" → real case slides -->
 
-###### rung 02
+<Rungs :active="2" />
 
 # Your own skill
 
@@ -375,17 +361,16 @@ description: Finds the .env you swore
 ```
 
 ---
-layout: default
+layout: code-hero
 ---
 
 <!-- Ladder 6/15 — rung ② real case 1/4, the spot-the-bug beat (~1.5min): full-page code, the room hunts. Code is DEMONSTRATIVE (TS, invented) — the real case is RedCarbon's, this snippet mimics its shape. Confirm RedCarbon ok before the talk (open question on issue #2) -->
+<!-- code-hero: no title by design, the code gets the whole stage. The launch line ("Let's jump into some code") is verbal -->
 <!-- Delivery: "ci è capitata una cosa. Questo NON è il codice vero, ma il bug ha la stessa forma. Vi sembra tutto ok?" → let the room scan ~20-30s → click lights up line 10 -->
 <!-- Escape hatch if someone spots it: "bravo — ora immagina di non sapere che c'è un bug, e che questa riga sia 1 su migliaia" -->
 <!-- Reveal question (verbal, right before the click): "chi controlla il valore di preferences?" -->
 
-###### rung 02 · real case
-
-# Let's jump into some code
+<Rungs :active="2" label="real case" />
 
 ```ts {all|10}
 // GET /api/reports/:id
@@ -409,7 +394,7 @@ layout: default
 ---
 
 <!-- Ladder 7/15 — rung ② real case 2/4, the reveal (~45s): name the flaw, show the fix. Surgical: one answer, one diff, two bullets -->
-###### rung 02 · real case
+<Rungs :active="2" label="real case" />
 
 # Ouch, this bug hurts!
 
@@ -432,7 +417,7 @@ layout: default
 ---
 
 <!-- Ladder 8/15 — rung ② real case 3/4 (~1min): how the real one was caught. HITL applied: the finding was verified by humans FIRST, fix + tests then written with the AI -->
-###### rung 02 · real case
+<Rungs :active="2" label="real case" />
 
 # Curious how we caught it?
 
@@ -456,7 +441,7 @@ layout: default
 <!-- Ladder 9/15 — rung ② real case 4/4, the habit (~45s): from OUR story to THEIR practice. Bullets deliberately say only what the table did NOT: context quality, automation, compounding -->
 <!-- Verbal detail on bullet 1: your auth rules, how data must flow, what "authorized" means in YOUR system. On bullet 2: Claude Code hooks exist, name them. On bullet 3: the skill lives in the repo, goes through PR review like any code. Bridge out: "e se la skill si sbaglia?" → hinge -->
 <!-- Title riffs on the "Luckily..." closing the previous slide -->
-###### rung 02
+<Rungs :active="2" />
 
 # One run is luck. A habit is defense.
 
@@ -478,7 +463,7 @@ layout: statement
 
 <v-click>
 
-# <span style="color: var(--accent);">Scanners can't.</span>
+# <span class="accent">Scanners can't.</span>
 
 </v-click>
 
@@ -489,7 +474,7 @@ layout: two-cols-header
 <!-- Ladder 11/15 — rung ③ MCP servers & tooling (~2min) -->
 <!-- The toolbox deliberately echoes Opening 5/7: Trivy→images+deps (it covers what osv-scanner would, one tool less on stage), semgrep→code, gitleaks→secrets (same .env line!). Say it: "vi ricordate le superfici dell'inizio?" -->
 <!-- Only one badge kept, on purpose: Trivy MCP = the proof that MCP servers for these tools exist -->
-###### rung 03
+<Rungs :active="3" />
 
 # Deterministic eyes for your AI
 
@@ -540,7 +525,7 @@ layout: default
 
 <!-- Ladder 13/15 — rung ④ 1/2, the knowledge base (~1min): the repo itself carries knowledge, every AI session starts warm. Bridge INTO the anatomy: docs are passive knowledge, an agent OWNS knowledge -->
 <!-- Security tie, verbal: the AI that knows your auth model reviews auth better (callback to "Write it rich") -->
-###### rung 04
+<Rungs :active="4" />
 
 # Don't start from day zero
 
@@ -566,7 +551,7 @@ layout: default
 
 <!-- Ladder 14/15 — rung ④ 2/2, the anatomy (~1.5min): what the docs can't be. Verbal bridge in: "ma un manuale non è un collega". This slide deliberately sets up the Argus section -->
 <!-- Honesty note on Daemon (Davide's point): it is NOT definitional. Most agents live in a terminal session; the one guarding an org should be always on. Say it: "non tutti gli agenti ce l'hanno, quello che sorveglia un'org sì" → Argus -->
-###### rung 04
+<Rungs :active="4" />
 
 # Agents: what turns the AI into a real colleague
 
@@ -590,7 +575,7 @@ layout: center
 
 <v-click>
 
-Rung ① works this Monday. Rung ④? Someone already climbed it for you.
+Rung <RungBadge :n="1" /> works this Monday. Rung <RungBadge :n="4" />? Someone already climbed it for you.
 
 </v-click>
 
@@ -674,11 +659,12 @@ layout: default
 <!-- HITL bonus, say it: the skip was a HUMAN decision — the judgment stayed human, the agent carries it forward. Callback: "vi ricordate Memory nell'anatomia? Eccola." -->
 # And it remembers
 
-<div class="relative mt-4 text-center">
-  <BrowserFrame v-click-hide="1" url="github.com/argusappsec/argus-demo/pull/1" body-bg="#0d1117">
+<!-- Grid stack: both frames share cell 1/1, height reserved by the tallest — no layout jump on click even if the screenshots differ in size -->
+<div class="mt-4 grid justify-items-center">
+  <BrowserFrame v-click-hide="1" class="row-start-1 col-start-1" url="github.com/argusappsec/argus-demo/pull/1" body-bg="#0d1117">
     <img src="/argus-teaching.png" class="max-h-56 w-auto" alt="Teaching Argus: the credentials are placeholders" />
   </BrowserFrame>
-  <BrowserFrame v-click="1" url="github.com/argusappsec/argus-demo/pull/2" body-bg="#0d1117" class="absolute top-0 left-1/2 -translate-x-1/2">
+  <BrowserFrame v-click="1" class="row-start-1 col-start-1" url="github.com/argusappsec/argus-demo/pull/2" body-bg="#0d1117">
     <img src="/argus-memory.png" class="max-h-56 w-auto" alt="On the next PR, Argus applies the rule by itself" />
   </BrowserFrame>
 </div>
@@ -715,9 +701,8 @@ layout: center
 
 If you take a look, a ⭐ is appreciated
 
-<div class="mt-8 flex flex-col items-center gap-3">
-  <QRCode value="https://github.com/argusappsec/argus" :size="140" dark="#eae5df" light="#080807" />
-  <span class="text-xs font-mono" style="color: #7E7874;">github.com/argusappsec/argus</span>
+<div class="mt-8 flex justify-center">
+  <QRBlock value="https://github.com/argusappsec/argus" />
 </div>
 
 ---
@@ -738,7 +723,7 @@ layout: statement
 
 <v-click>
 
-# <span style="color: var(--accent);">Now, so do you.</span>
+# <span class="accent">Now, so do you.</span>
 
 </v-click>
 
@@ -783,7 +768,7 @@ layout: statement
 
 <v-click>
 
-# <span style="color: var(--accent);">It's a SKILL.</span>
+# <span class="accent">It's a SKILL.</span>
 
 </v-click>
 
@@ -795,7 +780,6 @@ layout: cover
 
 exit 0
 
-<div class="absolute bottom-20 right-20 flex flex-col items-center gap-3">
-  <QRCode value="https://links.davideimola.dev" :size="140" dark="#eae5df" light="#080807" />
-  <span class="text-xs font-mono" style="color: #7E7874;">links.davideimola.dev</span>
+<div class="absolute bottom-20 right-20">
+  <QRBlock value="https://links.davideimola.dev" />
 </div>
