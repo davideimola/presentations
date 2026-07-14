@@ -687,8 +687,9 @@ layout: default
 layout: default
 ---
 
-<!-- Argus 5/6 (~45s): rung ③ pre-assembled — the toolbox, built in and wired the safe way. Title is a direct callback to the "The toolbox" label on the rung ③ slide -->
+<!-- Argus 5/6 (~1min): rung ③ pre-assembled — the toolbox, built in and wired the safe way. Title is a direct callback to the "The toolbox" label on the rung ③ slide -->
 <!-- Delivery precision: bash doesn't hallucinate, the MODEL does — with no shell exposed it can't improvise commands, only call the typed tools it was given (ADR 0006, public in the repo) -->
+<!-- The callout names the threat the no-shell design defends against: a review agent reads UNTRUSTED content (PRs, diffs, READMEs), prompt injection is its canonical attack (OWASP LLM01, cite verbally if asked). Beat: "il vostro agente legge roba non fidata: qualcuno proverà a parlarci" -->
 # The toolbox, built in
 
 <v-clicks>
@@ -698,6 +699,12 @@ layout: default
 - **No shell to improvise**: the model can only call the tools it was given
 
 </v-clicks>
+
+<v-click>
+
+<Callout type="warning">Your agent reads untrusted PRs: prompt injection is a real attack. No shell means a contained blast radius.</Callout>
+
+</v-click>
 
 ---
 layout: center
