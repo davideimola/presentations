@@ -63,11 +63,20 @@ const progress = computed(() => (currentPage.value / total.value) * 100)
   letter-spacing: -0.03em;
 }
 
+/* Brand construction: 0.14em × 0.86em bar, 0.10em gap (see BRAND.md).
+   Blinking as on the site's hero — "just typed, still writing".
+   prefers-reduced-motion is handled globally in layouts.css. */
 .akane-header__cursor {
   display: inline-block;
-  width: 2px;
-  height: 0.9em;
-  margin-left: 3px;
+  width: 0.14em;
+  height: 0.86em;
+  margin-left: 0.1em;
   background: var(--accent);
+  animation: header-cursor-blink 1.1s step-end infinite;
+}
+
+@keyframes header-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
 }
 </style>

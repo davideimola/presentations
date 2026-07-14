@@ -109,4 +109,5 @@ davideimola.dev                     →  domain lockup (footer): nome quiet (tex
 | `image-left`      | Immagine a sinistra, contenuto a destra         |
 | `image-right`     | Contenuto a sinistra, immagine a destra         |
 | `split-code`      | Contenuto e blocco di codice affiancati         |
+| `code-hero`       | Codice protagonista a tutta pagina (spot-the-bug), solo label h6 o `<Rungs>` |
 | `terminal`        | Finestra terminale con titlebar (path `~/…` ok) |

@@ -113,6 +113,52 @@ Simulate an AI chat exchange — for prompts, anti-patterns, or dialogue example
 layout: default
 ---
 
+<Rungs :active="2" label="optional label" />
+
+# Step indicator — Rungs
+
+Keeps the audience oriented inside a multi-step section: active step lit, every other step neutral.
+
+- `<Rungs :active="2" />` — 4 steps by default
+- `<Rungs :active="3" :total="5" />` — custom total
+- `<Rungs :active="2" label="real case" />` — optional suffix label
+- Inline in a sentence: step <RungBadge :n="1" /> works today — `<RungBadge :n="1" />`
+
+---
+layout: default
+---
+
+# Ladder — the map
+
+Vertical map of a multi-step section, same visual language as `<Rungs>`.
+
+<Ladder class="mt-4">
+  <LadderRung v-click :n="1" title="First step">what this step gives you</LadderRung>
+  <LadderRung v-click :n="2" title="Second step">what this step gives you</LadderRung>
+  <LadderRung v-click :n="3" title="Third step">what this step gives you</LadderRung>
+</Ladder>
+
+---
+layout: default
+---
+
+# Ladder — compact
+
+With `<Ladder compact>` each rung is a single line: use it when the ladder grows past 4-5 rungs.
+
+<Ladder compact class="mt-4">
+  <LadderRung :n="1" title="First step">what this step gives you</LadderRung>
+  <LadderRung :n="2" title="Second step">what this step gives you</LadderRung>
+  <LadderRung :n="3" title="Third step">what this step gives you</LadderRung>
+  <LadderRung :n="4" title="Fourth step">what this step gives you</LadderRung>
+  <LadderRung :n="5" title="Fifth step">what this step gives you</LadderRung>
+  <LadderRung :n="6" title="Sixth step">what this step gives you</LadderRung>
+</Ladder>
+
+---
+layout: default
+---
+
 # Click animations — v-click
 
 Reveal content step by step. Each `v-click` advances on <kbd>Space</kbd> or <kbd>→</kbd>.
@@ -196,12 +242,38 @@ layout: statement
 # A bold statement
 
 ---
+layout: statement
+---
+
+# Setup line.
+
+<v-click>
+
+# <span class="accent">Payoff line, in accent.</span>
+
+</v-click>
+
+---
 layout: fact
 ---
 
 # 17+
 
 talks & conferences
+
+---
+layout: default
+---
+
+# Stat grid
+
+Big numbers side by side — each `<Stat>` takes a value, a description (slot) and an optional source.
+
+<StatGrid class="mt-12">
+  <Stat v-click value="17+" source="Source A · 2026">talks & conferences</Stat>
+  <Stat v-click value="42" source="Source B · 2026">the answer to everything</Stat>
+  <Stat v-click value="9k+" source="Source C · 2024">lines of YAML written</Stat>
+</StatGrid>
 
 ---
 layout: quote
@@ -293,6 +365,28 @@ func (r *userRepo) FindByID(
 ```
 
 ---
+layout: code-hero
+---
+
+###### spot the bug
+
+```go {all|6}
+func getReport(w http.ResponseWriter, r *http.Request) {
+  user := session.From(r)
+  report := db.FindReport(chi.URLParam(r, "id"))
+
+  canAccess := user.Role == "admin" ||
+    user.Prefs.SharedReports // ← the user decides?
+
+  if !canAccess {
+    http.Error(w, "forbidden", http.StatusForbidden)
+    return
+  }
+  json.NewEncoder(w).Encode(report)
+}
+```
+
+---
 layout: image-right
 image: /theme/me.png
 ---
@@ -344,7 +438,6 @@ layout: cover
 
 exit 0
 
-<div class="absolute bottom-20 right-20 flex flex-col items-center gap-3">
-  <QRCode value="https://links.davideimola.dev" :size="140" dark="#eae5df" light="#080807" />
-  <span class="text-xs font-mono" style="color: #7E7874;">links.davideimola.dev</span>
+<div class="absolute bottom-20 right-20">
+  <QRBlock value="https://links.davideimola.dev" />
 </div>

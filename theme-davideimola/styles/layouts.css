@@ -76,6 +76,12 @@
   }
 
   h6::before { content: '// '; color: var(--accent-text); }
+
+  /* Accent ink for statement payoffs and cover titles.
+     Usage: # <span class="accent">payoff text</span>
+     (markdown-it-mdc inline props `[x]{.accent}` drop the class — don't use them.)
+     Large text only — small red text must use --accent-text (see BRAND.md). */
+  .accent { color: var(--accent); }
 }
 
 /* ── PDF export — progress bar always full ───────────────────────────── */
@@ -105,8 +111,6 @@
   h1 {
     @apply text-6xl font-bold leading-tight mb-4;
   }
-
-  h1 .accent { color: var(--accent); }
 
   p {
     font-family: 'JetBrains Mono', monospace;
@@ -237,6 +241,10 @@
   width: 100%;
   border-collapse: collapse;
 
+  /* Markdown label/value tables (`| | |` header) render an empty header
+     row with a stray border — collapse the thead when every th is empty. */
+  thead:not(:has(th:not(:empty))) { display: none; }
+
   th {
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
@@ -258,6 +266,17 @@
 
   th:first-child, td:first-child { padding-left: 0; }
   th:last-child,  td:last-child  { padding-right: 0; }
+}
+
+/* ── Code hero ───────────────────────────────────────────────────────── */
+
+/* Full-page code slide: the snippet is the protagonist (spot-the-bug).
+   Only an h6 label (or <Rungs>) above the block — no h1 by design. */
+.slidev-layout.code-hero .slidev-layout__content {
+  .slidev-code {
+    font-size: 1.1em;
+    line-height: 1.6;
+  }
 }
 
 /* ── Two cols ────────────────────────────────────────────────────────── */

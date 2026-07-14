@@ -1,7 +1,7 @@
 <template>
-  <div class="slidev-layout default">
+  <div class="slidev-layout code-hero">
     <LayoutHeader />
-    <div class="slidev-layout__content flex-1 flex flex-col justify-start px-16 py-8">
+    <div class="slidev-layout__content flex-1 flex flex-col justify-start px-12 py-8">
       <slot />
     </div>
     <LayoutFooter :website="website" />

@@ -7,7 +7,7 @@
         class="image-left__image"
         :style="{ backgroundImage: `url(${imageSrc})` }"
       />
-      <div class="image-left__body flex flex-col justify-center px-16 py-8">
+      <div class="image-left__body flex flex-col justify-start px-16 py-8">
         <slot />
       </div>
     </div>

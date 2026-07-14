@@ -2,7 +2,7 @@
   <div class="slidev-layout image-right">
     <LayoutHeader />
     <div class="slidev-layout__content flex-1 flex flex-row overflow-hidden">
-      <div class="image-right__body flex flex-col justify-center px-16 py-8">
+      <div class="image-right__body flex flex-col justify-start px-16 py-8">
         <slot />
       </div>
       <div

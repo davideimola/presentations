@@ -2,10 +2,10 @@
   <div class="slidev-layout split-code">
     <LayoutHeader />
     <div class="slidev-layout__content flex-1 flex flex-row overflow-hidden">
-      <div class="split-code__text flex flex-col justify-center px-14 py-10">
+      <div class="split-code__text flex flex-col justify-start px-14 py-10">
         <slot />
       </div>
-      <div class="split-code__code flex flex-col justify-center px-10 py-10">
+      <div class="split-code__code flex flex-col justify-start px-10 py-10">
         <slot name="right" />
       </div>
     </div>
