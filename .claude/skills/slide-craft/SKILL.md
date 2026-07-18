@@ -20,7 +20,7 @@ When invoked, locate the talk folder from the user's prompt (e.g. `securing-go/`
 1. **`<talk>/TALK.md`** — the brief: thesis, audience, takeaways, outline, demo plan, anti-vendor rules. This is your primary source of truth for *what* to scaffold.
 2. **`<talk>/src/slides.md`** — the current state of the slide deck. Some slides may already be scaffolded; respect them. Ask before overwriting.
 3. **`theme-davideimola/example.md`** — the layout catalog. This is your reference for *what's available*: `cover`, `intro`, `default`, `section`, `statement`, `fact`, `quote`, `center`, `two-cols`, `two-cols-header`, `split-code`, `image-right`, `image-left`, `terminal`. Read it before suggesting layouts to confirm syntax and slot names (`::right::`, `::left::`, etc.).
-4. **The linked GitHub issue** (only if Davide explicitly asks you to). Otherwise the brief in `TALK.md` is enough.
+4. **The owning content-os Talk Piece** (`content-os#<n>`, referenced by `TALK.md` — only if Davide explicitly asks you to). Otherwise the brief in `TALK.md` is enough.
 
 If the talk folder doesn't exist or `TALK.md` is missing, stop and tell Davide to run `/talk-forge` first.
 
@@ -141,7 +141,7 @@ Wait for answers, then scaffold.
 
 ## Coordination with other skills
 
-- `talk-forge` owns the **brief** (`TALK.md`, GitHub issue, scaffolded folder structure). If Davide wants to change thesis/outline/takeaways, redirect there.
+- `talk-forge` owns the **Brief** (`TALK.md`) and the scaffolded folder structure; the editorial **Talk Piece** lives on content-os. If Davide wants to change thesis/outline/takeaways, redirect there.
 - `cfp-submit` owns submitting talks to conferences. Unrelated to slide content.
 - `slide-craft` (this skill) owns the **slide deck** (`<talk>/src/slides.md`). It's a pure Artifact editor: it inherits the owning `content-os#<n>` link transitively through `TALK.md` and wires nothing to content-os directly.
 

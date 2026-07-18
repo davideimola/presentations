@@ -1,30 +1,48 @@
 ---
 name: talk-forge
-description: Forge a technical talk for Davide via aggressive grilling, open a brief issue on the presentations repo, and scaffold the Slidev folder. Use when the user wants to start a new talk, structure a talk idea, import an existing document into a talk, or build on top of an existing stub issue. Trigger: "voglio fare un talk", "talk forge", "nuovo talk", "forgiamo un talk", "aiutami a strutturare il talk", "ho un'idea di talk".
+description: Forge a technical talk for Davide via aggressive grilling, producing the Artifact (TALK.md Brief + Slidev scaffold) for a content-os Talk Piece and writing back only a pointer to the Artifact. Use when the user wants to start a new talk, structure a talk idea, import an existing document into a talk, or reshape an existing talk Brief. Trigger: "voglio fare un talk", "talk forge", "nuovo talk", "forgiamo un talk", "aiutami a strutturare il talk", "ho un'idea di talk".
 ---
 
 # talk-forge
 
-Forge a technical talk via aggressive grilling. Output: an issue on `davideimola/presentations` + a scaffolded Slidev folder.
+Forge a technical talk via aggressive grilling. The talk's editorial home is a **Talk Piece** on content-os (spawned by `/desk`); this skill produces the **Artifact** — the `TALK.md` **Brief** + a scaffolded Slidev folder — that references it, and writes back only a pointer to the Artifact.
 
 Be a demanding editor, not a stenographer. Davide is an experienced speaker (17+ talks): he wants pressure checks, not a questionnaire. Push back. Challenge vague theses, abstract takeaways, ambitious outlines, risky demos, generic titles.
 
+## Reference-only: the Talk Piece lives on content-os
+
+talk-forge is **reference-only**. The **Talk Piece** (`content-os#<n>`, channel `talk`) is the editorial item, created by `/desk` on `davideimola/content-os` from an accepted Idea — it is the **Editorial source of truth** for this talk. This repo is the **Factory**: it holds only the **Artifact** (the `TALK.md` Brief + the Slidev deck), which references the owning Talk Piece.
+
+- Never create a Talk Piece, and never open any editorial issue (on presentations or content-os). If Davide doesn't have a Talk Piece yet, redirect: "Il Talk Piece si crea su content-os con `/desk` da un'Idea accettata — torna con il `content-os#<n>`."
+- Never create the `talk` label on presentations.
+- The only thing you ever write to content-os is one **Artifact pointer** on the Talk Piece (see Final output § 3). No state changes, no label changes, no Brief duplication.
+
 ## Output language
 
-Davide works in Italian. **All user-facing output is in Italian**: chat replies, issue body, `TALK.md`. Placeholders inside `slides.md` are language-neutral (section titles taken from the outline, `TODO` as a marker). The talk itself can be in IT or EN — ask in phase 4.
+Davide works in Italian. **All user-facing output is in Italian**: chat replies and `TALK.md`. Placeholders inside `slides.md` are language-neutral (section titles taken from the outline, `TODO` as a marker). The talk itself can be in IT or EN — ask in phase 4.
 
 This skill file is in English for clarity, but it does NOT change the output language.
 
+## Anchor: the Talk Piece (required)
+
+Before grilling, get the Talk Piece `content-os#<n>` — from Davide, or (for a re-forge, entry point 4) from the existing `TALK.md` — and read it:
+
+```
+gh issue view <n> --repo davideimola/content-os --json title,body,labels
+```
+
+Use it as the anchor and the talk's title. The Piece body holds editorial metadata + pointers, **not** the Brief — the Brief is forged here, in this skill. Sanity-check the anchor: if the issue has no `talk` label, or it carries `cfp` (it's a CFP, not a Talk Piece), flag it and ask Davide for the right `content-os#<n>`.
+
 ## Entry points
 
-Four ways to start. Figure out from the user's first prompt which one applies:
+Once anchored to the Talk Piece, figure out from Davide's first prompt how much talk content already exists:
 
 1. **Vague idea** — "I feel like talking about X but I don't know what to say". Run **Phase 0 brainstorm** before grilling.
 2. **Clear thesis** — the user shows up with an articulated thesis. Skip Phase 0, go straight to grilling from Phase 1.
 3. **External markdown** — the user passes a path (relative or absolute) or pastes text. Read it, extract what's already there, grill only on the gaps.
-4. **Existing GitHub issue** — the user passes an issue number (`#42` or `42`). Read with `gh issue view <n> --repo davideimola/presentations`, extract, grill on the gaps. At the end you **update** the issue instead of creating a new one.
+4. **Existing Artifact (re-forge)** — the `<slug>/TALK.md` already exists and Davide wants to reshape the brief. Read it, extract, grill on the gaps. At the end, handle the folder idempotently (§ 2) — don't clobber existing slides.
 
-If you can't tell, ask one short question: "Parti da idea vaga, thesis chiara, documento esistente, o issue esistente?"
+If you can't tell, ask one short question: "Parti da idea vaga, thesis chiara, documento esistente, o rilavoriamo un brief già scaffoldato?"
 
 ## Phase 0 — Brainstorm (only for entry point 1)
 
@@ -59,55 +77,16 @@ Default order, but adaptive: always tackle the unresolved risk first. If audienc
 
 ## Final output
 
-After grilling, **show the consolidated brief in chat (in Italian) and ask for explicit confirmation**. Only after a yes, run the actions:
+After grilling, **show the consolidated brief in chat (in Italian) and ask for explicit confirmation**. Only after a yes, run the actions.
 
-### 1. GitHub issue
-
-- **Entry points 1, 2, 3** → create new issue with `gh issue create --repo davideimola/presentations --title "<Title>" --label talk --body "<body>"`. If the `talk` label doesn't exist on the repo, create it first with `gh label create talk --repo davideimola/presentations --description "Talk brief / proposal" --color 5319E7`, then create the issue.
-- **Entry point 4** → update existing issue with `gh issue edit <n> --repo davideimola/presentations --body "<body>"` (preserve any existing labels).
-
-Issue body (sections in this order, content in Italian):
-```markdown
-## Title
-<title>
-
-## Audience & prerequisites
-<audience + prerequisites>
-
-## Core thesis
-<one sentence>
-
-## Takeaways
-- <takeaway 1>
-- <takeaway 2>
-- <takeaway 3>
-
-## Outline (con timing)
-- (Xmin) <section 1>
-- (Xmin) <section 2>
-...
-
-## Demo / code samples
-<demo description + plan B>
-
-## Open questions
-<remaining open questions>
-
-## Slidev folder
-`./<slug>`
-
-## Conference & date
-<conference, date, language>
-```
-
-### 2. Folder slug
+### 1. Folder slug
 
 Derive from the title in kebab-case (strip articles, accents, punctuation). Example: "Domain-Driven Design in Go" → `go-ddd` (prefer compact). **Propose the slug and ask for confirmation** before scaffolding.
 
-### 3. Folder scaffolding
+### 2. Folder scaffolding
 
 Check if `<slug>/` already exists:
-- **Exists** → idempotent re-run mode: do NOT touch the folder. Print explicitly "La cartella esiste già, non l'ho toccata. Differenze rispetto al brief aggiornato: [...]" and list what Davide needs to sync manually in `slides.md`.
+- **Exists** → idempotent re-run mode: do NOT touch the folder. Print explicitly "La cartella esiste già, non l'ho toccata. Differenze rispetto al brief aggiornato: [...]" and list what Davide needs to sync manually in `slides.md` and `TALK.md`.
 - **Doesn't exist** → scaffold:
 
 Structure:
@@ -134,7 +113,7 @@ Structure:
 }
 ```
 
-**`<slug>/src/slides.md`** — clone the pattern of `theme-davideimola/example.md` (source of truth). The older talks `go-ddd/` and `greenops/` use `../../theme` (previous version of the theme): do NOT use them as reference for new talk scaffolds. The current theme for new talks is `theme-davideimola`.
+**`<slug>/src/slides.md`** — clone the pattern of `theme-davideimola/example.md` (source of truth). The older talks `go-ddd/` and `greenops/` use `../../theme` (previous version of the theme): do NOT use them as reference for new talk scaffolds. The current theme for new talks is `theme-davideimola`. The scaffold carries a reference to the owning Talk Piece (`content-os#<n>`) as an HTML comment after the cover frontmatter.
 
 Pattern: **cover** (title + terminal-style subtitle) → **intro WhoAmI** → **section** + **default** for each outline section → **final cover** "Thank you" with QRCode.
 
@@ -149,6 +128,8 @@ layout: cover
 defaults:
   website: davideimola.dev
 ---
+
+<!-- Talk Piece: content-os#<n> · Brief: ./TALK.md -->
 
 # <Title>
 
@@ -216,14 +197,14 @@ For each section in the outline generate **two slides**: a `section` divider (nu
 
 **`<slug>/src/public/`** — empty folder (or create a `.gitkeep` if needed).
 
-**`<slug>/TALK.md`** — readable mirror of the brief to give context to future Claude sessions. Content in Italian:
+**`<slug>/TALK.md`** — the **canonical full Brief**: everything the grilling produced, in one file (there is no editorial issue body anymore — the Brief lives only here). It gives future Claude sessions full context without calling `gh`. Its reference field points to the owning Talk Piece (`content-os#<n>`), never a presentations issue. Content in Italian:
 
 ```markdown
 # <Title>
 
-- **Issue**: #<n>
+- **Talk Piece**: content-os#<n>
 - **Thesis**: <one sentence>
-- **Audience**: <audience>
+- **Audience**: <audience + prerequisites>
 - **Takeaways**:
   - <takeaway 1>
   - <takeaway 2>
@@ -231,19 +212,48 @@ For each section in the outline generate **two slides**: a `section` divider (nu
 - **Outline**:
   - (Xmin) <section 1>
   - (Xmin) <section 2>
+- **Demo / code**: <what you show, why, plan B if it crashes — or "nessuna live demo">
 - **Format**: <duration>, <language>
 - **Conference**: <conference or "TBD">
+- **Open questions**: <what's still unresolved before the talk>
 ```
+
+### 3. Artifact pointer write-back (the ONLY content-os write)
+
+Write back exactly one thing to the Talk Piece: a pointer to the Artifact you just produced. Use a **comment** (it never clobbers the Piece body that `/desk` owns), and make it idempotent:
+
+```
+gh issue view <n> --repo davideimola/content-os --json comments \
+  --jq '[.comments[].body]'        # check for an existing pointer first
+```
+
+- If no comment starts with `**Production artifact**`, post one:
+
+```
+gh issue comment <n> --repo davideimola/content-os \
+  --body "**Production artifact** — davideimola/presentations: [\`<slug>/TALK.md\`](https://github.com/davideimola/presentations/blob/main/<slug>/TALK.md) (Slidev deck in \`<slug>/src/\`)"
+```
+
+- If a pointer comment already exists for the same slug → skip (idempotent re-run).
+- If it exists but the slug changed → post an updated pointer noting the new path.
+
+**Never** edit the Piece body, change its state, or touch its labels — that stays with `/desk`. Do not duplicate the Brief onto content-os; the Brief lives only in `TALK.md`.
+
+> Note: some Talk Piece bodies still carry a `Talk brief: davideimola/presentations#<n>` line pointing at a legacy presentations issue. Leave it — reconciling that drift is a separate migration follow-up, not this skill's job.
 
 ### 4. Print summary
 
 At the end, print a summary of what you did (in Italian):
-- Issue created/updated with link (`gh issue view <n> --web` optional, or print the URL)
+- Talk Piece anchored (`content-os#<n>`) + Artifact pointer posted/skipped (with reason)
 - Folder scaffolded or skipped (with reason)
 - Suggested next steps (e.g.: "lavora a `<slug>/src/slides.md`, partendo dalla sezione 1")
 
 ## Things you do NOT do
 
+- Don't create any editorial issue (on presentations or content-os) — the Talk Piece is created by `/desk` on content-os.
+- Don't create the `talk` label (or any label) on presentations.
+- Don't change the Talk Piece's state or labels, and don't edit its body — the only content-os write is the Artifact-pointer comment.
+- Don't duplicate the Brief onto content-os; it lives only in `TALK.md`.
 - Don't write slide content (Davide writes it by hand).
 - Don't create automatic speaker notes.
 - Don't do external scraping.
