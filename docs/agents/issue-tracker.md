@@ -1,6 +1,8 @@
 # Issue tracker: GitHub
 
-Issues and PRDs for this repo live as GitHub issues. Use the `gh` CLI for all operations.
+Engineering issues and PRDs for this repo — theme, tooling, build, and other repo work — live as GitHub issues on `davideimola/presentations`. Use the `gh` CLI for all operations.
+
+> **Editorial exception.** Editorial planning (Ideas, Talk Pieces, CFPs) does **not** live here: it lives on [`davideimola/content-os`](https://github.com/davideimola/content-os), the Editorial source of truth. This repo is the talks Factory; it holds only Artifacts (each talk's `TALK.md` Brief + its Slidev deck) that reference the owning `content-os#<n>` Talk Piece, and its skills read editorial context from content-os and write only the CFP Outcome back upstream. Don't open editorial issues (talks, CFPs) here — capture them on content-os. The conventions below apply only to engineering issues on this repo.
 
 ## Conventions
 

@@ -143,6 +143,6 @@ Wait for answers, then scaffold.
 
 - `talk-forge` owns the **brief** (`TALK.md`, GitHub issue, scaffolded folder structure). If Davide wants to change thesis/outline/takeaways, redirect there.
 - `cfp-submit` owns submitting talks to conferences. Unrelated to slide content.
-- `slide-craft` (this skill) owns the **slide deck** (`<talk>/src/slides.md`).
+- `slide-craft` (this skill) owns the **slide deck** (`<talk>/src/slides.md`). It's a pure Artifact editor: it inherits the owning `content-os#<n>` link transitively through `TALK.md` and wires nothing to content-os directly.
 
 If Davide blurs the line ("aggiungi una sezione AI alla sezione 1"), check: is this a content change inside an existing brief outline (you handle it) or a structural change to the brief itself (redirect to `talk-forge`)?
