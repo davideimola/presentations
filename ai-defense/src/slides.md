@@ -290,6 +290,7 @@ Every major coding agent already ships a security review skill. You just have to
 - OpenCode community skills
 - Skill directories
 - Awesome lists
+- Claude.ai, ChatGPT: upload any of these
 
 ---
 layout: terminal
@@ -433,7 +434,7 @@ layout: split-code
 
 - **When**: every auth change
 - **Verified**: by us, before any fix
-- **Cost**: an afternoon, then minutes
+- **Cost**: one afternoon to write it
 
 </v-clicks>
 
@@ -618,7 +619,7 @@ Prompt injection is OWASP LLM01: anything your agent reads can try to give it or
 - **Least privilege**: typed tools, no raw shell, read-only by default
 - **Break the lethal trifecta**: private data, untrusted input, a way out; never all three
 - **AI as a judge**: a second model, with no tools, checks what the first wants to do
-- **Context as policy**: your CONTEXT.md names the trust boundaries, your skills enforce them
+- **Context as policy**: your CONTEXT.md names the trust boundaries, your skills check against them
 
 </v-clicks>
 
@@ -696,6 +697,7 @@ Not a roadmap: this is what I run myself, right now
 - Scanners and your org knowledge, over MCP
 - Any AI calls them: Claude Code, Codex, yours
 - The brain is the one you already pay for
+- Typed tools, no shell exposed to the model
 
 ::right::
 
