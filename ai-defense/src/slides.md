@@ -592,7 +592,7 @@ A new hire is not your tech lead. Same with AI.
 
 <v-clicks>
 
-- **Soul**: who it is (f.e. You are a Senior Security Analyst)
+- **Soul**: who it is, e.g. "You are a senior security analyst"
 - **Memory**: what it learned yesterday is still there tomorrow
 - **Context**: your projects, your stack, how your services talk
 - **Daemon** (optional): some agents stay always running, not just a tab you open
