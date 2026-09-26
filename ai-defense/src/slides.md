@@ -440,6 +440,7 @@ layout: default
 
 <!-- Ladder 9/15 — rung ② real case 4/4, the habit (~45s): from OUR story to THEIR practice. Bullets deliberately say only what the table did NOT: context quality, automation, compounding -->
 <!-- Verbal detail on bullet 1: your auth rules, how data must flow, what "authorized" means in YOUR system. On bullet 2: Claude Code hooks exist, name them. On bullet 3: the skill lives in the repo, goes through PR review like any code. Bridge out: "e se la skill si sbaglia?" → hinge -->
+<!-- SETUP for rung ④: bullet 1 now asks the open question (where does that context live?) instead of closing it. Do NOT answer it here, let it hang: the payoff is "Don't start from day zero", two rungs later. Verbal: "e quel contesto, dove lo tenete? Ci torniamo" -->
 <!-- Title riffs on the "Luckily..." closing the previous slide -->
 <Rungs :active="2" />
 
@@ -447,7 +448,7 @@ layout: default
 
 <v-clicks>
 
-- **Write it rich**: the skill is only as good as the context you put in it
+- **Write it rich**: a skill is only as good as its context, so where do you keep yours?
 - **Automate it**: "we run it" becomes "it runs by itself"; a hook, not human memory
 - **Maintain it**: it doubles as living documentation, and docs that run don't rot
 - **Let it compound**: every run leaves tests behind, your safety net grows
@@ -524,12 +525,13 @@ layout: default
 ---
 
 <!-- Ladder 13/15 — rung ④ 1/2, the knowledge base (~1min): the repo itself carries knowledge, every AI session starts warm. Bridge INTO the anatomy: docs are passive knowledge, an agent OWNS knowledge -->
-<!-- Security tie, verbal: the AI that knows your auth model reviews auth better (callback to "Write it rich") -->
+<!-- PAYOFF of the question left hanging at rung ② ("where do you keep yours?"). Open by naming the callback, don't introduce it as a new topic: "vi ricordate 'write it rich'? Ecco dove vive quel contesto" -->
+<!-- Security tie, verbal: the AI that knows your auth model reviews auth better -->
 <Rungs :active="4" />
 
 # Don't start from day zero
 
-Your repo can carry the knowledge: every AI session (and new hire) starts warm
+The answer is the repo itself: every AI session (and every new hire) starts warm
 
 <v-clicks>
 
@@ -550,7 +552,7 @@ layout: default
 ---
 
 <!-- Ladder 14/15 — rung ④ 2/2, the anatomy (~1.5min): what the docs can't be. Verbal bridge in: "ma un manuale non è un collega". This slide deliberately sets up the Argus section -->
-<!-- Honesty note on Daemon (Davide's point): it is NOT definitional. Most agents live in a terminal session; the one guarding an org should be always on. Say it: "non tutti gli agenti ce l'hanno, quello che sorveglia un'org sì" → Argus -->
+<!-- Honesty note on Daemon (Davide's point): it is NOT definitional, and the slide now says so with "(optional)". Most agents live in a terminal session; the one guarding an org should be always on. Say it: "non tutti gli agenti ce l'hanno, quello che sorveglia un'org sì" → Argus -->
 <Rungs :active="4" />
 
 # Agents: what turns the AI into a real colleague
@@ -562,7 +564,7 @@ A new hire is not your tech lead. Same with AI.
 - **Soul**: who it is: your org, your risk tolerance
 - **Memory**: what it learned yesterday is still there tomorrow
 - **Context**: your projects, your stack, how your services talk
-- **Daemon**: always on duty, not a tab you open
+- **Daemon** (optional): some agents stay always running, not just a tab you open
 
 </v-clicks>
 
@@ -618,30 +620,64 @@ I built Argus for myself. It works. And it's open source.
 layout: two-cols-header
 ---
 
-<!-- Argus 2/6 (~1min): what it does TODAY, honestly. No roadmap. Each feature is a callback: PR reviewer = the daemon colleague (always on duty), MCP server = rung ③ vocabulary, plugs into the AI you already use -->
-# What it does, today
+<!-- Argus 2/6 (~1min): what it does TODAY, honestly. No roadmap. One product with a floor and a storey above it: the toolbox is always there, a provider adds the brain (repo: ADR 0023, "toolbox" vs "colleague") -->
+<!-- The framing is deliberate: the toolbox is the door in for who has no token budget. Say it: "gli scanner e la memoria ce li mette Argus, il ragionamento lo state gia pagando dentro Claude Code" -->
+<!-- MCP is NOT one of the two: it is the same endpoint in both. What changes is how much of it exists, and that depends on one condition only: is a model configured -->
+<!-- GitHub PR review lives upstairs only: without a model there is no agent loop to start. Be explicit on stage, the next slides show it -->
+<!-- Callback to the ladder recap "Zero new budget": say it here, on the left column: si entra dal piano terra, nessuna API key, nessun conto a token -->
+# One product, two floors
 
 Not a roadmap: this is what I run myself, right now
 
 ::left::
 
-###### GitHub PR reviewer
+###### Toolbox: the floor
 
-- Security review on every pull request
-- The colleague always on duty
+- Scanners and your org knowledge, over MCP
+- Any AI calls them: Claude Code, Codex, yours
+- The brain is the one you already pay for
 
 ::right::
 
-###### MCP server
+###### Agentic: a brain on top
 
-- Security reviews from your own Claude Code
-- Plugs into the AI you already use
+- Plug in a model: any OpenAI-compatible one
+- Same toolbox, plus reasoning of its own
+- Unlocks autonomous review on every GitHub PR
+
+---
+layout: terminal
+title: "~/your-repo $ claude"
+---
+
+<!-- Argus 3/6 (~45s): the third twin terminal. Rung ① had one, rung ③ had one, Argus gets its own: every claim on this stage gets shown, not told -->
+<!-- MOCK, not a real run (unlike the rung ① and ③ terminals): shaped on a real argus MCP session, findings invented. Do not call it a live run on stage -->
+<!-- The skipped finding is the whole point, say it: "stesso agente, stesso abbonamento, zero token in più, e si ricorda di una decisione presa da un umano su un'altra PR" -->
+
+```sh
+$ claude
+> review this branch for security issues, use argus
+
+⏺ argus · review(branch: "feat/reports-api")
+  ⎿ semgrep · gitleaks · trivy · 2 findings · 1 skipped
+
+● [HIGH] SQL injection: user input concatenated into the query
+  src/api/reports.ts:58
+
+● [MEDIUM] Path traversal: unvalidated filename reaches readFile
+  src/api/export.ts:23
+
+○ skipped: hardcoded credentials in tests/fixtures/db.ts
+  a human accepted them on PR #1, Argus kept the decision
+
+> fix both, then open the PR
+```
 
 ---
 layout: default
 ---
 
-<!-- Argus 3/6 (~30s): proof #1, the REAL PR review from argus-demo (public repo, PR #1): hardcoded creds + SQL injection, 2 findings on changed lines. Screenshot captured 2026-07, dark GitHub theme -->
+<!-- Argus 4/6 (~30s): proof #1, the REAL PR review from argus-demo (public repo, PR #1): hardcoded creds + SQL injection, 2 findings on changed lines. Screenshot captured 2026-07, dark GitHub theme -->
 <!-- Verbal: "repo demo, PR vera, review vera: la potete aprire anche voi" — github.com/argusappsec/argus-demo/pull/1 -->
 # Straight from a real PR
 
@@ -655,7 +691,8 @@ layout: default
 layout: default
 ---
 
-<!-- Argus 4/6 (~45s): proof #2, MEMORY in production, two beats on one slide. Beat 1: the teaching exchange on PR #1 (Davide tells Argus the creds are placeholders, Argus confirms it updated its knowledge). CLICK. Beat 2: PR #2's review, where it applies the rule by itself. This is the anatomy's Memory bullet, live -->
+<!-- Argus 5/6 (~45s): proof #2, MEMORY in production, two beats on one slide. Beat 1: the teaching exchange on PR #1 (Davide tells Argus the creds are placeholders, Argus confirms it updated its knowledge). CLICK. Beat 2: PR #2's review, where it applies the rule by itself. This is the anatomy's Memory bullet, live -->
+<!-- Shared across both modes, say it: what one person settles is settled for the next session, the next repo, the next teammate -->
 <!-- HITL bonus, say it: the skip was a HUMAN decision — the judgment stayed human, the agent carries it forward. Callback: "vi ricordate Memory nell'anatomia? Eccola." -->
 # And it remembers
 
@@ -670,29 +707,6 @@ layout: default
 </div>
 
 ---
-layout: default
----
-
-<!-- Argus 5/6 (~1min): rung ③ pre-assembled — the toolbox, built in and wired the safe way. Title is a direct callback to the "The toolbox" label on the rung ③ slide -->
-<!-- Delivery precision: bash doesn't hallucinate, the MODEL does — with no shell exposed it can't improvise commands, only call the typed tools it was given (ADR 0006, public in the repo) -->
-<!-- The callout names the threat the no-shell design defends against: a review agent reads UNTRUSTED content (PRs, diffs, READMEs), prompt injection is its canonical attack (OWASP LLM01, cite verbally if asked). Beat: "il vostro agente legge roba non fidata: qualcuno proverà a parlarci" -->
-# The toolbox, built in
-
-<v-clicks>
-
-- **Scanners included**: semgrep, gitleaks and friends, wrapped as typed Go tools
-- **Behind every review**: findings come from the tools, the model reasons on them
-- **No shell to improvise**: the model can only call the tools it was given
-
-</v-clicks>
-
-<v-click>
-
-<Callout type="warning">Your agent reads untrusted PRs: prompt injection is a real attack. No shell means a contained blast radius.</Callout>
-
-</v-click>
-
----
 layout: center
 ---
 
@@ -701,8 +715,9 @@ layout: center
 
 If you take a look, a ⭐ is appreciated
 
-<div class="mt-8 flex justify-center">
-  <QRBlock value="https://github.com/argusappsec/argus" />
+<div class="mt-8 flex justify-center gap-16">
+  <QRBlock value="https://www.argusappsec.com/" label="argusappsec.com" />
+  <QRBlock value="https://github.com/argusappsec/argus" label="github.com/argusappsec/argus" />
 </div>
 
 ---
