@@ -24,7 +24,7 @@
       </tr>
       <tr>
         <td class="whoami__key">hobbies</td>
-        <td class="whoami__val">bbq · jujutsu · board games · pokémon</td>
+        <td class="whoami__val">bbq · jujutsu · board games · pokémon · comics/manga</td>
       </tr>
       </tbody>
     </table>
