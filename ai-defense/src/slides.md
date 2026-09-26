@@ -161,7 +161,7 @@ layout: default
 <v-clicks>
 
 - **It knows security**: it's trained on CVEs, OWASP, exploit patterns
-- **It covers every surface**: secrets, deps, images, infra, all at once
+- **It knows every surface**: secrets, deps, images, infra
 - **It reads YOUR code**: your repo, your context, not generic advice
 - **Already in your pipeline**: no new vendor, no new budget line
 
@@ -265,6 +265,7 @@ layout: two-cols-header
 ---
 
 <!-- Ladder 2/15 — rung ① the catalog (~1min): ready-made skills exist everywhere, don't reinvent the wheel. The terminal slide right after is the proof -->
+<!-- Third bullet is for the browser-only crowd (students, ChatGPT users), say it: "niente CLI? Le skill girano anche nel browser". Planted HERE on purpose instead of at the end: rungs ① and ② work in the web apps too, so they stay hooked for the rest of the talk. Where the browser stops, verbal if asked: no hooks, so no "it runs by itself" (rung ② habit), and fewer deterministic tools (rung ③) -->
 <!-- Verified 2026-07: Claude Code /security-review built-in; Codex /review built-in + official security plugin (security-diff-scan); OpenCode via community skills (e.g. opencode-power-pack) -->
 <Rungs :active="1" />
 
@@ -278,6 +279,7 @@ Every major coding agent already ships a security review skill. You just have to
 
 - Claude Code <Badge type="accent">/security-review</Badge>
 - Codex <Badge>/review</Badge> + security plugin
+- Claude.ai and ChatGPT: in the browser too
 
 ::right::
 
@@ -314,7 +316,8 @@ $ claude
 layout: default
 ---
 
-<!-- Ladder 4/15 — rung ① cost & privacy (~1min): the objection killer, placed right after they SAW a run. TODO Davide: fill the cost cell with your real numbers -->
+<!-- Ladder 4/15 — rung ① cost & privacy (~1min): the objection killer, placed right after they SAW a run -->
+<!-- The cost cell is an order of magnitude, not a measurement: ~100 files reviewed = a few hundred k input tokens + ~10k output, well under $1 at mid-tier API prices. On stage, present it as an order of magnitude, never as an exact figure. If asked: "run /security-review, then /cost, and see for yourself" -->
 <!-- Verbal: "quel run che avete appena visto? Ecco quanto è costato, ed ecco dove è andato il codice" -->
 <Rungs :active="1" />
 
@@ -322,8 +325,8 @@ layout: default
 
 | | |
 |---|---|
-| **That run you just saw** | order of cents, or flat inside the subscription you already pay |
-| **Where the code goes** | To the same provider that already reads your code while you write it |
+| **That run you just saw** | less than a coffee on the API, or flat inside the subscription you already pay |
+| **Where the code goes** | to the same provider that already reads your code while you write it |
 | **Not comfortable with that?** | The ladder is provider-agnostic: self-hosted models work too |
 
 ---
@@ -413,32 +416,58 @@ report.sharedWith.includes(user.id)     // ✓ the RESOURCE decides
 </v-clicks>
 
 ---
-layout: default
+layout: split-code
 ---
 
 <!-- Ladder 8/15 — rung ② real case 3/4 (~1min): how the real one was caught. HITL applied: the finding was verified by humans FIRST, fix + tests then written with the AI -->
-<Rungs :active="2" label="real case" />
+<!-- The skill on the right is DEMONSTRATIVE, not RedCarbon's real one: same idea, trimmed to fit. Say it: "non è la nostra, ma il principio è questo". Same format as the joke skill two slides back: that's the payoff of "questa è scema, ma il formato è identico" -->
+<!-- Left column kept to 3 bullets on purpose (split-code is narrow): "it writes tests and reports findings" lives in the skill's Instructions, say it pointing at them. No "real case" label on Rungs here: it wraps in the narrow column -->
+<!-- Point at the Rules block: the bug was caught because the rule "never by fields the user can edit" was WRITTEN DOWN. preferences is literally in the list -->
+<!-- "Cost" bullet is an order of magnitude: say it as such, not as a measured figure. Honest counterfactual, verbal: without it, days of manual audit on every endpoint, or a pentest a startup does not budget for. Delivers the "fraction of the time" promised in the abstract -->
+<Rungs :active="2" />
 
 # Curious how we caught it?
 
-| | |
-|---|---|
-| **What we asked** | We wrote a skill to test our auth system, based on our own requirements |
-| **When it runs** | Every time the auth code changes |
-| **What it does** | Generates automated tests and reports findings |
-| **How we verified** | We review each finding, test if it's real, and patch it when it is |
+<v-clicks>
+
+- **When**: every auth change
+- **Verified**: by us, before any fix
+- **Cost**: an afternoon, then minutes
+
+</v-clicks>
 
 <v-click>
 
-And that's how we found a real hole in a real API, fixed before anyone could exploit it. Luckily...
+Fixed before anyone exploited it. Luckily...
 
 </v-click>
+
+::right::
+
+```md
+---
+name: authz-guard
+description: Access is granted by the
+  resource, never by the user
+---
+
+# Rules
+- Allowed: owner, sharedWith, org role
+- Never: fields the user can edit
+  (preferences, profile, request body)
+
+# Instructions
+1. For each changed endpoint, trace
+   every input of the access check
+2. Flag any user-editable source
+3. Write the test: another user gets 403
+```
 
 ---
 layout: default
 ---
 
-<!-- Ladder 9/15 — rung ② real case 4/4, the habit (~45s): from OUR story to THEIR practice. Bullets deliberately say only what the table did NOT: context quality, automation, compounding -->
+<!-- Ladder 9/15 — rung ② real case 4/4, the habit (~45s): from OUR story to THEIR practice. Bullets deliberately say only what the previous slide did NOT: context quality, automation, compounding -->
 <!-- Verbal detail on bullet 1: your auth rules, how data must flow, what "authorized" means in YOUR system. On bullet 2: Claude Code hooks exist, name them. On bullet 3: the skill lives in the repo, goes through PR review like any code. Bridge out: "e se la skill si sbaglia?" → hinge -->
 <!-- SETUP for rung ④: bullet 1 now asks the open question (where does that context live?) instead of closing it. Do NOT answer it here, let it hang: the payoff is "Don't start from day zero", two rungs later. Verbal: "e quel contesto, dove lo tenete? Ci torniamo" -->
 <!-- Title riffs on the "Luckily..." closing the previous slide -->
@@ -495,7 +524,7 @@ layout: two-cols-header
 
 ###### The toolbox
 
-- **Trivy** <Badge type="accent">MCP</Badge>: images, containers and deps
+- **Trivy** <Badge type="accent">MCP</Badge>: images, containers, deps and misconfigs
 - **semgrep**: bug patterns in your code
 - **gitleaks**: that `.env` you committed once
 
@@ -567,6 +596,35 @@ A new hire is not your tech lead. Same with AI.
 - **Daemon** (optional): some agents stay always running, not just a tab you open
 
 </v-clicks>
+
+---
+layout: default
+---
+
+<!-- Ladder 14b/15 — rung ④ the flip side (~1min, not a deep dive): an agent with memory and tools is itself an attack surface. Point to make: the same AI helps you defend the AI. Verbal bridge in: "più potere dai all'agente, più diventa un bersaglio" -->
+<!-- Ammo: prompt injection = OWASP LLM01 (Top 10 for LLM apps). "Lethal trifecta" = Simon Willison, 2025: private data + untrusted content + a way to exfiltrate. Remove one leg and the attack has nowhere to go -->
+<!-- Honesty on the judge: it can be injected too, that's why it gets NO tools and sees only the proposed action, not the raw untrusted input. Defense in depth, not a silver bullet -->
+<!-- Callback to Argus (next section): typed Go tools, no shell exposed to the model (ADR 0006): least privilege in practice, the agent reads untrusted PRs by design -->
+<Rungs :active="4" />
+
+# Your AI is an attack surface too
+
+Prompt injection is OWASP LLM01: anything your agent reads can try to give it orders
+
+<v-clicks>
+
+- **Least privilege**: typed tools, no raw shell, read-only by default
+- **Break the lethal trifecta**: private data, untrusted input, a way out; never all three
+- **AI as a judge**: a second model, with no tools, checks what the first wants to do
+- **Context as policy**: your CONTEXT.md names the trust boundaries, your skills enforce them
+
+</v-clicks>
+
+<v-click>
+
+<Callout type="note">Irreversible steps (merge, deploy, delete) still wait for a human yes.</Callout>
+
+</v-click>
 
 ---
 layout: center
@@ -732,7 +790,7 @@ transition: fade
 layout: statement
 ---
 
-<!-- Closing 1/4 (~45s): the threat, flipped. Verbal callback to GTG-1002: "vi ricordate l'80-90%? Era un coding agent, lo stesso tipo di tool che usate ogni giorno. Era dall'altra parte." Pause, click -->
+<!-- Closing 1/3 (~45s): the threat, flipped. Verbal callback to GTG-1002: "vi ricordate l'80-90%? Era un coding agent, lo stesso tipo di tool che usate ogni giorno. Era dall'altra parte." Pause, click -->
 <!-- The reveal completes the opening kicker "same tool, other side": now it's on YOUR side too -->
 # Attackers already have AI.
 
@@ -746,31 +804,16 @@ layout: statement
 layout: default
 ---
 
-<!-- Closing 2/4 (~1.5min): the homework, one action per thread of the talk: Run=rung ①, Write=rung ② + knowledge base, Wire=rung ③, Verify=HITL thesis, Star=the fun one. Verbal: "questa è la vostra to-do di lunedì mattina" -->
+<!-- Closing 2/3 (~1.5min): the homework, one action per thread of the talk: Run=rung ①, Write=rung ② + knowledge base, Wire=rung ③, Verify=HITL thesis. Audit = the dependency audit promised in the abstract. Star Argus deliberately NOT here: the ask lives on the Argus CTA, keep the homework operational. Verbal: "questa è la vostra to-do di lunedì mattina" -->
 # Your Monday morning
 
 <v-clicks>
 
 - **Run** a ready-made security skill on your repo: zero code, works today
+- **Audit** your dependencies with your AI: outdated, abandoned, vulnerable
 - **Write** your rules down: your own skill, ADRs, a living CONTEXT.md
 - **Wire** deterministic eyes into your AI: MCP, scanners
 - **Verify** every finding yourself: the judgment stays human
-- **Star** Argus: just for fun, and a ⭐ helps a lot
-
-</v-clicks>
-
----
-layout: default
----
-
-<!-- Closing 3/4 (~30s): the no-excuses sweep for the browser-only crowd, right before the manifesto -->
-# No CLI agent? Start anyway
-
-<v-clicks>
-
-- **A scoped audit prompt** beats nothing: one surface, one question, the relevant code
-- **Demand verifiable findings**: file, line, why; refuse vibes
-- **Upgrade when ready**: the ladder starts where you are
 
 </v-clicks>
 
@@ -778,7 +821,7 @@ layout: default
 layout: statement
 ---
 
-<!-- Closing 4/4 (~45s): THE manifesto, the very last thing they read before Thank you. SKILL in caps is a deliberate double meaning: the ability AND the SKILL.md they saw all talk long. Verbal wind-up: "e ricordatevi: ormai..." Callback to opening "Training: security is a skill": the time just got shorter. Deliver slow, let it sit -->
+<!-- Closing 3/3 (~45s): THE manifesto, the very last thing they read before Thank you. SKILL in caps is a deliberate double meaning: the ability AND the SKILL.md they saw all talk long. Verbal wind-up: "e ricordatevi: ormai..." Callback to opening "Training: security is a skill": the time just got shorter. Deliver slow, let it sit -->
 # Security is not a privilege.
 
 <v-click>
