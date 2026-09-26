@@ -465,6 +465,8 @@ description: Access is granted by the
 3. Write the test: another user gets 403
 ```
 
+<div class="mt-3 text-xs font-mono" style="color: var(--text-3);">illustrative: not our real skill, same principle</div>
+
 ---
 layout: default
 ---
@@ -491,11 +493,18 @@ layout: statement
 ---
 
 <!-- Ladder 10/15 — the hinge (~1min): why climb from skills to tools. Deliberate echo of the "Brace yourselves / AI hallucinates" beat: same layout, same accent reveal — the thesis promise gets its answer here -->
+<!-- Third click pre-empts the security crowd's objection (false positives): scanners can be noisy, but a finding always points at something real. That's why the AI sits on top: it triages the noise -->
 # Skills can hallucinate.
 
 <v-click>
 
 # <span class="accent">Scanners can't.</span>
+
+</v-click>
+
+<v-click>
+
+<div class="mt-6 text-xs font-mono" style="color: var(--text-3);">noisy, sometimes. inventing, never.</div>
 
 </v-click>
 
@@ -563,7 +572,7 @@ layout: default
 
 # Don't start from day zero
 
-The answer is the repo itself: every AI session (and every new hire) starts warm
+Where does the context live? In the repo: every AI session (and every new hire) starts warm
 
 <v-clicks>
 
