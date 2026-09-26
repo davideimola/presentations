@@ -265,6 +265,7 @@ layout: two-cols-header
 ---
 
 <!-- Ladder 2/15 — rung ① the catalog (~1min): ready-made skills exist everywhere, don't reinvent the wheel. The terminal slide right after is the proof -->
+<!-- First time "skill" is used for real: define it in one line, verbal: "una skill è un file markdown di istruzioni che l'agente carica quando serve". The format itself is shown on rung ② -->
 <!-- Third bullet is for the browser-only crowd (students, ChatGPT users), say it: "niente CLI? Le skill girano anche nel browser". Planted HERE on purpose instead of at the end: rungs ① and ② work in the web apps too, so they stay hooked for the rest of the talk. Where the browser stops, verbal if asked: no hooks, so no "it runs by itself" (rung ② habit), and fewer deterministic tools (rung ③) -->
 <!-- Verified 2026-07: Claude Code /security-review built-in; Codex /review built-in + official security plugin (security-diff-scan); OpenCode via community skills (e.g. opencode-power-pack) -->
 <Rungs :active="1" />
@@ -502,6 +503,7 @@ layout: two-cols-header
 ---
 
 <!-- Ladder 11/15 — rung ③ MCP servers & tooling (~2min) -->
+<!-- Socket bullet is the only MCP definition in the deck, for the juniors in the room. Verbal: "pensate a MCP come a una USB-C per l'AI: un'unica presa, qualsiasi tool". "No shell" deliberately NOT here: it lands on the attack-surface slide, where the why is on screen -->
 <!-- The toolbox deliberately echoes Opening 5/7: Trivy→images+deps (it covers what osv-scanner would, one tool less on stage), semgrep→code, gitleaks→secrets (same .env line!). Say it: "vi ricordate le superfici dell'inizio?" -->
 <!-- Only one badge kept, on purpose: Trivy MCP = the proof that MCP servers for these tools exist -->
 <Rungs :active="3" />
@@ -515,7 +517,7 @@ layout: two-cols-header
 <v-clicks>
 
 - **Eyes**: the tools; a CVE is there, or it isn't
-- **Socket**: MCP plugs any tool in, no shell
+- **Socket**: MCP, one standard plug for any tool
 - **Brain**: your AI reads, prioritizes, patches
 
 </v-clicks>
@@ -524,7 +526,7 @@ layout: two-cols-header
 
 ###### The toolbox
 
-- **Trivy** <Badge type="accent">MCP</Badge>: images, containers, deps and misconfigs
+- **Trivy** <Badge type="accent">MCP</Badge>: images, deps and misconfigs
 - **semgrep**: bug patterns in your code
 - **gitleaks**: that `.env` you committed once
 
@@ -590,7 +592,7 @@ A new hire is not your tech lead. Same with AI.
 
 <v-clicks>
 
-- **Soul**: who it is: your org, your risk tolerance
+- **Soul**: who it is (f.e. You are a Senior Security Analyst)
 - **Memory**: what it learned yesterday is still there tomorrow
 - **Context**: your projects, your stack, how your services talk
 - **Daemon** (optional): some agents stay always running, not just a tab you open
