@@ -10,18 +10,41 @@ The Slidev theme for Davide Imola's talks, built on the personal brand.
 - The mark and the wordmark are the SVG files from `@davideimola/brand/assets/svg/`, used through `<BrandMark>` and `<Wordmark>`. They are never redrawn or typeset.
 - To pick up a brand change: `pnpm --filter slidev-theme-brand update @davideimola/brand`, then check `example.md`.
 
-Two values are not tokens yet and live in `styles/vars.css`: the progress graph line (`#C9C7C0`) and its past rings (`ash`), both from the approved code-slide mockup.
+A few slide-only values are not brand tokens yet and live in `styles/vars.css`: the meta text colour, the progress graph colours and the darker code keyword red (see Projection). They should become tokens in the brand repo.
 
 ## Rules the theme enforces
 
 - **Always light.** `colorSchema: light`, and the light token values are pinned even when the OS is dark.
-- **Red is for the knot, the marker and code keywords.** Nothing else: callouts, badges, stats, links at rest, terminal windows are ink and hairlines.
-- **Canvas 1280 x 720.** Body text at least 24px (26px by default), code at least 22px.
-- **At most 14 lines of code per slide.** The `split-code` column fits about 52 columns at 22px; `two-cols` about 37. Longer lines wrap instead of clipping; treat a wrap as a cue to cut, never shrink the code.
+- **Red is for the knot, the marker and code keywords.** Nothing else: callouts, badges, stats, links at rest, terminal windows are ink and hairlines. Code keywords use a darker akane (`#A8192E`); the knot and the marker keep `#C91F37`.
+- **Canvas 1280 x 720.** Body text 28px at weight 500, code at least 22px at weight 500, titles 700. No text on a slide below 18px.
+- **At most 14 lines of code per slide.** The `split-code` column fits about 54 columns at 22px; `two-cols` about 37. Longer lines wrap instead of clipping; treat a wrap as a cue to cut, never shrink the code.
 - **One marker per slide**, on the word that matters most.
 - **One tape per block**, never stacked; the tilt alternates (-1deg, 1deg, -0.5deg).
 - **No git-graph decoration** anywhere except the mark and the footer progress bar.
 - **Copy in English, no em dashes.**
+
+## Projection
+
+Slides are read through projectors that wash colours out. The theme checks contrast with a simple model, projected luminance = luminance * 0.8 + 0.06, and tunes the slide-only values in `styles/vars.css` against it:
+
+| Element | Before | After |
+|---------|--------|-------|
+| Meta text (h6 kicker, page counter, captions, labels, urls) | slate `#5B6070`, 15-16px: 5.75:1, 4.12:1 projected | graphite `#3B4152`, 18px: 9.34:1, 5.51:1 projected |
+| Progress graph line | `#C9C7C0`: 1.55:1, 1.48:1 projected | ash `#8E8C86` at 2px: 3.09:1, 2.63:1 projected |
+| Code keywords on white | `#C91F37`: 5.62:1, 4.15:1 projected | `#A8192E`: 7.39:1, 4.95:1 projected |
+| Callout and browser frame edges | rule `#DEDCD5`: 1.26:1 | 2px ink: 14.54:1, 6.83:1 projected |
+
+Thin strokes bloom away on bright projectors, so body and code are set at weight 500 (Schibsted Grotesk is variable; code is IBM Plex Mono Medium). Schibsted Grotesk stays the sans: it has the tallest x-height of the candidates measured (0.527, against 0.516 for IBM Plex Sans and 0.496 for Atkinson Hyperlegible Next), and code in Plex Mono already separates `Il1` and `0O`.
+
+**Reading distance.** Comfortable reading needs roughly 7 mm of cap height per metre of distance. On a screen 2.5 m tall (the 720px canvas):
+
+| Text | Size | Reads to about |
+|------|------|----------------|
+| Titles | 60px | 21 m |
+| Body | 28px | 10 m |
+| Code | 22px | 7.5 m |
+
+For rooms where the back rows sit past 10 m, put the code on `code-hero` (24px) or show fewer lines.
 
 ## Fonts
 
@@ -66,16 +89,16 @@ Loaded from Google Fonts through the theme's `fonts` defaults:
 | Component | Use |
 |-----------|-----|
 | `<Marker>word</Marker>` | The rough red skip-ink stroke. Draws itself once on first view, static in exports and with reduced motion |
-| `<Tape :n="0">label</Tape>` | Flat ink tape; `n` picks the tilt step, `tilt` forces an angle |
+| `<Tape :n="0">label</Tape>` | Flat ink tape; `n` picks the tilt step, `tilt` forces an angle, `inverse` gives paper tape with an ink outline for ink blocks |
 | `<BrandMark :size="26" />`, `<Wordmark bold />` | Brand assets from the package; the mark picks its cut by size |
-| `<Callout type="note\|tip\|warning\|danger">` | Boxed aside, types differ by label and border weight, not colour |
+| `<Callout type="note\|tip\|warning\|danger" label>` | A block that stands out: white surface, 2px ink border, a flat tape on the top-left edge (the type, or `label`), body 28px in ink. `tip` on linen, `warning` with a 3px border, `danger` inverted (ink block, paper text and tape). Never red |
 | `<Badge type="default\|accent\|success\|warning">` | Small mono label; `accent` is filled ink |
 | `<Chat>`, `<ChatBubble user>` | Chat mockup: user in ink, model on white |
 | `<Rungs :active="2" />`, `<RungBadge :n="1" />` | Step indicator, active step in ink |
 | `<Ladder>`, `<LadderRung :n title>` | Vertical list of steps split by hairlines; `compact` for one line per rung |
 | `<StatGrid>`, `<Stat value source>` | Big numbers in ink under a rule |
 | `<QRCode>`, `<QRBlock>` | Ink on paper QR code, the block adds a mono label |
-| `<BrowserFrame url>` | Screenshot frame, hairline and mono url |
+| `<BrowserFrame url bodyBg>` | Screenshot frame: 2px ink border, hard offset shadow, 44px linen bar with three ink-outlined dots and the url in a white field. Images fill the body edge to edge |
 | `<WhoAmI />` | Name and key/value facts for the `intro` layout |
 
 The catalog with one slide per layout and component is [`example.md`](./example.md): `pnpm demo:brand` from the repo root.
