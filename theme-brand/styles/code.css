@@ -16,6 +16,10 @@
 
 .slidev-layout .slidev-code code {
   tab-size: 4;
+  /* Never clip: a line longer than the column wraps instead of shrinking
+     the code under the 22px floor. Treat a wrapped line as a cue to cut. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
   font-family: var(--di-font-family-mono);
   background: transparent !important;
 }

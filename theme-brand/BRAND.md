@@ -17,7 +17,7 @@ Two values are not tokens yet and live in `styles/vars.css`: the progress graph 
 - **Always light.** `colorSchema: light`, and the light token values are pinned even when the OS is dark.
 - **Red is for the knot, the marker and code keywords.** Nothing else: callouts, badges, stats, links at rest, terminal windows are ink and hairlines.
 - **Canvas 1280 x 720.** Body text at least 24px (26px by default), code at least 22px.
-- **At most 14 lines of code per slide.** The `split-code` column fits about 52 columns at 22px; `two-cols` about 37. Wrap or cut longer lines rather than shrinking the code.
+- **At most 14 lines of code per slide.** The `split-code` column fits about 52 columns at 22px; `two-cols` about 37. Longer lines wrap instead of clipping; treat a wrap as a cue to cut, never shrink the code.
 - **One marker per slide**, on the word that matters most.
 - **One tape per block**, never stacked; the tilt alternates (-1deg, 1deg, -0.5deg).
 - **No git-graph decoration** anywhere except the mark and the footer progress bar.

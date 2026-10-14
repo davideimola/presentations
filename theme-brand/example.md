@@ -163,7 +163,7 @@ fuzz: elapsed: 1s, execs: 8421 (8421/sec), new interesting: 12
 FAIL
 ```
 
-Text after the block sits under the window.
+Text after the block sits inside the window, under the output.
 
 ---
 layout: statement

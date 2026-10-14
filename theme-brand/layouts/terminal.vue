@@ -23,7 +23,7 @@ import SlideFooter from '../components/SlideFooter.vue'
 
 /* A terminal window: white surface, hairline border, the command as the
    title bar. No traffic lights: red belongs to the knot and the marker.
-   Text after the code block renders below the window. */
+   Text after the code block renders inside the window, under the output. */
 const props = defineProps({
   title: { type: String, default: '' },
   tape: { type: [String, Boolean], default: undefined },
