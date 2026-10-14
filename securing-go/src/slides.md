@@ -1,15 +1,14 @@
 ---
-theme: ../../theme-davideimola
+theme: ../../theme-brand
 title: "Securing Go for Production"
 highlighter: shiki
 transition: slide-left
 mdc: true
 layout: cover
-defaults:
-  website: davideimola.dev
+event: GoLab 2026
 ---
 
-# Securing Go for Production
+# Securing Go for <Marker>Production</Marker>
 
 go run talk.go --topic="the compiler won't save you"
 
@@ -25,7 +24,7 @@ linkedin: davideimola
 
 ---
 layout: section
-label: "01 / why now"
+label: "01 · why now"
 transition: fade
 ---
 
@@ -120,7 +119,7 @@ layout: default
 
 ---
 layout: section
-label: "02 / the code you write"
+label: "02 · the code you write"
 transition: fade
 ---
 
@@ -364,7 +363,7 @@ Code review missed it. Existing tests didn't cover it.
 
 ---
 layout: section
-label: "03 / the code you use"
+label: "03 · the code you use"
 transition: fade
 ---
 
@@ -611,7 +610,7 @@ layout: statement
 
 ---
 layout: section
-label: "04 / make it routine"
+label: "04 · make it routine"
 transition: fade
 ---
 
@@ -631,7 +630,7 @@ layout: default
 
 </v-clicks>
 
-<div class="mt-12 opacity-60 text-sm">
+<div class="mt-12 opacity-60">
   More on the talk repo: <code>gosec</code>, dependency hygiene, fuzz patterns.
 </div>
 
@@ -686,13 +685,13 @@ layout: default
 - Use AI for **vulnerability assessment**, not just code writing or review
 - Validate every suggestion with a test
 
-<div class="mt-10 border-l-4 pl-6 opacity-90">
+<div class="mt-10">
 
-Attackers are using AI today.
-
-Defenders are still arguing about it.
-
-**Don't be on the wrong side.**
+> Attackers are using AI today.
+>
+> Defenders are still arguing about it.
+>
+> **Don't be on the wrong side.**
 
 </div>
 
@@ -710,14 +709,10 @@ layout: statement
      "Thank you" appears. Pause. Audience claps. Walk off. -->
 
 ---
-layout: cover
+layout: end
+qr: https://links.davideimola.dev
 ---
 
 # Thank you
 
 exit 0
-
-<div class="absolute bottom-20 right-20 flex flex-col items-center gap-3">
-  <QRCode value="https://links.davideimola.dev" :size="140" dark="#eae5df" light="#080807" />
-  <span class="text-xs font-mono" style="color: #7E7874;">links.davideimola.dev</span>
-</div>
