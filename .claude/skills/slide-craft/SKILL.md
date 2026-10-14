@@ -1,6 +1,6 @@
 ---
 name: slide-craft
-description: Scaffold and edit Slidev slides for one of Davide's talks, using the talk's TALK.md as content source and theme-davideimola/example.md as layout catalog. Acts as a slide editor (layout coach + structural pressure check), not a writer — Davide writes the actual words. Use when Davide wants to start drafting slides, organize a section visually, choose layouts, or pressure-test slide density. Trigger: "scriviamo le slide", "slide craft", "lavoriamo alle slide", "aiutami con le slide", "che layout uso qui", "scaffolda la sezione".
+description: Scaffold and edit Slidev slides for one of Davide's talks, using the talk's TALK.md as content source and the deck's theme catalog (theme-brand/example.md for new talks) as layout catalog. Acts as a slide editor (layout coach + structural pressure check), not a writer — Davide writes the actual words. Use when Davide wants to start drafting slides, organize a section visually, choose layouts, or pressure-test slide density. Trigger: "scriviamo le slide", "slide craft", "lavoriamo alle slide", "aiutami con le slide", "che layout uso qui", "scaffolda la sezione".
 ---
 
 # slide-craft
@@ -19,7 +19,7 @@ When invoked, locate the talk folder from the user's prompt (e.g. `securing-go/`
 
 1. **`<talk>/TALK.md`** — the brief: thesis, audience, takeaways, outline, demo plan, anti-vendor rules. This is your primary source of truth for *what* to scaffold.
 2. **`<talk>/src/slides.md`** — the current state of the slide deck. Some slides may already be scaffolded; respect them. Ask before overwriting.
-3. **`theme-davideimola/example.md`** — the layout catalog. This is your reference for *what's available*: `cover`, `intro`, `default`, `section`, `statement`, `fact`, `quote`, `center`, `two-cols`, `two-cols-header`, `split-code`, `image-right`, `image-left`, `terminal`. Read it before suggesting layouts to confirm syntax and slot names (`::right::`, `::left::`, etc.).
+3. **The theme catalog** — check the `theme:` line of the deck. For `../../theme-brand` (the default for new talks) read `theme-brand/example.md` and `theme-brand/BRAND.md`: layouts `cover`, `intro`, `default`, `section`, `statement`, `fact`, `quote`, `center`, `two-cols`, `two-cols-header`, `split-code`, `code-hero`, `image-right`, `image-left`, `terminal`, `end`, plus `<Marker>` (one per slide) and `<Tape>`. Brand limits: body at least 24px, code at least 22px, at most 14 lines of code per slide. For `../../theme-davideimola` (older decks such as `ai-defense`) read `theme-davideimola/example.md`. Read the catalog before suggesting layouts to confirm syntax and slot names (`::right::`, `::left::`, etc.).
 4. **The owning content-os Talk Piece** (`content-os#<n>`, referenced by `TALK.md` — only if Davide explicitly asks you to). Otherwise the brief in `TALK.md` is enough.
 
 If the talk folder doesn't exist or `TALK.md` is missing, stop and tell Davide to run `/talk-forge` first.

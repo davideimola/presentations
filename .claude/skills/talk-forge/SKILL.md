@@ -113,20 +113,19 @@ Structure:
 }
 ```
 
-**`<slug>/src/slides.md`** — clone the pattern of `theme-davideimola/example.md` (source of truth). The older talks `go-ddd/` and `greenops/` use `../../theme` (previous version of the theme): do NOT use them as reference for new talk scaffolds. The current theme for new talks is `theme-davideimola`. The scaffold carries a reference to the owning Talk Piece (`content-os#<n>`) as an HTML comment after the cover frontmatter.
+**`<slug>/src/slides.md`** — clone the pattern of `theme-brand/example.md` (source of truth; brand rules in `theme-brand/BRAND.md`). The current theme for new talks is `theme-brand`. Older talks use `theme-davideimola` (e.g. `ai-defense`) or `../../theme` (`go-ddd/`, `greenops/`): do NOT use them as reference for new talk scaffolds. The scaffold carries a reference to the owning Talk Piece (`content-os#<n>`) as an HTML comment after the cover frontmatter.
 
-Pattern: **cover** (title + terminal-style subtitle) → **intro WhoAmI** → **section** + **default** for each outline section → **final cover** "Thank you" with QRCode.
+Pattern: **cover** (event tape + title with one `<Marker>` + subtitle) → **intro WhoAmI** → **section** + **default** for each outline section → **end** "Thank you" with the links QR.
 
 ```markdown
 ---
-theme: ../../theme-davideimola
+theme: ../../theme-brand
 title: "<Title>"
 highlighter: shiki
 transition: slide-left
 mdc: true
 layout: cover
-defaults:
-  website: davideimola.dev
+event: <Event name and year>
 ---
 
 <!-- Talk Piece: content-os#<n> · Brief: ./TALK.md -->
@@ -147,7 +146,7 @@ linkedin: davideimola
 
 ---
 layout: section
-label: "01 / <section 1 name>"
+label: "01 · <section 1 name>"
 transition: fade
 ---
 
@@ -164,7 +163,7 @@ TODO
 
 ---
 layout: section
-label: "02 / <section 2 name>"
+label: "02 · <section 2 name>"
 transition: fade
 ---
 
@@ -180,20 +179,16 @@ layout: default
 TODO
 
 ---
-layout: cover
+layout: end
+qr: https://links.davideimola.dev
 ---
 
 # Thank you
 
 exit 0
-
-<div class="absolute bottom-20 right-20 flex flex-col items-center gap-3">
-  <QRCode value="https://links.davideimola.dev" :size="140" dark="#eae5df" light="#080807" />
-  <span class="text-xs font-mono" style="color: #7E7874;">links.davideimola.dev</span>
-</div>
 ```
 
-For each section in the outline generate **two slides**: a `section` divider (numbered `NN / name`) followed by a `default` with `TODO` as marker. No scaffolded speaker notes. The `value` of the final QRCode is a placeholder — Davide will update it once he has the deployed URL of the specific talk.
+For each section in the outline generate **two slides**: a `section` divider (labelled `NN · name`, which becomes the tape on the following slides) followed by a `default` with `TODO` as marker. No scaffolded speaker notes. The `qr` of the `end` slide is a placeholder (add `feedback: <url>` for the rating QR when the event provides one) — Davide will update it once he has the deployed URL of the specific talk.
 
 **`<slug>/src/public/`** — empty folder (or create a `.gitkeep` if needed).
 

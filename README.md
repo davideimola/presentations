@@ -16,12 +16,12 @@ Each talk lives in its own folder as a pnpm workspace package. Newer talks also 
 
 ## Theme
 
-[`theme-davideimola/`](./theme-davideimola) is the current Slidev theme, matching the design system of [davideimola.dev](https://davideimola.dev):
+[`theme-brand/`](./theme-brand) is the current Slidev theme and the default for new talks. It is built on [davideimola/brand](https://github.com/davideimola/brand), the source of truth for tokens, mark and wordmark (installed as a dependency of the theme package):
 
-- [`BRAND.md`](./theme-davideimola/BRAND.md) — colors, typography, brand mark, usage rules
-- [`example.md`](./theme-davideimola/example.md) — the layout and component catalog, one slide per feature
+- [`BRAND.md`](./theme-brand/BRAND.md): how the theme applies the brand, layouts, components, slide limits
+- [`example.md`](./theme-brand/example.md): the layout and component catalog, one slide per feature
 
-Older decks still use [`theme/`](./theme), the previous theme, kept around so they keep building.
+Older decks keep the theme they were written with: [`theme-davideimola/`](./theme-davideimola) (dark, e.g. `ai-defense`) and [`theme/`](./theme) (`go-ddd`, `greenops`, `how-to-gitops`). A deck picks its theme with the `theme:` line of its headmatter (`../../theme-brand` for new talks).
 
 ## Getting started
 
@@ -35,8 +35,9 @@ pnpm install
 | Command | What it does |
 |---------|--------------|
 | `pnpm dev` | Interactive picker, then runs the chosen deck locally |
-| `pnpm demo` | Runs the theme catalog (`theme-davideimola/example.md`) |
-| `pnpm build` | Builds every deck to `dist/<talk>/` plus the theme demo to `dist/demo/` |
+| `pnpm demo:brand` | Runs the current theme catalog (`theme-brand/example.md`) |
+| `pnpm demo` | Runs the previous theme catalog (`theme-davideimola/example.md`) |
+| `pnpm build` | Builds every deck to `dist/<talk>/` plus the theme demos to `dist/demo-brand/` and `dist/demo/` |
 | `pnpm export` | Exports every deck to PDF |
 
 ## Repository layout
@@ -45,7 +46,8 @@ pnpm install
 <talk>/
   TALK.md          # talk brief (newer talks)
   src/slides.md    # the deck (workspace package: talk-<name>)
-theme-davideimola/ # current theme: layouts, components, styles, catalog
+theme-brand/       # current theme (workspace package): layouts, components, styles, catalog
+theme-davideimola/ # previous dark theme
 theme/             # legacy theme
 scripts/           # dev.mjs (picker), build.mjs (multi-deck build)
 ```
@@ -54,7 +56,7 @@ Any folder with a `src/slides.md` is picked up automatically by `pnpm dev` and `
 
 ## Deployment
 
-Deployed on Vercel: `scripts/build.mjs` builds each deck under `/<talk>/` and the theme demo under `/demo/`. The root path redirects to [davideimola.dev/sharing](https://davideimola.dev/sharing).
+Deployed on Vercel: `scripts/build.mjs` builds each deck under `/<talk>/` and the theme demos under `/demo-brand/` and `/demo/`. The root path redirects to [davideimola.dev/sharing](https://davideimola.dev/sharing).
 
 ## Workflow
 
