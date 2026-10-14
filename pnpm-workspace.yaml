@@ -1,5 +1,6 @@
 packages:
   - '*/src'
+  - 'theme-brand'
 
 catalog:
   '@slidev/cli': ^52.14.1

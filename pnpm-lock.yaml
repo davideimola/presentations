@@ -58,11 +58,24 @@ importers:
         specifier: 'catalog:'
         version: 1.58.2
 
+  ai-defense/src: {}
+
   go-ddd/src: {}
 
   greenops/src: {}
 
   how-to-gitops/src: {}
+
+  securing-go/src: {}
+
+  theme-brand:
+    dependencies:
+      '@davideimola/brand':
+        specifier: github:davideimola/brand
+        version: https://codeload.github.com/davideimola/brand/tar.gz/cab886dc53fe3ed462ecf8afc75d68b8f5454b5b
+      uqr:
+        specifier: ^0.1.2
+        version: 0.1.2
 
 packages:
 
@@ -221,6 +234,10 @@ packages:
     peerDependencies:
       '@types/markdown-it': '*'
       markdown-it: ^14.0.0
+
+  '@davideimola/brand@https://codeload.github.com/davideimola/brand/tar.gz/cab886dc53fe3ed462ecf8afc75d68b8f5454b5b':
+    resolution: {tarball: https://codeload.github.com/davideimola/brand/tar.gz/cab886dc53fe3ed462ecf8afc75d68b8f5454b5b}
+    version: 1.0.0
 
   '@drauu/core@1.0.0':
     resolution: {integrity: sha512-r1fPyuKaGuNHc8vxRFUT8LxqWjJ3nx+U+zsHcEOurmJoB7uN+zpFw5kTLInfdfvQZ+qF/ebQjw1AwbGcc1XKsQ==}
@@ -1277,6 +1294,7 @@ packages:
 
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
+    deprecated: Potential CWE-502 - Update to 1.3.1 or higher
 
   '@unhead/vue@2.1.12':
     resolution: {integrity: sha512-zEWqg0nZM8acpuTZE40wkeUl8AhIe0tU0OkilVi1D4fmVjACrwoh5HP6aNqJ8kUnKsoy6D+R3Vi/O+fmdNGO7g==}
@@ -3588,6 +3606,8 @@ snapshots:
       '@types/markdown-it': 14.1.2
       js-yaml: 4.1.1
       markdown-it: 14.1.1
+
+  '@davideimola/brand@https://codeload.github.com/davideimola/brand/tar.gz/cab886dc53fe3ed462ecf8afc75d68b8f5454b5b': {}
 
   '@drauu/core@1.0.0': {}
 

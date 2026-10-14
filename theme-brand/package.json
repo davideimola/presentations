@@ -1,0 +1,32 @@
+{
+  "name": "slidev-theme-brand",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Slidev theme for Davide Imola's talks, built on the davideimola/brand tokens and assets",
+  "keywords": [
+    "slidev-theme"
+  ],
+  "engines": {
+    "slidev": ">=v52.0.0"
+  },
+  "slidev": {
+    "colorSchema": "light",
+    "highlighter": "shiki",
+    "defaults": {
+      "canvasWidth": 1280,
+      "aspectRatio": "16/9",
+      "fonts": {
+        "sans": "Schibsted Grotesk",
+        "mono": "IBM Plex Mono",
+        "custom": "Barlow Condensed",
+        "weights": "400,500,600,700",
+        "italic": true
+      }
+    }
+  },
+  "dependencies": {
+    "@davideimola/brand": "github:davideimola/brand",
+    "uqr": "^0.1.2"
+  }
+}

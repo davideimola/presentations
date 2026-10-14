@@ -1,0 +1,45 @@
+/* Brand tokens come from @davideimola/brand/tokens.css (--di-*).
+   Slides are always light: pin the light values even if the OS is dark,
+   so the brand's prefers-color-scheme block never applies here. */
+:root,
+:root:not([data-theme="light"]),
+html.dark {
+  --di-bg: var(--di-color-paper);
+  --di-fg: var(--di-color-ink);
+  --di-fg-body: var(--di-color-ink-body);
+  --di-fg-muted: var(--di-color-graphite);
+  --di-fg-subtle: var(--di-color-slate);
+  --di-border: var(--di-color-rule);
+  --di-surface: var(--di-color-white);
+  --di-surface-inline: var(--di-color-linen);
+  --di-accent: var(--di-color-akane);
+  --di-tape-bg: var(--di-color-ink);
+  --di-tape-fg: var(--di-color-paper);
+  --di-code-string: var(--di-color-code-string);
+}
+
+:root {
+  /* Progress graph: not in the brand tokens yet, values from the approved
+     code-slide mockup (SYS-SlideCode). */
+  --di-slides-graph-line: #C9C7C0;
+  --di-slides-graph-ring: var(--di-color-ash);
+
+  /* Slide type scale (1280 x 720 canvas). Floors from the brand:
+     body >= --di-slides-body-min, code >= --di-slides-code-min. */
+  --di-slide-title: 60px;
+  --di-slide-body: 26px;
+  --di-slide-code: var(--di-slides-code-min);
+
+  /* Slidev overrides */
+  --slidev-theme-primary: var(--di-fg);
+  --slidev-theme-background: var(--di-bg);
+  --slidev-slide-container-background: var(--di-bg);
+  --slidev-code-background: var(--di-surface);
+  --slidev-code-foreground: var(--di-fg);
+  --slidev-code-font-family: var(--di-font-family-mono);
+  --slidev-code-font-size: var(--di-slide-code);
+  --slidev-code-line-height: 1.5;
+  --slidev-code-padding: 22px 28px;
+  --slidev-code-radius: 0;
+  --slidev-code-margin: 0;
+}

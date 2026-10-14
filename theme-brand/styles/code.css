@@ -1,0 +1,48 @@
+/* ── Code blocks ─────────────────────────────────────────────────────────
+   Surface white, 1px rule border, square corners (code-slide mockup).
+   Size floor 22px (--di-slides-code-min); at most 14 lines per slide. */
+
+.slidev-layout .slidev-code-wrapper {
+  margin: 0 !important;
+}
+
+.slidev-layout .slidev-code,
+.slidev-layout pre.shiki {
+  background: var(--di-surface) !important;
+  border: 1px solid var(--di-border);
+  border-radius: 0 !important;
+  overflow: hidden;
+}
+
+.slidev-layout .slidev-code code {
+  tab-size: 4;
+  font-family: var(--di-font-family-mono);
+  background: transparent !important;
+}
+
+/* Shiki dual-theme output only maps colors; map style and weight too so
+   comments stay italic and keywords keep their weight. */
+html:not(.dark) .shiki span {
+  font-style: var(--shiki-light-font-style, inherit);
+  font-weight: var(--shiki-light-font-weight, inherit);
+}
+
+html.dark .shiki span {
+  font-style: var(--shiki-dark-font-style, inherit);
+  font-weight: var(--shiki-dark-font-weight, inherit);
+}
+
+.slidev-code .line {
+  transition: opacity 0.3s ease;
+}
+
+/* Lines dimmed by step highlighting: still readable when projected. */
+.slidev-code .line.dim,
+.slidev-code .line.highlighted ~ .line.dim {
+  opacity: 0.45;
+}
+
+/* Mermaid: ink on paper, sans labels. */
+.slidev-layout .mermaid {
+  font-family: var(--di-font-family-sans);
+}

@@ -1,0 +1,156 @@
+/* Typography of slot content per layout. Layout structure lives in the
+   layout components; these rules style the markdown that goes inside. */
+
+/* ── Cover ───────────────────────────────────────────────────────────── */
+
+.slidev-layout.cover .cover__title {
+  h1 {
+    font-size: 112px;
+    line-height: 0.96;
+    letter-spacing: -0.055em;
+    margin: 0;
+  }
+
+  p {
+    font-size: 26px;
+    line-height: 1.4;
+    color: var(--di-fg-muted);
+    margin: 0;
+  }
+}
+
+/* ── End ─────────────────────────────────────────────────────────────── */
+
+.slidev-layout.end .end__text {
+  h1 {
+    font-size: 112px;
+    line-height: 0.96;
+    letter-spacing: -0.055em;
+    margin: 0 0 22px;
+  }
+
+  p {
+    font-size: 26px;
+    color: var(--di-fg-muted);
+    margin: 0 0 8px;
+  }
+}
+
+/* ── Section ─────────────────────────────────────────────────────────── */
+
+.slidev-layout.section .section__body {
+  h1 {
+    font-size: 96px;
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+    margin: 0;
+  }
+
+  h1 + p {
+    font-size: 28px;
+    color: var(--di-fg-muted);
+    margin: 22px 0 0;
+  }
+}
+
+/* ── Statement ───────────────────────────────────────────────────────── */
+
+.slidev-layout.statement .statement__body {
+  h1 {
+    font-size: var(--di-type-display-size);
+    line-height: var(--di-type-display-line-height);
+    letter-spacing: var(--di-type-display-tracking);
+    margin: 0;
+  }
+
+  h1 + h1,
+  .slidev-vclick-target h1,
+  h1 + div h1 {
+    margin-top: 28px;
+  }
+
+  p {
+    font-size: 30px;
+    color: var(--di-fg-muted);
+    margin: 24px 0 0;
+  }
+}
+
+/* ── Fact ────────────────────────────────────────────────────────────── */
+
+.slidev-layout.fact .fact__body {
+  h1 {
+    font-size: 200px;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    margin: 0;
+  }
+
+  h1 + p {
+    font-size: 36px;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--di-fg);
+    margin: 24px 0 0;
+  }
+}
+
+/* ── Quote ───────────────────────────────────────────────────────────── */
+
+.slidev-layout.quote .quote__body {
+  h1 {
+    font-size: 56px;
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    margin: 0;
+  }
+
+  h1 + p {
+    font-family: var(--di-font-family-mono);
+    font-size: 20px;
+    color: var(--di-fg-subtle);
+    margin: 32px 0 0;
+  }
+}
+
+/* ── Center ──────────────────────────────────────────────────────────── */
+
+.slidev-layout.center .center__body {
+  h1 { margin-bottom: 18px; }
+  p { color: var(--di-fg-muted); }
+}
+
+/* ── Split code ──────────────────────────────────────────────────────── */
+
+.slidev-layout.split-code .split-code__text {
+  h1 {
+    font-size: 48px;
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    margin-bottom: 22px;
+  }
+
+  p { font-size: 24px; margin-bottom: 14px; }
+  li { font-size: 24px; }
+}
+
+/* ── Code hero ───────────────────────────────────────────────────────── */
+
+.slidev-layout.code-hero .code-hero__content .slidev-code {
+  font-size: 24px !important;
+}
+
+/* ── Two columns ─────────────────────────────────────────────────────── */
+
+.slidev-layout.two-cols .col-left h1,
+.slidev-layout.two-cols-header .two-cols-header__top h1 {
+  margin-bottom: 26px;
+}
+
+/* ── Image sides ─────────────────────────────────────────────────────── */
+
+.slidev-layout .image-side__text h1 {
+  font-size: 52px;
+}

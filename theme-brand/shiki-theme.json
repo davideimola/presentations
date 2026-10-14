@@ -1,0 +1,131 @@
+{
+  "name": "davideimola-paper",
+  "type": "light",
+  "colors": {
+    "editor.background": "#FFFFFF",
+    "editor.foreground": "#1C2233",
+    "editor.lineHighlightBackground": "#EDEAE3",
+    "editor.selectionBackground": "#DEDCD5",
+    "editorLineNumber.foreground": "#8E8C86",
+    "editorLineNumber.activeForeground": "#5B6070"
+  },
+  "tokenColors": [
+    {
+      "name": "Default ink",
+      "settings": { "foreground": "#1C2233" }
+    },
+    {
+      "name": "Comment: slate italic",
+      "scope": ["comment", "punctuation.definition.comment", "string.comment"],
+      "settings": { "foreground": "#5B6070", "fontStyle": "italic" }
+    },
+    {
+      "name": "Keyword: akane, semibold",
+      "scope": [
+        "keyword",
+        "keyword.control",
+        "keyword.function",
+        "keyword.import",
+        "keyword.package",
+        "keyword.type",
+        "keyword.struct",
+        "keyword.interface",
+        "keyword.var",
+        "keyword.const",
+        "keyword.operator.new",
+        "keyword.operator.expression",
+        "keyword.operator.logical.word",
+        "storage.type",
+        "storage.modifier",
+        "keyword.channel.go",
+        "keyword.map.go"
+      ],
+      "settings": { "foreground": "#C91F37", "fontStyle": "bold" }
+    },
+    {
+      "name": "Predeclared types and constants: akane, regular weight",
+      "scope": [
+        "storage.type.numeric.go",
+        "storage.type.string.go",
+        "storage.type.boolean.go",
+        "storage.type.error.go",
+        "storage.type.byte.go",
+        "storage.type.rune.go",
+        "storage.type.uintptr.go",
+        "storage.type.any.go",
+        "entity.name.type.any.go",
+        "support.type.builtin.go",
+        "support.type.primitive",
+        "constant.language",
+        "constant.language.go",
+        "constant.language.boolean",
+        "constant.language.null",
+        "constant.language.nil",
+        "constant.language.undefined",
+        "variable.language"
+      ],
+      "settings": { "foreground": "#C91F37", "fontStyle": "" }
+    },
+    {
+      "name": "Operators and punctuation: ink",
+      "scope": ["keyword.operator", "punctuation", "meta.brace", "meta.bracket"],
+      "settings": { "foreground": "#1C2233", "fontStyle": "" }
+    },
+    {
+      "name": "String: code-string green",
+      "scope": ["string", "string.quoted", "string.template", "string.unquoted.block", "punctuation.definition.string"],
+      "settings": { "foreground": "#2F5D3A" }
+    },
+    {
+      "name": "String escape and regex",
+      "scope": ["constant.character.escape", "string.regexp", "constant.other.placeholder"],
+      "settings": { "foreground": "#2F5D3A", "fontStyle": "bold" }
+    },
+    {
+      "name": "Function declaration: ink semibold",
+      "scope": ["entity.name.function", "meta.definition.function entity.name.function"],
+      "settings": { "foreground": "#1C2233", "fontStyle": "bold" }
+    },
+    {
+      "name": "Function calls: ink",
+      "scope": ["meta.function-call entity.name.function", "support.function", "support.function.builtin.go"],
+      "settings": { "foreground": "#1C2233", "fontStyle": "" }
+    },
+    {
+      "name": "Types: ink",
+      "scope": ["entity.name.type", "entity.name.class", "support.class", "support.type"],
+      "settings": { "foreground": "#1C2233" }
+    },
+    {
+      "name": "Numbers: graphite",
+      "scope": ["constant.numeric"],
+      "settings": { "foreground": "#3B4152" }
+    },
+    {
+      "name": "Keys (YAML, JSON), tags, attributes: graphite",
+      "scope": [
+        "entity.name.tag",
+        "entity.name.tag.yaml",
+        "support.type.property-name",
+        "support.type.property-name.json",
+        "entity.other.attribute-name"
+      ],
+      "settings": { "foreground": "#3B4152" }
+    },
+    {
+      "name": "Shell: commands ink, variables graphite",
+      "scope": ["variable.other.normal.shell", "punctuation.definition.variable.shell"],
+      "settings": { "foreground": "#3B4152" }
+    },
+    {
+      "name": "Diff",
+      "scope": ["markup.inserted"],
+      "settings": { "foreground": "#2F5D3A" }
+    },
+    {
+      "name": "Diff removed",
+      "scope": ["markup.deleted"],
+      "settings": { "foreground": "#5B6070", "fontStyle": "strikethrough" }
+    }
+  ]
+}
