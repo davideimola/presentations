@@ -278,15 +278,23 @@ layout: default
 layout: default
 ---
 
-# Callouts
+# Callouts: note and tip
 
-<Callout type="note">Neutral context or background.</Callout>
+<Callout type="note">Neutral context or background. White block, 2px ink border.</Callout>
 
-<Callout type="tip">A best practice or recommended approach.</Callout>
+<Callout type="tip">A best practice or recommended approach. Same block on linen.</Callout>
 
-<Callout type="warning">This might have side effects.</Callout>
+<Callout type="note" label="spoken"><code>label</code> replaces the type on the tape.</Callout>
 
-<Callout type="danger">Breaking change, act now.</Callout>
+---
+layout: default
+---
+
+# Callouts: warning and danger
+
+<Callout type="warning">This might have side effects. Heavier 3px border.</Callout>
+
+<Callout type="danger">Breaking change, act now. Inverted: ink block, paper tape.</Callout>
 
 ---
 layout: default
@@ -372,10 +380,22 @@ graph LR
 layout: default
 ---
 
-# Browser frame
+# Browser frame: screenshot
 
-<BrowserFrame url="davideimola.dev/talks">
-  <div class="px-6 py-4 text-2xl">Any screenshot or HTML goes here.</div>
+<div class="h-[440px] flex">
+<BrowserFrame url="davideimola.dev/about">
+  <img src="/me.png" alt="">
+</BrowserFrame>
+</div>
+
+---
+layout: default
+---
+
+# Browser frame: HTML body
+
+<BrowserFrame url="davideimola.dev/talks" body-bg="var(--di-surface-inline)">
+  <div class="px-8 py-6">Any HTML goes in the body. Set <code>bodyBg</code> to change its fill.</div>
 </BrowserFrame>
 
 ---

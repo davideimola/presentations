@@ -1,5 +1,5 @@
 <template>
-  <span class="di-tape" :style="{ transform: `rotate(${angle}deg)` }"><slot /></span>
+  <span class="di-tape" :class="{ 'di-tape--inverse': inverse }" :style="{ transform: `rotate(${angle}deg)` }"><slot /></span>
 </template>
 
 <script setup lang="ts">
@@ -8,11 +8,13 @@ import { tapeTilt } from '../logic/deck'
 
 /* Label-maker tape: flat ink, paper letters, never red.
    The tilt alternates (-1deg, 1deg, -0.5deg): pass `n` to pick the step,
-   or `tilt` to force an angle. Never stack two tapes on one block. */
+   or `tilt` to force an angle. `inverse` sets paper tape with ink letters,
+   for tapes sitting on an ink block. Never stack two tapes on one block. */
 const props = defineProps({
   n: { type: Number, default: 0 },
   tilt: { type: Number, default: undefined },
   size: { type: Number, default: 18 },
+  inverse: { type: Boolean, default: false },
 })
 
 const angle = computed(() => props.tilt ?? tapeTilt(props.n))
@@ -33,5 +35,12 @@ const angle = computed(() => props.tilt ?? tapeTilt(props.n))
   letter-spacing: var(--di-type-label-tracking);
   text-transform: uppercase;
   white-space: nowrap;
+}
+.di-tape--inverse {
+  background: var(--di-tape-fg);
+  color: var(--di-tape-bg);
+  /* Ink outline: an inverse tape straddles an ink block and the paper
+     page, and must read on both. */
+  box-shadow: 0 0 0 2px var(--di-tape-bg);
 }
 </style>

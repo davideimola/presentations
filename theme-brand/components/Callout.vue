@@ -1,6 +1,6 @@
 <template>
   <div class="callout" :class="`callout--${type}`">
-    <span class="callout__label">{{ label || labels[type] || type }}</span>
+    <Tape class="callout__tape" :n="tilt" :inverse="type === 'danger'">{{ label || type }}</Tape>
     <div class="callout__body">
       <slot />
     </div>
@@ -8,86 +8,73 @@
 </template>
 
 <script setup lang="ts">
-/* A boxed aside on the code surface. Types differ by label and weight,
-   not by colour: red belongs to the knot and the marker only. */
-defineProps({
+import { computed } from 'vue'
+import Tape from './Tape.vue'
+
+/* A block that stands out, like the cards on the site: white surface,
+   2px ink border, a flat ink tape overlapping the top-left edge.
+   Types differ by weight and fill, never by red:
+   note    white block
+   tip     linen fill
+   warning 3px ink border
+   danger  inverted: ink block, paper text, paper tape */
+const props = defineProps({
   type: { type: String, default: 'note' }, // note | tip | warning | danger
   label: { type: String, default: '' },
 })
 
-const labels: Record<string, string> = {
-  note: 'note',
-  tip: 'tip',
-  warning: 'warning',
-  danger: 'danger',
-}
+// Each type gets its own tilt step, so stacked callouts never tilt alike.
+const tilt = computed(() => ['note', 'tip', 'warning', 'danger'].indexOf(props.type) % 3)
 </script>
 
 <style scoped>
 .callout {
-  display: flex;
-  gap: 20px;
-  align-items: baseline;
-  padding: 16px 22px;
-  margin: 14px 0;
+  position: relative;
+  margin: 30px 0 18px;
+  padding: 26px 26px 18px;
   background: var(--di-surface);
-  border: 1px solid var(--di-border);
+  border: 2px solid var(--di-fg);
+  color: var(--di-fg);
 }
 
-.callout__label {
-  flex-shrink: 0;
-  min-width: 96px;
-  font-family: var(--di-font-family-mono);
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--di-fg-subtle);
+.callout__tape {
+  position: absolute;
+  top: -15px;
+  left: 18px;
 }
 
 .callout__body {
-  flex: 1;
-  font-size: 24px;
+  font-size: var(--di-slide-body);
+  font-weight: var(--di-slide-body-weight);
   line-height: 1.4;
-  color: var(--di-fg-body);
+  color: inherit;
 }
 
 .callout__body :deep(p) {
   font-size: inherit;
+  color: inherit;
   margin: 0;
 }
 
-/* tip: same box, ink label */
-.callout--tip .callout__label {
-  color: var(--di-fg);
+.callout__body :deep(strong) {
+  color: inherit;
 }
 
-/* warning: ink border, ink label */
+.callout--tip {
+  background: var(--di-surface-inline);
+}
+
 .callout--warning {
-  border-color: var(--di-fg);
+  border-width: 3px;
 }
 
-.callout--warning .callout__label {
-  color: var(--di-fg);
-  font-weight: 600;
-}
-
-/* danger: inverted label chip, heavier border, ink text */
 .callout--danger {
-  border: 2px solid var(--di-fg);
-}
-
-.callout--danger .callout__label {
-  align-self: flex-start;
-  min-width: 0;
   background: var(--di-fg);
   color: var(--di-bg);
-  font-weight: 600;
-  padding: 2px 8px;
-  margin-right: 12px;
 }
 
-.callout--danger .callout__body {
-  color: var(--di-fg);
+.callout--danger .callout__body :deep(code) {
+  background: rgba(247, 245, 240, 0.16);
+  color: var(--di-bg);
 }
 </style>
