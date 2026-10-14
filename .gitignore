@@ -6,3 +6,6 @@ dist
 .remote-assets
 components.d.ts
 **/cfp/
+
+# PDF exports written next to each deck
+slides-export.pdf
