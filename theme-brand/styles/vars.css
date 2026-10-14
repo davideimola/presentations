@@ -29,11 +29,10 @@ html.dark {
   --di-slide-meta: var(--di-fg-muted);
   --di-slide-meta-size: 18px; /* minimum size of any text on a slide */
 
-  /* Progress graph: ash line at 2px. The mockup's #C9C7C0 is 1.48:1 on
-     paper and vanishes on a projector. Rings past the current slide in
-     graphite, rings ahead in ash. */
+  /* Footer progress: what is ahead is a 2px ash line (the mockup's
+     #C9C7C0 is 1.48:1 on paper and vanishes on a projector); what is done
+     is a 5px ink line. */
   --di-slides-graph-line: var(--di-color-ash);
-  --di-slides-graph-ring: var(--di-color-graphite);
 
   /* Code keywords: a darker akane. 7.4:1 on white, 4.95:1 projected,
      against 4.15:1 projected for #C91F37. #C91F37 stays for the knot and

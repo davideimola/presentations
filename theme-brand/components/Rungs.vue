@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 /* Step indicator for a multi-step section. The active step is filled ink;
-   no connectors, no rings: the graph lives in the mark and the footer. */
+   no connectors, no rings: the graph lives in the mark only. */
 defineProps({
   active: { type: Number, required: true },
   total: { type: Number, default: 4 },

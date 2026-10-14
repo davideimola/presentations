@@ -31,6 +31,11 @@ defineProps({
   padding-right: 48px;
 }
 
+/* Keep the footer aligned with every other slide (64px sides). */
+.split-code > .di-footer {
+  margin: 0 16px;
+}
+
 .split-code__grid {
   display: grid;
   grid-template-columns: 380px minmax(0, 1fr);

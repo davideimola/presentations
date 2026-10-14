@@ -28,7 +28,7 @@ label: "01 · layouts"
 
 # Layouts
 
-One slide per layout. The label becomes the tape on every slide that follows.
+One slide per layout. The label becomes the tape and the footer section name on every slide that follows.
 
 ---
 layout: default

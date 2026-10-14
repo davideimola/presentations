@@ -10,7 +10,7 @@ The Slidev theme for Davide Imola's talks, built on the personal brand.
 - The mark and the wordmark are the SVG files from `@davideimola/brand/assets/svg/`, used through `<BrandMark>` and `<Wordmark>`. They are never redrawn or typeset.
 - To pick up a brand change: `pnpm --filter slidev-theme-brand update @davideimola/brand`, then check `example.md`.
 
-A few slide-only values are not brand tokens yet and live in `styles/vars.css`: the meta text colour, the progress graph colours and the darker code keyword red (see Projection). They should become tokens in the brand repo.
+A few slide-only values are not brand tokens yet and live in `styles/vars.css`: the meta text colour, the progress bar colours and the darker code keyword red (see Projection). They should become tokens in the brand repo.
 
 ## Rules the theme enforces
 
@@ -20,7 +20,7 @@ A few slide-only values are not brand tokens yet and live in `styles/vars.css`: 
 - **At most 14 lines of code per slide.** The `split-code` column fits about 54 columns at 22px; `two-cols` about 37. Longer lines wrap instead of clipping; treat a wrap as a cue to cut, never shrink the code.
 - **One marker per slide**, on the word that matters most.
 - **One tape per block**, never stacked; the tilt alternates (-1deg, 1deg, -0.5deg).
-- **No git-graph decoration** anywhere except the mark and the footer progress bar.
+- **No git-graph decoration** anywhere except the mark.
 - **Copy in English, no em dashes.**
 
 ## Projection
@@ -30,7 +30,7 @@ Slides are read through projectors that wash colours out. The theme checks contr
 | Element | Before | After |
 |---------|--------|-------|
 | Meta text (h6 kicker, page counter, captions, labels, urls) | slate `#5B6070`, 15-16px: 5.75:1, 4.12:1 projected | graphite `#3B4152`, 18px: 9.34:1, 5.51:1 projected |
-| Progress graph line | `#C9C7C0`: 1.55:1, 1.48:1 projected | ash `#8E8C86` at 2px: 3.09:1, 2.63:1 projected |
+| Progress bar, part ahead | `#C9C7C0`: 1.55:1, 1.48:1 projected | ash `#8E8C86` at 2px: 3.09:1, 2.63:1 projected; the part done is a 5px ink line |
 | Code keywords on white | `#C91F37`: 5.62:1, 4.15:1 projected | `#A8192E`: 7.39:1, 4.95:1 projected |
 | Callout and browser frame edges | rule `#DEDCD5`: 1.26:1 | 2px ink: 14.54:1, 6.83:1 projected |
 
@@ -60,7 +60,10 @@ Loaded from Google Fonts through the theme's `fonts` defaults:
 
 - **Title (`cover`)**: tape with the `event`, display title with one `<Marker>`, L mark top right, hairline, regular wordmark and `role` at the bottom. No footer.
 - **Content slides**: section tape, title, content, and the footer.
-- **Footer**: S mark and bold wordmark, the progress graph (a commit ring at each `section` slide, the red knot at the current slide) and the page counter in mono. It reads the slide's own page, so it is right in PDF and PNG exports too.
+- **Footer**: one row, S mark and bold wordmark | progress bar | current section name | page counter. It reads the slide's own page, so it is right in PDF and PNG exports too.
+  - **Progress bar**: one segment per section, each as long as its share of the slides, 12px apart; slides before the first section belong to the first segment. Up to the current slide it is a 5px ink line with round caps, the rest a 2px ash line; finished sections are all ink. The red knot (16px, 3px radius) marks the current slide.
+  - **Section name**: the current section's `label` in IBM Plex Mono 18px ink, capped at 300px with an ellipsis (full text on hover). None before the first section.
+  - **No overlap by construction**: the bar is the only flexible item (min 240px), the name is capped, the counter (18px graphite, tabular numbers) never wraps and keeps 24px from the name.
 - **Section tape**: inherited from the last `section` slide's `label` (write it as `"03 · agents"`, the tape sets it in caps). Override per slide with `tape: "..."`, hide with `tape: false`.
 - **End (`end`)**: thanks, `links`, up to two QR codes (`qr` for links, `feedback` for the talk rating), the event tape and the wordmark.
 
@@ -70,7 +73,7 @@ Loaded from Google Fonts through the theme's `fonts` defaults:
 |--------|-----|
 | `cover` | Title slide. Frontmatter: `event`, `role` |
 | `intro` | Speaker intro: grayscale portrait with a tape, `<WhoAmI />`, socials. Frontmatter: `introImage`, `github`, `bluesky`, `linkedin` |
-| `section` | Section opener. Frontmatter: `label` (becomes the tape on the following slides and a ring on the progress graph) |
+| `section` | Section opener. Frontmatter: `label` (becomes the tape on the following slides, the section name in the footer and a segment of the progress bar) |
 | `default` | Tape, title, content |
 | `two-cols` | Title and content left, `::right::` column |
 | `two-cols-header` | Title across, then `::left::` and `::right::` |

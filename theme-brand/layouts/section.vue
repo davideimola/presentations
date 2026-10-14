@@ -13,9 +13,9 @@ import { useDeck } from '../logic/deck'
 import SlideFooter from '../components/SlideFooter.vue'
 import Tape from '../components/Tape.vue'
 
-/* Section opener. Its `label` ("03 · AGENTS") becomes the tape on every
-   following content slide, and the slide is a commit ring on the
-   progress graph. */
+/* Section opener. Its `label` ("03 · agents") becomes the tape on every
+   following content slide and the section name in the footer, and the
+   section gets its own segment of the progress bar. */
 defineProps({
   label: { type: String, default: '' },
 })
