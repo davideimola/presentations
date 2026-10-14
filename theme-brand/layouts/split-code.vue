@@ -18,8 +18,8 @@ import SectionTape from '../components/SectionTape.vue'
 import SlideFooter from '../components/SlideFooter.vue'
 
 /* Text on the left, code on the right at full height (SYS-SlideCode,
-   mirrored so the title leads). The code column fits about 52 columns
-   at 22px: wrap longer lines. */
+   mirrored so the title leads). Tighter frame (48px sides, 32px gap) so
+   the code column fits about 54 columns at 22px; longer lines wrap. */
 defineProps({
   tape: { type: [String, Boolean], default: undefined },
 })
@@ -27,14 +27,14 @@ defineProps({
 
 <style scoped>
 .split-code {
-  padding-left: 56px;
-  padding-right: 56px;
+  padding-left: 48px;
+  padding-right: 48px;
 }
 
 .split-code__grid {
   display: grid;
   grid-template-columns: 380px minmax(0, 1fr);
-  column-gap: 40px;
+  column-gap: 32px;
 }
 
 .split-code__text {

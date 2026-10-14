@@ -16,7 +16,7 @@ defineProps({
   max-width: 82%;
   padding: 12px 20px;
   border-radius: 18px;
-  font-size: 24px;
+  font-size: var(--di-slide-body);
   line-height: 1.4;
 }
 

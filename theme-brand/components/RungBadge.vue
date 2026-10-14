@@ -20,7 +20,7 @@ defineProps({
   background: var(--di-fg);
   color: var(--di-bg);
   font-family: var(--di-font-family-mono);
-  font-size: 0.7em;
+  font-size: max(18px, 0.7em);
   font-weight: 600;
   letter-spacing: 0.04em;
   line-height: 1.5;

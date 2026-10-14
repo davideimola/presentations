@@ -51,8 +51,8 @@ const barTitle = computed(() => props.title || $frontmatter?.title || '~/davidei
 
 .terminal__bar {
   font-family: var(--di-font-family-mono);
-  font-size: 16px;
-  color: var(--di-fg-subtle);
+  font-size: 18px;
+  color: var(--di-slide-meta);
   padding: 12px 28px;
   border-bottom: 1px solid var(--di-border);
 }

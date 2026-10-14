@@ -19,16 +19,36 @@ html.dark {
 }
 
 :root {
-  /* Progress graph: not in the brand tokens yet, values from the approved
-     code-slide mockup (SYS-SlideCode). */
-  --di-slides-graph-line: #C9C7C0;
-  --di-slides-graph-ring: var(--di-color-ash);
+  /* Projection. Slides are read through washed-out projectors (model:
+     luminance * 0.8 + 0.06), so the slide-only values below are darker
+     than the site's. None of them is a brand token yet: they should
+     become tokens in davideimola/brand (slides group).
 
-  /* Slide type scale (1280 x 720 canvas). Floors from the brand:
+     Meta text (h6 kicker, page counter, captions, labels, urls) uses
+     graphite, not slate: slate drops to about 4.1:1 when projected. */
+  --di-slide-meta: var(--di-fg-muted);
+  --di-slide-meta-size: 18px; /* minimum size of any text on a slide */
+
+  /* Progress graph: ash line at 2px. The mockup's #C9C7C0 is 1.48:1 on
+     paper and vanishes on a projector. Rings past the current slide in
+     graphite, rings ahead in ash. */
+  --di-slides-graph-line: var(--di-color-ash);
+  --di-slides-graph-ring: var(--di-color-graphite);
+
+  /* Code keywords: a darker akane. 7.4:1 on white, 4.95:1 projected,
+     against 4.15:1 projected for #C91F37. #C91F37 stays for the knot and
+     the marker. shiki-theme.json mirrors this value (Shiki themes take
+     literal colours): change both together. Should become a brand token. */
+  --di-slides-code-keyword: #A8192E;
+
+  /* Slide type scale (1280 x 720 canvas). Body 28px at weight 500: thin
+     strokes bloom away on bright projectors. Floors from the brand:
      body >= --di-slides-body-min, code >= --di-slides-code-min. */
   --di-slide-title: 60px;
-  --di-slide-body: 26px;
+  --di-slide-body: 28px;
+  --di-slide-body-weight: 500;
   --di-slide-code: var(--di-slides-code-min);
+  --di-slide-code-weight: 500;
 
   /* Slidev overrides */
   --slidev-theme-primary: var(--di-fg);

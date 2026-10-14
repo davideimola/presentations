@@ -32,7 +32,7 @@ const labelText = computed(() => props.label ?? props.value.replace(/^https?:\/\
 
 .qr-block__label {
   font-family: var(--di-font-family-mono);
-  font-size: 16px;
-  color: var(--di-fg-subtle);
+  font-size: 18px;
+  color: var(--di-slide-meta);
 }
 </style>

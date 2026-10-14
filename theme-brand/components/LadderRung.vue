@@ -36,7 +36,7 @@ defineProps({
   font-family: var(--di-font-family-mono);
   font-size: 18px;
   font-weight: 500;
-  color: var(--di-fg-subtle);
+  color: var(--di-slide-meta);
 }
 
 .ladder-rung__title {
@@ -49,7 +49,7 @@ defineProps({
 
 .ladder-rung__desc {
   margin-top: 2px;
-  font-size: 24px;
+  font-size: var(--di-slide-body);
   line-height: 1.4;
   color: var(--di-fg-muted);
 }

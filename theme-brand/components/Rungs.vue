@@ -27,14 +27,14 @@ defineProps({
   align-items: center;
   gap: 8px;
   font-family: var(--di-font-family-mono);
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-bottom: 16px;
 }
 
 .rungs__prefix {
-  color: var(--di-fg-subtle);
+  color: var(--di-slide-meta);
   margin-right: 6px;
 }
 
@@ -47,12 +47,12 @@ defineProps({
   padding: 0 6px;
   border: 1px solid var(--di-border);
   border-radius: var(--di-radius-sm);
-  color: var(--di-fg-subtle);
+  color: var(--di-slide-meta);
 }
 
 .rungs__step--done {
   color: var(--di-fg);
-  border-color: var(--di-fg-subtle);
+  border-color: var(--di-slide-meta);
 }
 
 .rungs__step--active {
@@ -63,7 +63,7 @@ defineProps({
 }
 
 .rungs__label {
-  color: var(--di-fg-subtle);
+  color: var(--di-slide-meta);
   margin-left: 8px;
 }
 </style>

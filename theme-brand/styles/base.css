@@ -12,6 +12,7 @@
   color: var(--di-fg-body);
   font-family: var(--di-font-family-sans);
   font-size: var(--di-slide-body);
+  font-weight: var(--di-slide-body-weight);
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
 }
@@ -51,14 +52,14 @@
   }
 
   h3 {
-    font-size: 30px;
+    font-size: 32px;
     line-height: 1.15;
     letter-spacing: -0.03em;
     margin: 0 0 12px;
   }
 
   h4, h5 {
-    font-size: 26px;
+    font-size: 30px;
     line-height: 1.2;
     letter-spacing: -0.02em;
     margin: 0 0 10px;
@@ -67,12 +68,12 @@
   /* h6 is the small kicker above a title: mono, quiet, never red. */
   h6 {
     font-family: var(--di-font-family-mono);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 1.4;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--di-fg-subtle);
+    color: var(--di-slide-meta);
     opacity: 1;
     padding: 0;
     margin: 0 0 12px;
@@ -89,7 +90,7 @@
 
   em, i { font-style: italic; }
 
-  del { color: var(--di-fg-subtle); }
+  del { color: var(--di-slide-meta); }
 
   u {
     text-decoration: underline;
@@ -133,7 +134,7 @@
     margin: 0 0 12px;
   }
 
-  li::marker { color: var(--di-fg-subtle); }
+  li::marker { color: var(--di-slide-meta); }
 
   li > ul, li > ol { margin: 10px 0 0; }
 
@@ -188,7 +189,7 @@
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 24px;
+    font-size: var(--di-slide-body);
   }
 
   thead:not(:has(th:not(:empty))) { display: none; }
@@ -197,11 +198,11 @@
 
   th {
     font-family: var(--di-font-family-mono);
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--di-fg-subtle);
+    color: var(--di-slide-meta);
     text-align: left;
     padding: 10px 14px;
     border-bottom: 1px solid var(--di-fg);

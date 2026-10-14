@@ -48,16 +48,16 @@
 
 .whoami__key {
   font-family: var(--di-font-family-mono);
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--di-fg-subtle);
+  color: var(--di-slide-meta);
   padding-right: 24px !important;
   white-space: nowrap;
 }
 
 .whoami__val {
-  font-size: 24px;
+  font-size: var(--di-slide-body);
   line-height: 1.35;
   color: var(--di-fg);
 }

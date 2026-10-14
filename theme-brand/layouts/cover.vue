@@ -75,6 +75,6 @@ const eventLabel = computed(() => props.event)
 .cover__role {
   font-family: var(--di-font-family-mono);
   font-size: 18px;
-  color: var(--di-fg-subtle);
+  color: var(--di-slide-meta);
 }
 </style>

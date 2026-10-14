@@ -40,7 +40,7 @@
         "keyword.channel.go",
         "keyword.map.go"
       ],
-      "settings": { "foreground": "#C91F37", "fontStyle": "bold" }
+      "settings": { "foreground": "#A8192E", "fontStyle": "bold" }
     },
     {
       "name": "Predeclared types and constants: akane, regular weight",
@@ -64,7 +64,7 @@
         "constant.language.undefined",
         "variable.language"
       ],
-      "settings": { "foreground": "#C91F37", "fontStyle": "" }
+      "settings": { "foreground": "#A8192E", "fontStyle": "" }
     },
     {
       "name": "Operators and punctuation: ink",

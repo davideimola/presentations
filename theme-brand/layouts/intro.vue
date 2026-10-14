@@ -91,10 +91,10 @@ const hasSocials = computed(() => props.github || props.bluesky || props.linkedi
 
 .intro__socials li span {
   display: block;
-  font-size: 14px;
+  font-size: 18px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--di-fg-subtle);
+  color: var(--di-slide-meta);
   margin-bottom: 2px;
 }
 </style>

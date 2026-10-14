@@ -12,7 +12,7 @@
   }
 
   p {
-    font-size: 26px;
+    font-size: 28px;
     line-height: 1.4;
     color: var(--di-fg-muted);
     margin: 0;
@@ -30,7 +30,7 @@
   }
 
   p {
-    font-size: 26px;
+    font-size: 28px;
     color: var(--di-fg-muted);
     margin: 0 0 8px;
   }
@@ -110,7 +110,7 @@
   h1 + p {
     font-family: var(--di-font-family-mono);
     font-size: 20px;
-    color: var(--di-fg-subtle);
+    color: var(--di-slide-meta);
     margin: 32px 0 0;
   }
 }
@@ -132,8 +132,7 @@
     margin-bottom: 22px;
   }
 
-  p { font-size: 24px; margin-bottom: 14px; }
-  li { font-size: 24px; }
+  p { margin-bottom: 14px; }
 }
 
 /* ── Code hero ───────────────────────────────────────────────────────── */

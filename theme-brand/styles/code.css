@@ -16,6 +16,7 @@
 
 .slidev-layout .slidev-code code {
   tab-size: 4;
+  font-weight: var(--di-slide-code-weight);
   /* Never clip: a line longer than the column wraps instead of shrinking
      the code under the 22px floor. Treat a wrapped line as a cue to cut. */
   white-space: pre-wrap;

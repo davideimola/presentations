@@ -17,7 +17,7 @@ defineProps({
   display: inline-flex;
   align-items: center;
   font-family: var(--di-font-family-mono);
-  font-size: 0.6em;
+  font-size: max(18px, 0.6em);
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;

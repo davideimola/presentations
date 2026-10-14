@@ -82,7 +82,7 @@ const eventLabel = computed(() => props.event || headmatter.value.event || '')
 
 .end__links li {
   font-family: var(--di-font-family-mono);
-  font-size: 24px;
+  font-size: var(--di-slide-body);
   color: var(--di-fg);
   padding: 0;
   margin: 0 0 6px;
@@ -113,6 +113,6 @@ const eventLabel = computed(() => props.event || headmatter.value.event || '')
 .end__role {
   font-family: var(--di-font-family-mono);
   font-size: 18px;
-  color: var(--di-fg-subtle);
+  color: var(--di-slide-meta);
 }
 </style>

@@ -30,7 +30,7 @@ defineProps({
 
 .stat__desc {
   margin-top: 14px;
-  font-size: 24px;
+  font-size: var(--di-slide-body);
   line-height: 1.35;
   color: var(--di-fg-body);
 }
@@ -38,7 +38,7 @@ defineProps({
 .stat__source {
   margin-top: 10px;
   font-family: var(--di-font-family-mono);
-  font-size: 15px;
-  color: var(--di-fg-subtle);
+  font-size: 18px;
+  color: var(--di-slide-meta);
 }
 </style>

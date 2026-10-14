@@ -100,8 +100,8 @@ function x(no: number) {
 
 .di-footer__page {
   font-family: var(--di-font-family-mono);
-  font-size: 14px;
-  color: var(--di-fg-subtle);
+  font-size: 18px;
+  color: var(--di-slide-meta);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
