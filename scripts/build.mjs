@@ -29,14 +29,21 @@ for (const talk of talks) {
   console.log(`✓ ${talk} → dist/${talk}/\n`)
 }
 
-const themeDemoOut = resolve(root, 'dist', 'demo')
-console.log('▶ Building theme demo...')
-await run('pnpm', [
-  'exec', 'slidev', 'build', 'example.md',
-  '--base', '/demo/',
-  '--out', themeDemoOut,
-], resolve(root, 'theme-davideimola'))
-console.log('✓ theme-davideimola/example.md → dist/demo/\n')
+const themeDemos = [
+  { theme: 'theme-davideimola', out: 'demo' },
+  { theme: 'theme-brand', out: 'demo-brand' },
+]
+
+for (const { theme, out } of themeDemos) {
+  const themeDemoOut = resolve(root, 'dist', out)
+  console.log(`▶ Building ${theme} demo...`)
+  await run('pnpm', [
+    'exec', 'slidev', 'build', 'example.md',
+    '--base', `/${out}/`,
+    '--out', themeDemoOut,
+  ], resolve(root, theme))
+  console.log(`✓ ${theme}/example.md → dist/${out}/\n`)
+}
 
 console.log('All talks built successfully.')
 

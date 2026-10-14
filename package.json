@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "demo": "slidev theme-davideimola/example.md --open",
+    "demo:brand": "slidev theme-brand/example.md --open",
     "build": "node scripts/build.mjs",
     "export": "pnpm -r export"
   },
