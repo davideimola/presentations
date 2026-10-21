@@ -93,7 +93,7 @@ Loaded from Google Fonts through the theme's `fonts` defaults:
 |-----------|-----|
 | `<Marker>word</Marker>` | The rough red skip-ink stroke. Draws itself once on first view, static in exports and with reduced motion |
 | `<Tape :n="0">label</Tape>` | Flat ink tape; `n` picks the tilt step, `tilt` forces an angle, `inverse` gives paper tape with an ink outline for ink blocks |
-| `<BrandMark :size="26" />`, `<Wordmark bold />` | Brand assets from the package; the mark picks its cut by size. On the cover the L mark is a `DrawnSvg`: it traces its graph and ties the knot last |
+| `<BrandMark :size="26" />`, `<Wordmark bold />` | Brand assets from the package; the mark picks its cut by size |
 | `<Callout type="note\|tip\|warning\|danger" label>` | A block that stands out: white surface, 2px ink border, a flat tape on the top-left edge (the type, or `label`), body 28px in ink. `tip` on linen, `warning` with a 3px border, `danger` inverted (ink block, paper text and tape). Never red |
 | `<Badge type="default\|accent\|success\|warning">` | Small mono label; `accent` is filled ink |
 | `<Chat>`, `<ChatBubble user>` | Chat mockup: user in ink, model on white |
