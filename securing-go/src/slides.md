@@ -619,21 +619,16 @@ layout: two-cols-header
 
 ---
 layout: default
+clicks: 3
 ---
 
 # The trust <Marker>chain</Marker>
 
-```mermaid
-graph LR
-    Code[your code] -->|declares| GoMod[go.mod]
-    GoMod -->|fetches| Proxy[module proxy]
-    Proxy -->|hash checked| Sumdb[checksum db]
-    Sumdb -->|recorded in| GoSum[go.sum]
-```
+<DrawnSvg src="/drawings/trust-chain.svg" alt="go.mod, then the module proxy, then the checksum database, then go.sum" steps class="mt-6" />
 
-Same version, same bytes, for everyone, forever.
+<p v-click="3">Same version, same bytes, for everyone, forever.</p>
 
-<!-- ~45s. Walk left to right. sumdb is a transparent, append-only log: nobody can swap the contents of a version that already exists, not even the author.
+<!-- ~45s. Walk left to right, one click per hop: go.mod declares exact versions, the proxy serves the module, the checksum db checks its hash (the red seal), go.sum records it. sumdb is a transparent, append-only log: nobody can swap the contents of a version that already exists, not even the author.
      Deep dive from a past GoLab: Katie Hockman, "Go Module Proxy: Life of a Query" (2019) https://www.youtube.com/watch?v=kqMxaO9d1NM -->
 
 ---

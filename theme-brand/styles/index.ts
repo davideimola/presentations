@@ -1,5 +1,6 @@
 import '@slidev/client/styles/layouts-base.css'
 import '@davideimola/brand/tokens.css'
+import '@davideimola/brand/draw.css'
 import './vars.css'
 import './base.css'
 import './layouts.css'

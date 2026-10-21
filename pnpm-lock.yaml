@@ -72,7 +72,7 @@ importers:
     dependencies:
       '@davideimola/brand':
         specifier: github:davideimola/brand
-        version: https://codeload.github.com/davideimola/brand/tar.gz/812ec36d4fe48204d4941413dcd6c63649dd1390
+        version: https://codeload.github.com/davideimola/brand/tar.gz/8fec97b4b14d1465c3936c8f1f710a775aa224b0
       uqr:
         specifier: ^0.1.2
         version: 0.1.2
@@ -235,8 +235,8 @@ packages:
       '@types/markdown-it': '*'
       markdown-it: ^14.0.0
 
-  '@davideimola/brand@https://codeload.github.com/davideimola/brand/tar.gz/812ec36d4fe48204d4941413dcd6c63649dd1390':
-    resolution: {tarball: https://codeload.github.com/davideimola/brand/tar.gz/812ec36d4fe48204d4941413dcd6c63649dd1390}
+  '@davideimola/brand@https://codeload.github.com/davideimola/brand/tar.gz/8fec97b4b14d1465c3936c8f1f710a775aa224b0':
+    resolution: {tarball: https://codeload.github.com/davideimola/brand/tar.gz/8fec97b4b14d1465c3936c8f1f710a775aa224b0}
     version: 1.0.0
 
   '@drauu/core@1.0.0':
@@ -3610,7 +3610,7 @@ snapshots:
       js-yaml: 4.1.1
       markdown-it: 14.1.1
 
-  '@davideimola/brand@https://codeload.github.com/davideimola/brand/tar.gz/812ec36d4fe48204d4941413dcd6c63649dd1390': {}
+  '@davideimola/brand@https://codeload.github.com/davideimola/brand/tar.gz/8fec97b4b14d1465c3936c8f1f710a775aa224b0': {}
 
   '@drauu/core@1.0.0': {}
 

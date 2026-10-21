@@ -102,6 +102,7 @@ Loaded from Google Fonts through the theme's `fonts` defaults:
 | `<StatGrid>`, `<Stat value source>` | Big numbers in ink under a rule |
 | `<QRCode>`, `<QRBlock>` | Ink on paper QR code, the block adds a mono label |
 | `<BrowserFrame url bodyBg>` | Screenshot frame: 2px ink border, hard offset shadow, 44px linen bar with three ink-outlined dots and the url in a white field. Images fill the body edge to edge |
+| `<DrawnSvg src alt steps />` | A drawing from `public/` that draws itself with the brand's `draw` module: ink traces in, red lands last. With `steps`, each `<g data-step="n">` draws on click n (0 on enter; set `clicks:` in the frontmatter). Drawn in exports and overview |
 | `<WhoAmI />` | Name and key/value facts for the `intro` layout |
 
 The catalog with one slide per layout and component is [`example.md`](./example.md): `pnpm demo:brand` from the repo root.

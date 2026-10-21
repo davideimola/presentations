@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 440" width="1600" height="440">
+  <g fill="none" stroke="#1C2233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <g data-step="0">
+      <path d="M140 80 H230 L270 120 V300 H140 Z"/>
+      <path d="M230 80 V120 H270"/>
+      <path d="M170 160 H240 M170 200 H240 M170 240 H215"/>
+      <text x="205" y="390" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">go.mod</text>
+    </g>
+    <g data-step="1">
+      <path d="M310 190 H470"/>
+      <path d="M445 168 L470 190 L445 212"/>
+      <rect x="510" y="95" width="180" height="56" rx="12"/>
+      <rect x="510" y="165" width="180" height="56" rx="12"/>
+      <rect x="510" y="235" width="180" height="56" rx="12"/>
+      <circle cx="545" cy="123" r="7" fill="#1C2233" stroke="none"/>
+      <circle cx="545" cy="193" r="7" fill="#1C2233" stroke="none"/>
+      <circle cx="545" cy="263" r="7" fill="#1C2233" stroke="none"/>
+      <text x="600" y="390" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">module proxy</text>
+    </g>
+    <g data-step="2">
+      <path d="M730 190 H870"/>
+      <path d="M845 168 L870 190 L845 212"/>
+      <ellipse cx="1000" cy="105" rx="90" ry="26"/>
+      <path d="M910 105 V275 A90 26 0 0 0 1090 275 V105"/>
+      <path d="M910 162 A90 26 0 0 0 1090 162 M910 219 A90 26 0 0 0 1090 219"/>
+      <circle cx="1090" cy="290" r="38" fill="#F7F5F0" stroke="#C91F37"/>
+      <path d="M1072 291 L1086 305 L1110 278" stroke="#C91F37"/>
+      <text x="1000" y="390" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">checksum db</text>
+    </g>
+    <g data-step="3">
+      <path d="M1150 190 H1290"/>
+      <path d="M1265 168 L1290 190 L1265 212"/>
+      <path d="M1330 80 H1420 L1460 120 V300 H1330 Z"/>
+      <path d="M1420 80 V120 H1460"/>
+      <path d="M1360 160 H1430 M1360 200 H1430 M1360 240 H1430"/>
+      <text x="1395" y="390" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">go.sum</text>
+    </g>
+  </g>
+</svg>
