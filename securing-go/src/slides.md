@@ -904,7 +904,7 @@ transition: fade
 layout: default
 ---
 
-# Monday <Marker>morning</Marker>
+# Your next working <Marker>day</Marker>
 
 <Ladder class="mt-4">
   <LadderRung v-click :n="1" title="govulncheck in CI">on every PR, scanning the Go you ship: <code>go-version-file: go.mod</code></LadderRung>
