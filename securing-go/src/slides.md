@@ -388,13 +388,15 @@ func canManageOrg(u User, orgID string) bool {
 layout: statement
 ---
 
-# A bug can survive 13 months.
+# 13 months in production.
 
 <v-click>
 
-# Not because the code is complex. Because nobody tested the right <Marker>assumption</Marker>.
+# Nobody tested the right <Marker>assumption</Marker>.
 
 </v-click>
+
+<!-- Say it, don't show it: "Not because the code was complex. It's ten lines." -->
 
 ---
 layout: default
