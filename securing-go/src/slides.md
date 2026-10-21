@@ -702,9 +702,9 @@ layout: split-code
 
 A file name nested thousands of folders deep.
 
-One `Open`: **26 seconds of CPU**.
+One upload: **26 seconds of CPU**.
 
-The resource exhaustion from section 02, this time inside the standard library.
+Like the unbounded request body, this time inside the standard library.
 
 ::right::
 
@@ -716,7 +716,8 @@ Released:  15 January 2026
 Severity:  CPU denial of service
 ```
 
-<!-- ~45s. Official text: "archive/zip uses a super-linear file name indexing algorithm that is invoked the first time a file in an archive is opened. This can lead to a denial of service when consuming a maliciously constructed ZIP archive."
+<!-- ~45s. Don't say which call triggers it yet: the next slide asks the room. The title echoes "Valid request. Unbounded cost." from the code you write.
+     Official text: "archive/zip uses a super-linear file name indexing algorithm that is invoked the first time a file in an archive is opened. This can lead to a denial of service when consuming a maliciously constructed ZIP archive."
      How it works: zip.Reader is an fs.FS, so on the first Open it indexes every file's parent folders. The old loop called path.Dir at each level (re-scanning the whole name) and never stopped early, even for folders already indexed: cost ~ depth x length per file. A zip name can be 64 KB, so "a/a/a/..." thousands of levels deep is cheap to send.
      26 s: the fix's own benchmark, ReaderOneDeepDir on an Apple M4 Pro, 25.98 s before, 46 ms after (commit bb7c0c7, "archive/zip: reduce CPU usage in index construction").
      The fix: strings.LastIndex slicing instead of path.Dir, and stop at the first folder already indexed.
