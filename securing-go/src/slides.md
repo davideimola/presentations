@@ -455,7 +455,10 @@ func FuzzCanManageOrg(f *testing.F) {
 ---
 layout: terminal
 title: "$ go test -fuzz=FuzzCanManageOrg"
+clicks: 1
 ---
+
+<LiveRun id="fuzz-authz">
 
 ```sh
 fuzz: elapsed: 0s, gathering baseline coverage: 1/1 completed, now fuzzing with 15 workers
@@ -469,7 +472,12 @@ fuzz: minimizing 70-byte failing input file
 FAIL
 ```
 
-<!-- Real output against the VULNERABLE version (go1.26, M-series Mac). Optional live run, low risk.
+</LiveRun>
+
+<!-- LIVE: the first click (remote "next") runs the fuzzer for real on securing-go/demo/authz, the vulnerable code from these slides, and streams the output here. Next click moves on.
+     Runs only from `pnpm dev` in the audience window; the presenter view, the static build and any error show the recorded output below instead.
+     Before the talk: `go version` in securing-go/demo/authz, and one dry run so the Go build cache is warm.
+     Recorded output: against the VULNERABLE version (go1.26, M-series Mac).
      If you fix only the fail-open, the fuzzer finds the viewer case in the same ~0.05s.
      Against the fixed version: 11.6M execs in 10s, clean.
      The failing input lands in testdata/: commit it and it becomes a regression test forever. -->
@@ -481,6 +489,9 @@ layout: fact
 # 0.03s
 
 for the fuzzer. Thirteen months for us.
+
+<!-- After the live run the time on screen varies (0.03-0.08s in tests). If it's far from 0.03s, say "a few hundredths of a second" instead of reading the number. -->
+
 
 ---
 layout: statement
@@ -1003,9 +1014,6 @@ layout: statement
 
 ---
 layout: end
-links:
-  - github.com/davideimola/go-security-skills
-  - links.davideimola.dev
 qr: https://links.davideimola.dev
 ---
 
