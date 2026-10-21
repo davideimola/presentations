@@ -86,32 +86,15 @@ layout: statement
 layout: default
 ---
 
-# What we'll cover
+# What we'll <Marker>cover</Marker>
 
-<div class="space-y-5 mt-8">
+<Ladder class="mt-6">
+  <LadderRung v-click :n="2" title="The code you write">a real bug, and how we proved it</LadderRung>
+  <LadderRung v-click :n="3" title="The code you use">dependencies, the checksum database, govulncheck</LadderRung>
+  <LadderRung v-click :n="4" title="Make it routine">a checklist, CI, and skills for your agent</LadderRung>
+</Ladder>
 
-<v-click>
-<div class="flex items-baseline gap-4">
-  <span class="text-2xl font-mono opacity-40">01</span>
-  <h3 class="text-2xl m-0">The code you write</h3>
-</div>
-</v-click>
-
-<v-click>
-<div class="flex items-baseline gap-4">
-  <span class="text-2xl font-mono opacity-40">02</span>
-  <h3 class="text-2xl m-0">The code you use</h3>
-</div>
-</v-click>
-
-<v-click>
-<div class="flex items-baseline gap-4">
-  <span class="text-2xl font-mono opacity-40">03</span>
-  <h3 class="text-2xl m-0">Make it routine</h3>
-</div>
-</v-click>
-
-</div>
+<!-- ~30s. The numbers match the section tapes (01 is this intro). One click per section. -->
 
 ---
 layout: section
@@ -304,47 +287,36 @@ layout: statement
 
 # We knew something was wrong. Not <Marker>where</Marker>.
 
+<v-click>
+
+# So we asked an AI.
+
+</v-click>
+
 <!-- ~20s. ONE line about the trigger: an external security report said access control was broken somewhere. It didn't say where.
      Don't dwell on "pen test": the point is what we did next. -->
 
 ---
 layout: default
-clicks: 5
 ---
 
-# The <Marker>loop</Marker>
+<Rungs :active="1" :total="3" label="hypothesis" />
 
-<DrawnSvg src="/drawings/loop.svg" alt="A loop: analyze, find, test, verify, fix, and back to analyze" steps class="mt-2 mx-auto w-[86%]" />
-
-<!-- ~45s. One click per step, the loop closes on "fix". The red knot is on "test": the failing test is where a hypothesis becomes evidence.
-     analyze: give the AI the context, not the whole codebase.
-     find: it points to where it could break.
-     test: it writes the test that would prove it.
-     verify: a human reads the red test.
-     fix: test first, then the code.
-     This loop is the spine of the talk: the next slides walk it once on this bug. -->
-
----
-layout: default
----
-
-<Rungs :active="2" :total="5" label="analyze · find" />
-
-# Ask a narrow <Marker>question</Marker> <Badge>reconstructed</Badge>
+# Ask a narrow <Marker>question</Marker>
 
 <Chat>
   <ChatBubble user>Review our authentication and authorization layer. For each check, list the logic errors that could grant access to the wrong user. Assume the caller is hostile.</ChatBubble>
-  <ChatBubble>canManageOrg returns true when orgID can't be resolved. It also checks membership, never the admin role.</ChatBubble>
+  <ChatBubble v-click>canManageOrg returns true when orgID can't be resolved. It also checks membership, never the admin role.</ChatBubble>
 </Chat>
 
-<!-- ~1min. The original prompts are gone: say it, that's why the badge is there.
+<!-- ~1min. The original prompts are gone: this one is reconstructed, say it out loud ("something like this").
      What matters is the shape: targeted on the auth layer, asking for logic errors, hostile caller. Not "find bugs in my repo". -->
 
 ---
 layout: split-code
 ---
 
-<Rungs :active="3" :total="5" label="test" />
+<Rungs :active="2" :total="3" label="evidence" />
 
 # Make it <Marker>red</Marker>
 
@@ -387,7 +359,7 @@ Two of three. That's not an opinion anymore.
 layout: split-code
 ---
 
-<Rungs :active="5" :total="5" label="verify · fix" />
+<Rungs :active="3" :total="3" label="guard" />
 
 # Deny by <Marker>default</Marker>
 
@@ -497,6 +469,31 @@ for the fuzzer. Thirteen months for us.
 layout: statement
 ---
 
+# Then we did it on <Marker>purpose</Marker>.
+
+<!-- ~15s. The bug was the trigger. What we built after it is the point. -->
+
+---
+layout: default
+clicks: 3
+---
+
+# <Marker>Red</Marker> or it didn't happen
+
+<DrawnSvg src="/drawings/red-or-it-didnt-happen.svg" alt="The AI raises signals; reading the code dismisses some and keeps hypotheses; a test turns one red, which is evidence and leads to a fix, while a green one stays as a test; both end in CI, which keeps guarding every PR" steps class="mt-4" />
+
+<!-- ~1min. The story, turned into a process. This is not TDD: the developer doesn't know what to test. The AI proposes it, and a human filters it twice.
+     On enter: the AI raises signals. Many, cheap.
+     Click 1: you read the code. Some signals are dismissed on the spot, with a reason. What survives is a hypothesis.
+     Click 2: the test. Red is evidence, the only red on the slide. Green is not wasted: the test stays and guards the rule.
+     Click 3: the red one gets its fix. Both end in CI, and the arrow back: they keep guarding the whole class of bug, every PR.
+     This is what go-security-audit and verify-with-fuzz do, step by step (section 04).
+     Every piece is something they just saw on our bug: the prompt was a hypothesis, the red test the evidence, the property in CI the guard. The dismissed branch is the deprecated feature (next slide). -->
+
+---
+layout: statement
+---
+
 # It also found a real bug in code nobody calls.
 
 <v-click>
@@ -505,7 +502,7 @@ layout: statement
 
 </v-click>
 
-<!-- ~45s. After this bug we ran the loop on purpose, with no report to start from: it found things nobody had reported (missing security headers, broken logic).
+<!-- ~45s. Callback to the "green: dropped" branch of red or it didn't happen. After this bug we ran the same process on purpose, with no report to start from: it found things nobody had reported (missing security headers, broken logic).
      It also flagged a real issue in a deprecated feature we would never call again. A true finding that doesn't matter.
      Bridge to section 03: govulncheck draws exactly this line, using the call graph. -->
 
@@ -884,7 +881,7 @@ layout: default
 - Add `govulncheck` to CI, scanning the Go you ship
 - Write one fuzz test on your most critical auth path: who must be denied
 - Run `go mod verify` in your release pipeline
-- Run the loop once on a critical path: analyze, find, test, verify, fix
+- Point your AI at one critical path: every finding needs a red test
 
 </v-clicks>
 
@@ -922,7 +919,7 @@ layout: default
   <LadderRung v-click :n="3" title="Argus">an open source MCP server that runs govulncheck and gosec for your agent</LadderRung>
 </Ladder>
 
-<!-- ~1min30. The loop from section 02, made routine: the AI proposes, the tools give signals, the tests give evidence.
+<!-- ~1min30. Red or it didn't happen from section 02, made routine: the AI proposes, the tools give signals, the tests give evidence.
      Argus: ONE option among three, ~60s max, no demo. Present it in Toolbox mode: an MCP server that runs the scanners and serves skills, no LLM provider needed; your agent does the reasoning. "If you want it ready-made, I built one. Use it, fork it, or build your own." Go tooling is on main since 2026-10-15 (run_govulncheck, gosec via the Tool Catalog, #118) but NOT in a release yet (latest v0.3.0, 2026-07-30): cut a release before the talk. The built-in authz-audit skill hunts exactly the bug from section 02.
      Next in Golab #1 at 12:15: "Your AGENTS.md Is a Lie (And Here's How to Fix It)" by Dario Castañé. Good hand-off if the timing works. -->
 
@@ -942,9 +939,9 @@ Give them to your agent. Everything they write is tested.
 
 ```text
 skills/
-  go-security-audit/   # analyze, find
-  verify-with-fuzz/    # hypothesis → evidence
-  go-security-setup/   # make it routine
+  go-security-audit/   # hypotheses
+  verify-with-fuzz/    # red or it didn't happen
+  go-security-setup/   # keeps guarding
 ```
 
 <!-- ~1min30. github.com/davideimola/go-security-skills, MIT, open Agent Skills format: Claude Code, Codex, Copilot, Cursor, Gemini CLI.
@@ -985,11 +982,11 @@ of a cyber espionage campaign, executed by an AI agent
 layout: statement
 ---
 
-# Attackers already run the loop.
+# Attackers already use AI to find bugs.
 
 <v-click>
 
-# Run it <Marker>first</Marker>.
+# Make them <Marker>red</Marker> first.
 
 </v-click>
 

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 640" width="1600" height="640">
+  <g fill="none" stroke="#1C2233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" font-family="IBM Plex Mono, monospace" font-size="36">
+    <g data-step="0">
+      <circle cx="110" cy="300" r="36"/>
+      <text x="110" y="313" fill="#1C2233" stroke="none" text-anchor="middle">AI</text>
+      <path d="M135 275 L291 119 M142 284 L288 211 M146 300 L287 300 M142 316 L288 389 M135 325 L291 481"/>
+      <circle cx="300" cy="110" r="13"/>
+      <circle cx="300" cy="205" r="13"/>
+      <circle cx="300" cy="300" r="13"/>
+      <circle cx="300" cy="395" r="13"/>
+      <circle cx="300" cy="490" r="13"/>
+      <text x="300" y="560" fill="#1C2233" stroke="none" text-anchor="end" dx="40">signals</text>
+    </g>
+    <g data-step="1">
+      <path d="M312 114 L430 150 M313 207 L430 225 M313 300 L430 300 M313 393 L430 375 M312 486 L430 450"/>
+      <rect x="430" y="100" width="32" height="400" rx="12"/>
+      <text x="446" y="72" fill="#1C2233" stroke="none" text-anchor="middle">read the code</text>
+      <path d="M446 500 V540"/>
+      <path d="M434 552 L458 576 M458 552 L434 576"/>
+      <text x="478" y="577" fill="#1C2233" stroke="none">dismissed</text>
+      <path d="M462 250 L587 232 M462 350 L587 368"/>
+      <circle cx="600" cy="230" r="13"/>
+      <circle cx="600" cy="370" r="13"/>
+      <text x="600" y="190" fill="#1C2233" stroke="none" text-anchor="middle">hypotheses</text>
+    </g>
+    <g data-step="2">
+      <path d="M613 233 L740 260 M613 367 L740 340"/>
+      <rect x="740" y="160" width="32" height="280" rx="12"/>
+      <text x="756" y="135" fill="#1C2233" stroke="none" text-anchor="middle">test</text>
+      <path d="M772 250 H880"/>
+      <circle cx="906" cy="250" r="24" fill="#C91F37" stroke="none"/>
+      <text x="906" y="310" fill="#1C2233" stroke="none" text-anchor="middle">evidence</text>
+      <path d="M772 380 H1236 M1216 362 L1236 380 L1216 398"/>
+      <text x="1000" y="430" fill="#1C2233" stroke="none" text-anchor="middle">green: stays</text>
+    </g>
+    <g data-step="3">
+      <path d="M932 250 H1018 M998 232 L1018 250 L998 268"/>
+      <circle cx="1060" cy="250" r="22"/>
+      <text x="1060" y="310" fill="#1C2233" stroke="none" text-anchor="middle">fix</text>
+      <path d="M1082 250 H1236 M1216 232 L1236 250 L1216 268"/>
+      <rect x="1240" y="210" width="200" height="210" rx="16"/>
+      <text x="1340" y="328" fill="#1C2233" stroke="none" text-anchor="middle">CI</text>
+      <path d="M1340 420 V585 H756 V446 M738 464 L756 446 L774 464"/>
+      <text x="1048" y="628" fill="#1C2233" stroke="none" text-anchor="middle">keeps guarding, every PR</text>
+    </g>
+  </g>
+</svg>
