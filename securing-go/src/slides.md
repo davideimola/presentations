@@ -805,21 +805,19 @@ Your code is affected by 1 vulnerability from the Go standard library.
 
 ---
 layout: default
+clicks: 2
 ---
 
 # Known isn't <Marker>reachable</Marker>
 
-<StatGrid class="mt-6">
-  <Stat v-click value="47" source="Go and the modules you build with">known vulnerabilities</Stat>
-  <Stat v-click value="5" source="the packages you import">in code you pulled in</Stat>
-  <Stat v-click value="1" source="govulncheck ./...">in code you actually call</Stat>
-</StatGrid>
+<DrawnSvg src="/drawings/reachable.svg" alt="Your code calls into Go and its modules, where 47 functions are known to be vulnerable; only one call path, readManifest to Reader.Open, reaches a vulnerable one" steps class="mt-4" />
 
-<!-- ~1min. Same build, three questions, one click each.
-     47: everything known in the Go release and the modules this build carries (42 in packages it never imports).
-     5: in packages it imports (4 of them in functions it never calls).
-     1: a function the code reaches through the call graph. That's the only one govulncheck reports as a finding.
-     A scanner that reads go.mod stops at the first or second number. Callback to "True. But unreachable.": the same line the AI couldn't draw, govulncheck draws with the call graph.
+<!-- ~1min. The call graph, simplified.
+     On enter: Go and the modules this build carries. The filled dots are vulnerable functions: 47 known (42 in packages the code never imports, 4 imported but never called, 1 called).
+     Click 1: our code. main calls readManifest, which calls zip.NewReader and io.Copy: safe functions.
+     Click 2: the one call that reaches a vulnerable function, Reader.Open. That red dot is the only finding govulncheck reports.
+     A scanner that reads go.mod would report every filled dot. govulncheck follows the arrows.
+     Callback to "True. But unreachable.": the same line, drawn by the call graph.
      Numbers from govulncheck on 2026-10-21; re-run the morning of the talk, the database grows. -->
 
 ---

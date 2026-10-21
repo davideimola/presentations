@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" width="1600" height="600">
+  <g fill="none" stroke="#1C2233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" font-family="IBM Plex Mono, monospace" font-size="32">
+    <g data-step="0">
+      <rect x="620" y="80" width="900" height="460" rx="24"/>
+      <text x="1070" y="50" fill="#1C2233" stroke="none" text-anchor="middle">Go and the modules you build with</text>
+      <circle cx="720" cy="170" r="13"/>
+      <circle cx="720" cy="430" r="13"/>
+      <circle cx="1000" cy="170" r="13"/>
+      <circle cx="1280" cy="170" r="13"/>
+      <circle cx="1140" cy="300" r="13"/>
+      <circle cx="1280" cy="300" r="13"/>
+      <circle cx="860" cy="430" r="13"/>
+      <circle cx="1140" cy="430" r="13"/>
+      <circle cx="1420" cy="430" r="13"/>
+      <circle cx="860" cy="170" r="14" fill="#1C2233" stroke="none"/>
+      <circle cx="1140" cy="170" r="14" fill="#1C2233" stroke="none"/>
+      <circle cx="1420" cy="170" r="14" fill="#1C2233" stroke="none"/>
+      <circle cx="1000" cy="300" r="14" fill="#1C2233" stroke="none"/>
+      <circle cx="1420" cy="300" r="14" fill="#1C2233" stroke="none"/>
+      <circle cx="1000" cy="430" r="14" fill="#1C2233" stroke="none"/>
+      <circle cx="1280" cy="430" r="14" fill="#1C2233" stroke="none"/>
+      <circle cx="860" cy="300" r="14" fill="#1C2233" stroke="none"/>
+      <circle cx="840" cy="500" r="10" fill="#1C2233" stroke="none"/>
+      <text x="862" y="511" fill="#1C2233" stroke="none">47 known vulnerabilities</text>
+    </g>
+    <g data-step="1">
+      <text x="250" y="170" fill="#1C2233" stroke="none" text-anchor="middle">your code</text>
+      <circle cx="120" cy="300" r="22"/>
+      <text x="120" y="365" fill="#1C2233" stroke="none" text-anchor="middle">main</text>
+      <path d="M142 300 H328"/>
+      <circle cx="350" cy="300" r="22"/>
+      <text x="330" y="238" fill="#1C2233" stroke="none" text-anchor="middle">readManifest</text>
+      <path d="M370 290 L707 177 M370 310 L707 423"/>
+    </g>
+    <g data-step="2">
+      <path d="M372 300 H844"/>
+      <circle cx="860" cy="300" r="16" fill="#C91F37" stroke="none"/>
+      <text x="860" y="262" fill="#1C2233" stroke="none" text-anchor="middle">Reader.Open</text>
+    </g>
+  </g>
+</svg>
