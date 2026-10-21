@@ -693,105 +693,6 @@ layout: statement
 <!-- Bridge to "not safe": an honest module, a known CVE. That's what govulncheck answers. -->
 
 ---
-layout: code-hero
----
-
-###### demo · unzipper, go1.25.5
-
-```go {all|2|7}
-func main() {
-	zr, err := zip.OpenReader(os.Args[1])
-	if err != nil {
-		panic(err)
-	}
-	defer zr.Close()
-	f, err := zr.Open("manifest.json")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-	io.Copy(os.Stdout, f)
-}
-```
-
-<!-- LIVE DEMO start (~5min with the next slides). "Imagine this is behind your upload endpoint."
-     Why a CLI and not net/http: on go1.25.5 an HTTP server gets 22 reachable stdlib findings, ~400 lines of output. Unusable live.
-     Setup BEFORE the talk:
-       export GOTOOLCHAIN=go1.25.5+auto   (a toolchain line in go.mod does NOT downgrade; +auto lets the live fix work)
-       pre-download go1.25.5, build govulncheck with the newest Go you scan with
-       re-run the morning of the talk: the "4 ... 42" counts grow with the database
-     Plan B: GOVULNDB local mirror + asciinema + these slides. -->
-
----
-layout: terminal
-title: "$ govulncheck ./..."
----
-
-```sh
-=== Symbol Results ===
-
-Vulnerability #1: GO-2026-4342
-    Excessive CPU consumption when building archive index in archive/zip
-  More info: https://pkg.go.dev/vuln/GO-2026-4342
-  Standard library
-    Found in: archive/zip@go1.25.5
-    Fixed in: archive/zip@go1.25.6
-    Example traces found:
-      #1: main.go:15:19: unzipper.main calls zip.Reader.Open
-
-Your code is affected by 1 vulnerability from the Go standard library.
-This scan also found 4 vulnerabilities in packages you import and 42
-vulnerabilities in modules you require, but your code doesn't appear to call
-these vulnerabilities.
-```
-
-<!-- Real output, govulncheck on go1.25.5, 2026-10-21. Exit code 3.
-     Point at the trace: file, line, the call that reaches the vulnerable symbol. -->
-
----
-layout: default
----
-
-# Known isn't <Marker>reachable</Marker>
-
-<StatGrid class="mt-6">
-  <Stat v-click value="47" source="this build, 2026-10-21">known vulnerabilities in the stdlib and modules</Stat>
-  <Stat v-click value="1" source="govulncheck ./...">that this code actually calls</Stat>
-</StatGrid>
-
-<!-- ~45s. Callback to section 02: "True. But unreachable." The AI flagged a real bug in code nobody calls. govulncheck draws the same line, with the call graph instead of a guess.
-     47 = 1 reachable + 4 in imported packages + 42 in required modules. -->
-
----
-layout: two-cols-header
----
-
-# Same import. Different <Marker>verdict</Marker>.
-
-::left::
-
-###### not reported
-
-```go
-for _, f := range zr.File {
-	rc, _ := f.Open()
-	io.Copy(os.Stdout, rc)
-}
-```
-
-::right::
-
-###### reported
-
-```go
-f, _ := zr.Open("manifest.json")
-io.Copy(os.Stdout, f)
-```
-
-<!-- ~45s. Verified on go1.25.5: iterating zr.File and calling File.Open never reaches the vulnerable symbol (0 affected). zr.Open is Reader.Open, the fs.FS method that builds the file name index: reported.
-     A scanner that reads go.mod would flag both. govulncheck reads the call graph. -->
-
----
 layout: split-code
 ---
 
@@ -803,7 +704,7 @@ The first `Open` builds a file name index, and that index is super-linear.
 
 A crafted archive burns the CPU.
 
-Section 02 again, this time inside the standard library.
+The resource exhaustion from section 02, this time inside the standard library.
 
 ::right::
 
@@ -820,11 +721,80 @@ Severity:  CPU denial of service
      Issue go.dev/issue/77102, fix CL 736713, credit Jakub Ciolek. -->
 
 ---
+layout: two-cols-header
+---
+
+# Same import. Which one is <Marker>affected</Marker>?
+
+::left::
+
+###### <span v-click="2">not affected</span>
+
+```go
+zr, _ := zip.OpenReader(path)
+for _, f := range zr.File {
+	rc, _ := f.Open()
+	io.Copy(os.Stdout, rc)
+}
+```
+
+::right::
+
+###### <span v-click="1">affected</span>
+
+```go
+zr, _ := zip.OpenReader(path)
+f, _ := zr.Open("manifest.json")
+io.Copy(os.Stdout, f)
+```
+
+<!-- ~1min. Ask the room first. Both import archive/zip, both run on go1.25.5: a scanner that reads go.mod flags both.
+     Click 1: the right one. zr.Open is Reader.Open, the fs.FS method that builds the file name index: that's the vulnerable symbol.
+     Click 2: the left one is not. Iterating zr.File and calling File.Open never reaches it (verified with govulncheck on go1.25.5: 0 affected).
+     Only a tool that reads the call graph can tell them apart. -->
+
+---
+layout: terminal
+title: "$ govulncheck ./..."
+---
+
+```text
+Vulnerability #1: GO-2026-4342
+    Excessive CPU consumption when building archive index in archive/zip
+  Found in: archive/zip@go1.25.5
+  Fixed in: archive/zip@go1.25.6
+  Example traces found:
+    #1: main.go:15:19: unzipper.main calls zip.Reader.Open
+
+Your code is affected by 1 vulnerability from the Go standard library.
+```
+
+<!-- On the right-hand code (a ~20 line CLI, see the notes of the next slide for the setup). Real output, trimmed: the "=== Symbol Results ===" header, the More info link and the "also found" paragraph are cut (the paragraph is the next slide). Exit code 3.
+     Point at the trace: the file, the line, the call that reaches the vulnerable symbol.
+     On the left-hand code the same scan says "Your code is affected by 0 vulnerabilities."
+     Setup BEFORE the talk: export GOTOOLCHAIN=go1.25.5+auto (a toolchain line in go.mod does NOT downgrade; +auto lets the fix work), pre-download go1.25.5, build govulncheck with the newest Go you scan with, re-run the morning of the talk (the counts grow with the database).
+     Why a CLI and not net/http: on go1.25.5 an HTTP server gets 22 reachable stdlib findings, ~400 lines of output. -->
+
+---
+layout: default
+---
+
+# Known isn't <Marker>reachable</Marker>
+
+<StatGrid class="mt-6">
+  <Stat v-click value="47" source="this build, 2026-10-21">known vulnerabilities in the stdlib and modules</Stat>
+  <Stat v-click value="1" source="govulncheck ./...">that this code actually calls</Stat>
+</StatGrid>
+
+<!-- ~45s. Callback to section 02: "True. But unreachable." The AI flagged a real bug in code nobody calls. govulncheck draws the same line, with the call graph instead of a guess.
+     47 = 1 reachable + 4 in imported packages + 42 in required modules. -->
+
+---
 layout: terminal
 title: "$ go get toolchain@go1.26.10 && govulncheck ./..."
 ---
 
-```sh
+```text
 go: added toolchain go1.26.10
 
 No vulnerabilities found.
