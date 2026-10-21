@@ -4,8 +4,8 @@
     <p class="whoami__line">
       <slot name="line">I build AI agents for <Marker>security</Marker>, and the tools I need along the way.</slot>
     </p>
-    <p class="whoami__lead">
-      <slot name="lead">I write mostly Go, and I share everything I learn.</slot>
+    <p v-if="$slots.lead" class="whoami__lead">
+      <slot name="lead" />
     </p>
     <dl class="whoami__facts">
       <div>
@@ -32,11 +32,10 @@
 import Marker from './Marker.vue'
 
 /* The speaker intro, in the brand's voice (brand.md, Positioning and Voice):
-   the name, the line with the slide's one marker, a first person lead,
-   then the facts by kind, the role among them so it stays apart from the
-   lead. The hobbies stay: they are the ice breakers. Override `line` or
-   `lead` per talk when the room needs another angle; the defaults are the
-   brand's own words. */
+   the name, the line with the slide's one marker, then the facts by kind.
+   The hobbies stay: they are the ice breakers. Override `line` per talk
+   when the room needs another angle (its default is the brand's own
+   words); add a `lead` only when a talk needs one more sentence. */
 </script>
 
 <style scoped>
@@ -45,7 +44,7 @@ import Marker from './Marker.vue'
 }
 
 .whoami__line {
-  margin: 0 0 14px;
+  margin: 0 0 28px;
   font-size: 34px;
   font-weight: 600;
   line-height: 1.25;
