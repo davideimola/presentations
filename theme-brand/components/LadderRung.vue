@@ -2,18 +2,22 @@
   <div class="ladder-rung">
     <span class="ladder-rung__marker">{{ String(n).padStart(2, '0') }}</span>
     <div class="ladder-rung__body">
-      <div class="ladder-rung__title">{{ title }}</div>
+      <div class="ladder-rung__title">{{ title }}<Tape v-if="tag" class="ladder-rung__tag" :n="2" :size="18">{{ tag }}</Tape></div>
       <div class="ladder-rung__desc"><slot /></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import Tape from './Tape.vue'
+
 /* One rung of a <Ladder>: numbered mono marker, title, description.
-   Rungs are separated by hairlines, the brand's only divider. */
+   Rungs are separated by hairlines, the brand's only divider. `tag` puts a
+   small tape beside the title, such as "built by me". */
 defineProps({
   n: { type: Number, required: true },
   title: { type: String, required: true },
+  tag: { type: String, default: '' },
 })
 </script>
 
@@ -52,5 +56,10 @@ defineProps({
   font-size: var(--di-slide-body);
   line-height: 1.4;
   color: var(--di-fg-muted);
+}
+
+.ladder-rung__tag {
+  margin-left: 14px;
+  vertical-align: 2px;
 }
 </style>

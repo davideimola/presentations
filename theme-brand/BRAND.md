@@ -98,7 +98,7 @@ Loaded from Google Fonts through the theme's `fonts` defaults:
 | `<Badge type="default\|accent\|success\|warning">` | Small mono label; `accent` is filled ink |
 | `<Chat>`, `<ChatBubble user>` | Chat mockup: user in ink, model on white |
 | `<Rungs :active="2" />`, `<RungBadge :n="1" />` | Step indicator, active step in ink |
-| `<Ladder>`, `<LadderRung :n title>` | Vertical list of steps split by hairlines; `compact` for one line per rung |
+| `<Ladder>`, `<LadderRung :n title tag>` | Vertical list of steps split by hairlines; `compact` for one line per rung; `tag` adds a small tape beside a rung's title ("built by me") |
 | `<StatGrid>`, `<Stat value source>` | Big numbers in ink under a rule |
 | `<QRCode>`, `<QRBlock>` | Ink on paper QR code, the block adds a mono label |
 | `<BrowserFrame url bodyBg>` | Screenshot frame: 2px ink border, hard offset shadow, 44px linen bar with three ink-outlined dots and the url in a white field. Images fill the body edge to edge |
