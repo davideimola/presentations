@@ -737,18 +737,20 @@ clicks: 2
 
 # Same import. Which one is <Marker>affected</Marker>?
 
-<div class="grid grid-cols-2 gap-x-10 gap-y-4 items-stretch mt-4">
+```go
+zr, err := zip.NewReader(upload, size) // a user's upload
+```
+
+<div class="grid grid-cols-2 gap-x-10 gap-y-3 items-stretch mt-4">
 
 <div><Tape v-click="2" :n="0">not affected</Tape></div>
 <div><Tape v-click="1" :n="1">affected</Tape></div>
 
 <div class="snippet">
 
-```go {all|all|3}
-zr, _ := zip.OpenReader(path)
+```go {all|all|2}
 for _, f := range zr.File {
-	rc, _ := f.Open()
-	io.Copy(os.Stdout, rc)
+	rc, err := f.Open()
 }
 ```
 
@@ -756,15 +758,13 @@ for _, f := range zr.File {
 <div class="snippet">
 
 ```go
-zr, _ := zip.OpenReader(path)
-f, _ := zr.Open("manifest.json")
-io.Copy(os.Stdout, f)
+f, err := zr.Open("manifest.json")
 ```
 
 </div>
 
 <Callout v-click="2" type="note" label="why"><code>File.Open</code> reads one entry. The index is never built.</Callout>
-<Callout v-click="1" type="note" label="why"><code>Reader.Open</code> builds the file name index: the vulnerable code.</Callout>
+<Callout v-click="1" type="note" label="why"><code>Reader.Open</code> indexes the whole archive first.</Callout>
 
 </div>
 
@@ -777,7 +777,9 @@ io.Copy(os.Stdout, f)
      The left one reads entry by entry: File.Open decompresses that one entry and never asks which folders it lives in. A long name is just a long string nobody walks.
      Click 1: the right one. zr.Open is Reader.Open, the fs.FS method that builds the file name index: that's the vulnerable symbol.
      Click 2: the left one is not. Iterating zr.File and calling File.Open never reaches it (verified with govulncheck on go1.25.5: 0 affected).
-     Only a tool that reads the call graph can tell them apart. -->
+     Only a tool that reads the call graph can tell them apart.
+     If someone says "I never call zr.Open": http.FileServer(http.FS(zr)) or template.ParseFS(zr, ...) reach Reader.Open inside the standard library, and govulncheck follows the call graph in there too.
+     The code is securing-go/demo/unzip (right-hand version). -->
 
 ---
 layout: terminal
@@ -790,12 +792,12 @@ Vulnerability #1: GO-2026-4342
   Found in: archive/zip@go1.25.5
   Fixed in: archive/zip@go1.25.6
   Example traces found:
-    #1: main.go:15:19: unzipper.main calls zip.Reader.Open
+    #1: main.go:17:19: unzip.readManifest calls zip.Reader.Open
 
 Your code is affected by 1 vulnerability from the Go standard library.
 ```
 
-<!-- On the right-hand code (a ~20 line CLI, see the notes of the next slide for the setup). Real output, trimmed: the "=== Symbol Results ===" header, the More info link and the "also found" paragraph are cut (the paragraph is the next slide). Exit code 3.
+<!-- On the right-hand code: securing-go/demo/unzip, readManifest(upload, size) called by a tiny main. Real output, trimmed: the "=== Symbol Results ===" header, the More info link and the "also found" paragraph are cut (the paragraph is the next slide). Exit code 3.
      Point at the trace: the file, the line, the call that reaches the vulnerable symbol.
      On the left-hand code the same scan says "Your code is affected by 0 vulnerabilities."
      Setup BEFORE the talk: export GOTOOLCHAIN=go1.25.5+auto (a toolchain line in go.mod does NOT downgrade; +auto lets the fix work), pre-download go1.25.5, build govulncheck with the newest Go you scan with, re-run the morning of the talk (the counts grow with the database).
