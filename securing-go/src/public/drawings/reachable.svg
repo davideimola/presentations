@@ -29,7 +29,7 @@
       <text x="120" y="365" fill="#1C2233" stroke="none" text-anchor="middle">main</text>
       <path d="M142 300 H328"/>
       <circle cx="350" cy="300" r="22"/>
-      <text x="330" y="238" fill="#1C2233" stroke="none" text-anchor="middle">readManifest</text>
+      <text x="330" y="238" fill="#1C2233" stroke="none" text-anchor="middle">handleUpload</text>
       <path d="M370 290 L707 177 M370 310 L707 423"/>
       <text x="720" y="135" fill="#1C2233" stroke="none" text-anchor="middle">NewReader</text>
       <text x="720" y="482" fill="#1C2233" stroke="none" text-anchor="middle">io.Copy</text>

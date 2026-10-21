@@ -792,12 +792,12 @@ Vulnerability #1: GO-2026-4342
   Found in: archive/zip@go1.25.5
   Fixed in: archive/zip@go1.25.6
   Example traces found:
-    #1: main.go:17:19: unzip.readManifest calls zip.Reader.Open
+    #1: main.go:17:19: unzip.handleUpload calls zip.Reader.Open
 
 Your code is affected by 1 vulnerability from the Go standard library.
 ```
 
-<!-- On the right-hand code: securing-go/demo/unzip, readManifest(upload, size) called by a tiny main. Real output, trimmed: the "=== Symbol Results ===" header, the More info link and the "also found" paragraph are cut (the paragraph is the next slide). Exit code 3.
+<!-- On the right-hand code: securing-go/demo/unzip, handleUpload(upload, size) called by a tiny main. Real output, trimmed: the "=== Symbol Results ===" header, the More info link and the "also found" paragraph are cut (the paragraph is the next slide). Exit code 3.
      Point at the trace: the file, the line, the call that reaches the vulnerable symbol.
      On the left-hand code the same scan says "Your code is affected by 0 vulnerabilities."
      Setup BEFORE the talk: export GOTOOLCHAIN=go1.25.5+auto (a toolchain line in go.mod does NOT downgrade; +auto lets the fix work), pre-download go1.25.5, build govulncheck with the newest Go you scan with, re-run the morning of the talk (the counts grow with the database).
@@ -810,11 +810,13 @@ clicks: 2
 
 # Known isn't <Marker>reachable</Marker>
 
-<DrawnSvg src="/drawings/reachable.svg" alt="Your code calls into Go and its modules, where 47 functions are known to be vulnerable; only one call path, readManifest to Reader.Open, reaches a vulnerable one" steps class="mt-4" />
+<DrawnSvg src="/drawings/reachable.svg" alt="Your code calls into Go and its modules, where 47 functions are known to be vulnerable; only one call path, handleUpload to Reader.Open, reaches a vulnerable one" steps class="mt-4" />
+
+<p v-click="2" class="text-center">govulncheck follows the calls, and reports only the red one.</p>
 
 <!-- ~1min. The call graph, simplified.
      On enter: Go and the modules this build carries. The filled dots are vulnerable functions: 47 known (42 in packages the code never imports, 4 imported but never called, 1 called).
-     Click 1: our code. main calls readManifest, which calls zip.NewReader and io.Copy: safe functions.
+     Click 1: our code. main calls handleUpload, which calls zip.NewReader and io.Copy: safe functions.
      Click 2: the one call that reaches a vulnerable function, Reader.Open. That red dot is the only finding govulncheck reports.
      A scanner that reads go.mod would report every filled dot. govulncheck follows the arrows.
      Callback to "True. But unreachable.": the same line, drawn by the call graph.

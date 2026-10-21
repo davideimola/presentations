@@ -1,4 +1,4 @@
-// Command unzip reads the manifest from an uploaded zip. It is the
+// Command unzip handles an uploaded zip and reads its manifest. It is the
 // affected snippet from the talk, run by govulncheck on go1.25.5: no
 // net/http, so the scan reports this one vulnerability and nothing else.
 package main
@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func readManifest(upload io.ReaderAt, size int64) error {
+func handleUpload(upload io.ReaderAt, size int64) error {
 	zr, err := zip.NewReader(upload, size)
 	if err != nil {
 		return err
@@ -33,7 +33,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := readManifest(upload, info.Size()); err != nil {
+	if err := handleUpload(upload, info.Size()); err != nil {
 		panic(err)
 	}
 }
