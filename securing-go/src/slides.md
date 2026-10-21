@@ -982,16 +982,23 @@ skills/
      "and with Argus" (Toolbox mode, skills in ~/.argus/skills/) only if the end-to-end test passed. -->
 
 ---
-layout: center
+layout: default
 ---
 
 # Give them to your <Marker>agent</Marker>
+
+<div class="grid grid-cols-[minmax(0,1fr)_auto] gap-16 items-center mt-8">
+<div>
+
+Three skills. Claude Code, Codex, Copilot, Cursor, Gemini CLI: any agent that reads `SKILL.md`.
 
 ```sh
 npx skills add davideimola/go-security-skills
 ```
 
-<QRBlock value="https://github.com/davideimola/go-security-skills" label="github.com/davideimola/go-security-skills" />
+</div>
+<QRBlock value="https://github.com/davideimola/go-security-skills" label="go-security-skills" :size="240" />
+</div>
 
 <!-- ~20s. Leave it on screen long enough for phones to come out. Claude Code plugin install is in the README, not on the slide. -->
 
