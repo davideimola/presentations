@@ -722,15 +722,16 @@ Severity:  CPU denial of service
 
 ---
 layout: two-cols-header
+clicks: 2
 ---
 
 # Same import. Which one is <Marker>affected</Marker>?
 
 ::left::
 
-###### <span v-click="2">not affected</span>
+<Tape v-click="2" :n="0" class="mb-4">not affected</Tape>
 
-```go
+```go {all|all|3}
 zr, _ := zip.OpenReader(path)
 for _, f := range zr.File {
 	rc, _ := f.Open()
@@ -738,15 +739,19 @@ for _, f := range zr.File {
 }
 ```
 
+<p v-click="2"><code>File.Open</code> reads one entry. The index is never built.</p>
+
 ::right::
 
-###### <span v-click="1">affected</span>
+<Tape v-click="1" :n="1" class="mb-4">affected</Tape>
 
 ```go
 zr, _ := zip.OpenReader(path)
 f, _ := zr.Open("manifest.json")
 io.Copy(os.Stdout, f)
 ```
+
+<p v-click="1"><code>Reader.Open</code> builds the file name index: the vulnerable code.</p>
 
 <!-- ~1min. Ask the room first. Both import archive/zip, both run on go1.25.5: a scanner that reads go.mod flags both.
      Click 1: the right one. zr.Open is Reader.Open, the fs.FS method that builds the file name index: that's the vulnerable symbol.
