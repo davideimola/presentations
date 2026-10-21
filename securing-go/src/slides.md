@@ -870,93 +870,123 @@ transition: fade
 layout: default
 ---
 
-# Monday morning
+# Monday <Marker>morning</Marker>
 
 <v-clicks>
 
-- Add `govulncheck` to your CI — one PR, one workflow file
-- Write one fuzz test on your most critical auth path
-- Add `go mod verify` to your release pipeline
+- Add `govulncheck` to CI, scanning the Go you ship
+- Write one fuzz test on your most critical auth path: who must be denied
+- Run `go mod verify` in your release pipeline
+- Run the loop once on a critical path: analyze, find, test, verify, fix
 
 </v-clicks>
 
-<div class="mt-12 opacity-60">
-  More on the talk repo: <code>gosec</code>, dependency hygiene, fuzz patterns.
-</div>
-
-<!-- delivery: ~2min. Read each item, half a beat between. The point isn't
-     to teach — they already saw it — it's to make it concrete and small. -->
+<!-- ~1min30. Read each item, half a beat between. They already saw all of it: the point is to make it small and concrete. -->
 
 ---
 layout: default
 ---
 
-# Beyond the toolchain
+# Beyond the <Marker>toolchain</Marker>
 
-- **SBOM** — know what's actually in your build (`cyclonedx-gomod`, `syft`)
-- **SLSA** — prove what you shipped is what you built
-- Both deserve their own talk. **Golab has them. Check the schedule.**
+- **SBOM**: know what's actually in your build (`cyclonedx-gomod`, `syft`)
+- **SLSA**: prove that what you shipped is what you built
 
-<!-- delivery: ~90s. Don't teach SBOM/SLSA. Acknowledge they exist,
-     point to other talks. The honesty buys you trust. -->
+<Callout type="tip" label="at golab">Yesterday, "Trust nothing: how to audit third-party Go binaries securely" by Ivan Pesenti. Catch the recording.</Callout>
+
+<!-- ~45s. Don't teach SBOM/SLSA, acknowledge them.
+     Schedule checked 2026-10-21 (marked "not final"): no SBOM/SLSA talk at GoLab 2026, so the old "GoLab has them" line was wrong.
+     Related talks: Pesenti, Nov 2 15:30 Golab #2. Also "Your tests pass, but do they work? Mutation testing in Go" (Takuma Shibuya, Nov 2 14:45 Golab #1) pairs with "nobody tested the right assumption".
+     Re-check the schedule the day before. -->
 
 ---
 layout: split-code
 ---
 
-###### sez 3 / take this
+###### take this
 
-# Ship Monday
+# Everything, in one <Marker>repo</Marker>
 
-I packaged everything we covered.
+Every practice from this talk, already wired in.
 
-`govulncheck`, fuzz tests, SBOM generation, SLSA provenance.
+Start a new service from it, or copy the one file you need.
 
-One composite GitHub Action. One line in your workflow.
+`gonew github.com/davideimola/[REPO] example.com/svc`
 
 ::right::
 
-```yaml
-# .github/workflows/security.yml
-- uses: davideimola/<action-name>@v1
-  with:
-    fuzz-time: 30s
+```text
+.github/workflows/
+  security.yml       # govulncheck, verify, fuzz
+internal/authz/
+  authz.go           # deny by default
+  authz_fuzz_test.go # the property
+internal/httpx/
+  server.go          # timeouts, body limits
+  headers.go         # security headers
+skills/
+  go-security-review/
+  verify-with-fuzz/
 ```
 
-<!-- TBD: real action repo + name. See open question in TALK.md.
-     QR/link to repo will be in the final cover slide. -->
+<!-- ~1min30. [REPO] = name TBD: the template repo is released with the talk (see TALK.md).
+     gonew (golang.org/x/tools/cmd/gonew) is the official Go way to start from a template module.
+     The skills folder is plain Agent Skills: works with any coding agent, and with Argus. -->
 
 ---
 layout: default
 ---
 
-# AI is the next tool
+# Give your AI the <Marker>tools</Marker>
 
-- Use AI for **vulnerability assessment**, not just code writing or review
-- Validate every suggestion with a test
+<Ladder compact>
+  <LadderRung v-click :n="1" title="Shell">let it run govulncheck and go test -fuzz itself</LadderRung>
+  <LadderRung v-click :n="2" title="Your own MCP server">typed tools instead of a raw shell</LadderRung>
+  <LadderRung v-click :n="3" title="Argus">open source, runs locally, already wired</LadderRung>
+</Ladder>
 
-<div class="mt-10">
+<!-- ~1min30. The loop from section 02, made routine: the AI proposes, the tools give signals, the tests give evidence.
+     Argus: ONE option among three, ~60s max, no demo. "If you want it ready-made, I built one. Use it, fork it, or build your own." Claim Go tooling only if it has shipped by now.
+     Next in Golab #1 at 12:15: "Your AGENTS.md Is a Lie (And Here's How to Fix It)" by Dario Castañé. Good hand-off if the timing works. -->
 
-> Attackers are using AI today.
->
-> Defenders are still arguing about it.
->
-> **Don't be on the wrong side.**
+---
+layout: fact
+---
 
-</div>
+# 80-90%
 
-<!-- delivery: ~90s. The bullets are the practical advice;
-     the blockquote is the closing punch of this slide. Pause after
-     "Don't be on the wrong side." Let it sit. -->
+of a cyber espionage campaign, executed by an AI agent
+
+<div class="mt-6 text-base opacity-60">Anthropic · November 2025</div>
+
+<!-- Anthropic, 2025-11-13: the AI performed "80-90% of the campaign", humans only at a few decision points.
+     The "GTG-1002" name is not on the news page (maybe in the full PDF): don't say it unless verified. -->
 
 ---
 layout: statement
 ---
 
-# Don't aim for perfect. Aim for paranoid and fix fast.
+# Attackers already run the loop.
 
-<!-- delivery: this is THE closing line. After this slide, the cover
-     "Thank you" appears. Pause. Audience claps. Walk off. -->
+<v-click>
+
+# Run it <Marker>first</Marker>.
+
+</v-click>
+
+---
+layout: statement
+---
+
+# Signals. Hypotheses. Evidence.
+
+<v-click>
+
+# Don't aim for perfect. Aim for paranoid and fix <Marker>fast</Marker>.
+
+</v-click>
+
+<!-- THE closing. First line recalls the guiding line from section 02, then the payoff. Pause. Then the end slide. -->
 
 ---
 layout: end

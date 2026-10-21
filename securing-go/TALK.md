@@ -33,7 +33,7 @@
   - (4min) INTRO: incident urgency stat + auth bug teaser + thesis + roadmap
   - (14min) SEZ 1 — Code you write: "Go is safe by default. Your application isn't." → trust boundaries (1 slide, SSRF as one example of client-controlled data) → resource exhaustion (1 slide, `MaxBytesReader`, seeds the zip DoS in sez 2) → bug story through the loop → make the fix stay fixed (property-based fuzz test in CI) → signal vs noise. No vulnerability catalog, no SQL injection / XSS.
   - (14min) SEZ 2 — Code you use: npm cautionary tale + sumdb arch (with `go mod verify` inline) + `govulncheck` LIVE DEMO (focus on call graph: true but unreachable) + bridge: the resource exhaustion from sez 1, this time in the stdlib
-  - (8min) SEZ 3 — Make it routine: checklist + SBOM/SLSA "go see other GoLab talks" + the template repo CTA (everything in the talk, in one place) + make the loop routine (give your AI the tools: plain shell, your own MCP server, or a ready-made open source option such as Argus, which runs locally; ~60s, one option among three, never "you need Argus") + closing
+  - (8min) SEZ 3 — Make it routine: checklist + SBOM/SLSA acknowledged (no SBOM/SLSA talk at GoLab 2026; point to the binary auditing talk) + the template repo CTA (everything in the talk, in one place) + make the loop routine (give your AI the tools: plain shell, your own MCP server, or a ready-made open source option such as Argus, which runs locally; ~60s, one option among three, never "you need Argus") + closing
   - (10min) Q&A
 - **Demo plan**:
   - Main live demo (sez 2, ~9min): `govulncheck` on a reachable stdlib vulnerability (CVE-2025-61728 being verified). Plan B: `GOVULNDB` local mirror + asciinema + screenshots.
