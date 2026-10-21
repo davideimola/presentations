@@ -656,40 +656,27 @@ layout: two-cols-header
 ###### it does
 
 - Same bytes for everyone
-- Nobody can swap a version, not even its author
-
-::right::
+- Nobody can swap a version
 
 ###### it doesn't
-
-<v-clicks>
 
 - That the bytes are **honest**
 - That the bytes are **safe**
 
-</v-clicks>
+::right::
 
-<!-- ~45s. The map for the rest of the section. Honest: a module can be malicious from its first version (next slide). Safe: an honest module can carry a known vulnerability (govulncheck, after that). -->
+<v-click>
 
----
-layout: default
----
+<Callout type="note" label="boltdb-go/bolt">A typo of boltdb, backdoored from its first version. Then the GitHub tag was rewritten to clean code. For three years the repo looked fine, and the proxy served the backdoor.</Callout>
 
-###### not honest
+</v-click>
 
-# Typo. Cached. <Marker>Served</Marker> for years.
-
-| When | What |
-|---|---|
-| Nov 2021 | `boltdb-go/bolt` v1.3.1, backdoored, cached by the proxy |
-| later | the GitHub tag is rewritten to point at clean code |
-| 3+ years | the proxy keeps serving the backdoor |
-| Feb 2025 | reported by Socket, now GO-2025-3451 |
-
-<!-- ~1min. Typosquat of github.com/boltdb/bolt (8,367 dependents). Backdoor triggers on Open(): remote shell over C2.
+<!-- ~1min30. Left: the map for the rest of the section. Honest and safe are the two holes.
+     Click: the story of "not honest". A typosquat of github.com/boltdb/bolt (8,367 dependents), v1.3.1 cached by the proxy in Nov 2021. Backdoor on Open(): remote shell over C2.
      Nothing was rewritten in the proxy: the checksum db forbids that. The attacker rewrote the GitHub tag, so whoever reviewed the repo saw clean code while the proxy kept serving the original, malicious bytes. The immutability that protects us kept the backdoor alive.
+     Reported by Socket in Feb 2025 (GO-2025-3451). Today proxy.golang.org answers 403: "The module proxy considers this module to be malicious and will not serve it".
      Lesson: review the code the proxy serves (go mod download, pkg.go.dev source), not the repo.
-     Today proxy.golang.org answers 403: "The module proxy considers this module to be malicious and will not serve it". A screenshot of that would work well here.
+     "Safe" is the next slide: honest bytes with a known CVE.
      Source: socket.dev/blog/malicious-package-exploits-go-module-proxy-caching-for-persistence (2025-02-04) -->
 
 ---
