@@ -936,6 +936,31 @@ layout: default
      Honest framing: don't say GoLab covered SBOM/SLSA. -->
 
 ---
+layout: fact
+---
+
+# 80-90%
+
+of a cyber espionage campaign, executed by an AI agent
+
+<div class="mt-6 text-base opacity-60">Anthropic · November 2025</div>
+
+<!-- Anthropic, 2025-11-13: the AI performed "80-90% of the campaign", humans only at a few decision points.
+     The "GTG-1002" name is not on the news page (maybe in the full PDF): don't say it unless verified. -->
+
+---
+layout: statement
+---
+
+# Attackers already use AI to find bugs.
+
+<v-click>
+
+# Make them <Marker>red</Marker> first.
+
+</v-click>
+
+---
 layout: default
 ---
 
@@ -999,31 +1024,6 @@ npx skills add davideimola/go-security-skills
 </div>
 
 <!-- ~20s. Leave it on screen long enough for phones to come out. Claude Code plugin install is in the README, not on the slide. -->
-
----
-layout: fact
----
-
-# 80-90%
-
-of a cyber espionage campaign, executed by an AI agent
-
-<div class="mt-6 text-base opacity-60">Anthropic · November 2025</div>
-
-<!-- Anthropic, 2025-11-13: the AI performed "80-90% of the campaign", humans only at a few decision points.
-     The "GTG-1002" name is not on the news page (maybe in the full PDF): don't say it unless verified. -->
-
----
-layout: statement
----
-
-# Attackers already use AI to find bugs.
-
-<v-click>
-
-# Make them <Marker>red</Marker> first.
-
-</v-click>
 
 ---
 layout: statement
