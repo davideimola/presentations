@@ -739,7 +739,7 @@ for _, f := range zr.File {
 }
 ```
 
-<p v-click="2"><code>File.Open</code> reads one entry. The index is never built.</p>
+<Callout v-click="2" type="note" label="why" class="mt-6"><code>File.Open</code> reads one entry. The index is never built.</Callout>
 
 ::right::
 
@@ -751,7 +751,7 @@ f, _ := zr.Open("manifest.json")
 io.Copy(os.Stdout, f)
 ```
 
-<p v-click="1"><code>Reader.Open</code> builds the file name index: the vulnerable code.</p>
+<Callout v-click="1" type="note" label="why" class="mt-6"><code>Reader.Open</code> builds the file name index: the vulnerable code.</Callout>
 
 <!-- ~1min. Ask the room first. Both import archive/zip, both run on go1.25.5: a scanner that reads go.mod flags both.
      Click 1: the right one. zr.Open is Reader.Open, the fs.FS method that builds the file name index: that's the vulnerable symbol.
