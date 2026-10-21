@@ -53,7 +53,7 @@ layout: split-code
 
 ###### intro / teaser
 
-# We shipped <Marker>this</Marker>
+# This <Marker>shipped</Marker>
 
 Thirteen months in production.
 

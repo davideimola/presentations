@@ -33,7 +33,7 @@ import Wordmark from '../components/Wordmark.vue'
    the cover is shown (brand.md, Drawings), faster than a diagram. */
 const props = defineProps({
   event: { type: String, default: '' },
-  role: { type: String, default: 'Tech Lead, RedCarbon · davideimola.dev' },
+  role: { type: String, default: 'davideimola.dev' },
 })
 
 const eventLabel = computed(() => props.event)

@@ -40,7 +40,7 @@ import Wordmark from '../components/Wordmark.vue'
    tape falls back to the cover's `event`. */
 const props = defineProps({
   event: { type: String, default: '' },
-  role: { type: String, default: 'Tech Lead, RedCarbon · davideimola.dev' },
+  role: { type: String, default: 'davideimola.dev' },
   links: { type: Array as () => string[], default: () => [] },
   qr: { type: String, default: '' },
   qrLabel: { type: String, default: undefined },
