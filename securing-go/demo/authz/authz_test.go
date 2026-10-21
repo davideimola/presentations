@@ -20,15 +20,16 @@ func TestCanManageOrgDenies(t *testing.T) {
 
 func FuzzCanManageOrg(f *testing.F) {
 	f.Add(false, true, "acme", "acme") // the happy path
-	f.Fuzz(func(t *testing.T,
-		super, admin bool, userOrg, org string) {
-
-		u := User{super, admin, userOrg}
-		allowed := org != "" &&
-			(super || (admin && userOrg == org))
-
-		if canManageOrg(u, org) && !allowed {
-			t.Fatalf("granted: %+v on %q", u, org)
+	f.Fuzz(func(t *testing.T, super, admin bool, uOrg, org string) {
+		u := User{super, admin, uOrg}
+		if !canManageOrg(u, org) {
+			return // denied is always safe
+		}
+		if org == "" {
+			t.Fatal("granted with no org")
+		}
+		if !super && !(admin && uOrg == org) {
+			t.Fatal("granted to a non-admin of this org")
 		}
 	})
 }

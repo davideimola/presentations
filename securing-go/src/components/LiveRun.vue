@@ -3,10 +3,7 @@
     <div v-if="state === 'fallback'" class="live-run__fallback">
       <slot />
     </div>
-    <pre v-else class="live-run__out">{{ output }}<span v-if="state === 'running'" class="live-run__cursor">▍</span></pre>
-    <button v-if="state === 'idle'" class="live-run__button" @click="run">
-      run
-    </button>
+    <pre v-else class="live-run__out" @click="run">{{ output }}<span v-if="state !== 'done'" class="live-run__cursor">▍</span></pre>
   </div>
 </template>
 
@@ -15,7 +12,8 @@ import { useNav, useSlideContext } from '@slidev/client'
 import { ref, unref, watch } from 'vue'
 
 /* Runs a whitelisted command (see vite.config.ts) and streams its output
-   into the slide. Starts on the slide's first click, or with the button.
+   into the slide. Starts on the slide's first click, or by clicking the
+   window. Until then it shows a blinking cursor, like a terminal waiting.
    Without the dev server (static build, export) or on any error it shows
    the slot instead: put the recorded output there. */
 const props = defineProps({
@@ -64,7 +62,6 @@ async function run() {
 
 <style scoped>
 .live-run {
-  position: relative;
   min-height: 120px;
 }
 
@@ -81,21 +78,6 @@ async function run() {
 
 .live-run__cursor {
   animation: live-run-blink 1s steps(1) infinite;
-}
-
-.live-run__button {
-  position: absolute;
-  top: 16px;
-  right: 28px;
-  font-family: var(--di-font-family-mono);
-  font-size: 18px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 6px 14px;
-  border: 1px solid var(--di-border);
-  background: var(--di-surface);
-  color: var(--di-slide-meta);
-  cursor: pointer;
 }
 
 @keyframes live-run-blink {

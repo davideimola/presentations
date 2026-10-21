@@ -397,32 +397,32 @@ layout: statement
 </v-click>
 
 ---
-layout: code-hero
+layout: default
 ---
 
-###### make it stay fixed
+# Now ask who stays <Marker>out</Marker>
 
-```go {all|2|6-7|9-11}
-func FuzzCanManageOrg(f *testing.F) {
-	f.Add(false, true, "acme", "acme") // the happy path
-	f.Fuzz(func(t *testing.T,
-		super, admin bool, userOrg, org string) {
-
-		u := User{super, admin, userOrg}
-		allowed := org != "" &&
-			(super || (admin && userOrg == org))
-
-		if canManageOrg(u, org) && !allowed {
-			t.Fatalf("granted: %+v on %q", u, org)
-		}
-	})
-}
+```go {all|3-5|6-11}
+f.Fuzz(func(t *testing.T, super, admin bool, uOrg, org string) {
+	u := User{super, admin, uOrg}
+	if !canManageOrg(u, org) {
+		return // denied is always safe
+	}
+	if org == "" {
+		t.Fatal("granted with no org")
+	}
+	if !super && !(admin && uOrg == org) {
+		t.Fatal("granted to a non-admin of this org")
+	}
+})
 ```
 
-<!-- ~1min15. The table test checks the cases we thought of. The fuzzer checks the ones we didn't.
-     Click 1: the seed is the ONLY case the old tests had, the happy path. The fuzzer starts from there.
-     Click 2: the property. Deny by default, written once.
-     Click 3: the assertion. -->
+<!-- ~1min15. Callback to "Every test asked who gets in. None asked who stays out.": this is the answer.
+     The table test checks the cases we thought of. The fuzzer checks the ones we didn't.
+     Click 1: a denial is always safe, so the fuzzer only cares about grants.
+     Click 2: the rules, written as denials. The failure message IS the rule.
+     No oracle that copies the fix: each check is a sentence you'd say out loud.
+     Not shown: f.Add(false, true, "acme", "acme"), the happy path, the only case the old tests had. The fuzzer starts from there. -->
 
 ---
 layout: terminal
@@ -433,14 +433,14 @@ clicks: 1
 <LiveRun id="fuzz-authz">
 
 ```sh
-fuzz: elapsed: 0s, gathering baseline coverage: 1/1 completed, now fuzzing with 15 workers
-fuzz: minimizing 70-byte failing input file
+fuzz: minimizing 63-byte failing input file
 --- FAIL: FuzzCanManageOrg (0.03s)
-    authz_test.go:31: granted: {IsSuperAdmin:false IsOrgAdmin:false OrgID:acme} on ""
+    --- FAIL: FuzzCanManageOrg (0.00s)
+        authz_test.go:29: granted with no org
 
-    Failing input written to testdata/fuzz/FuzzCanManageOrg/a8949c542c89c1fa
+    Failing input written to testdata/fuzz/FuzzCanManageOrg/27605cb7d0003240
     To re-run:
-    go test -run=FuzzCanManageOrg/a8949c542c89c1fa
+    go test -run=FuzzCanManageOrg/27605cb7d0003240
 FAIL
 ```
 
@@ -450,7 +450,7 @@ FAIL
      Runs only from `pnpm dev` in the audience window; the presenter view, the static build and any error show the recorded output below instead.
      Before the talk: `go version` in securing-go/demo/authz, and one dry run so the Go build cache is warm.
      Recorded output: against the VULNERABLE version (go1.26, M-series Mac).
-     If you fix only the fail-open, the fuzzer finds the viewer case in the same ~0.05s.
+     If you fix only the fail-open, the fuzzer finds "granted to a non-admin of this org" in ~0.05s.
      Against the fixed version: 11.6M execs in 10s, clean.
      The failing input lands in testdata/: commit it and it becomes a regression test forever. -->
 
