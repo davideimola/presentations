@@ -943,10 +943,10 @@ layout: default
 
 # Give your AI the <Marker>tools</Marker>
 
-<Ladder compact>
-  <LadderRung v-click :n="1" title="Shell">let it run govulncheck and go test -fuzz itself</LadderRung>
+<Ladder class="mt-6">
+  <LadderRung v-click :n="1" title="Shell">let it run <code>govulncheck</code> and <code>go test -fuzz</code> itself</LadderRung>
   <LadderRung v-click :n="2" title="Your own MCP server">typed tools instead of a raw shell</LadderRung>
-  <LadderRung v-click :n="3" title="Argus">an open source MCP server that runs govulncheck and gosec for your agent</LadderRung>
+  <LadderRung v-click :n="3" title="Argus">an open source MCP server that runs <code>govulncheck</code> and <code>gosec</code> for your agent</LadderRung>
 </Ladder>
 
 <!-- ~1min30. Red or it didn't happen from section 02, made routine: the AI proposes, the tools give signals, the tests give evidence.
