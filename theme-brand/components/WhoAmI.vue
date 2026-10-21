@@ -5,9 +5,13 @@
       <slot name="line">I build AI agents for <Marker>security</Marker>, and the tools I need along the way.</slot>
     </p>
     <p class="whoami__lead">
-      <slot name="lead">Tech Lead at RedCarbon. I write mostly Go, and I share everything I learn.</slot>
+      <slot name="lead">I write mostly Go, and I share everything I learn.</slot>
     </p>
     <dl class="whoami__facts">
+      <div>
+        <dt>at work</dt>
+        <dd>Tech Lead at RedCarbon</dd>
+      </div>
       <div>
         <dt>based in</dt>
         <dd>Verona, Italy</dd>
@@ -28,10 +32,11 @@
 import Marker from './Marker.vue'
 
 /* The speaker intro, in the brand's voice (brand.md, Positioning and Voice):
-   the name, the line with the slide's one marker, the role inside a first
-   person lead, then the facts by kind. The hobbies stay: they are the ice
-   breakers. Override `line` or `lead` per talk when the room needs another
-   angle; the defaults are the brand's own words, as on the site's home. */
+   the name, the line with the slide's one marker, a first person lead,
+   then the facts by kind, the role among them so it stays apart from the
+   lead. The hobbies stay: they are the ice breakers. Override `line` or
+   `lead` per talk when the room needs another angle; the defaults are the
+   brand's own words. */
 </script>
 
 <style scoped>
