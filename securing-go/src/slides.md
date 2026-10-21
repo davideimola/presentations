@@ -36,16 +36,16 @@ Security is becoming more and more important.
 layout: fact
 ---
 
-# 320%
+# 31%
 
-attack growth YoY
+of breaches start with vulnerability exploitation
 
-<!-- FILLER number + label. Real stat TBD from Boss.
-     Possible framings (each opens a different bridge to the next slide):
-     a) Overall attacks/incidents YoY  → generic urgency, easy bridge ("many start in code we wrote")
-     b) Supply-chain incidents YoY      → needs "the supply chain is you" bridge to reach the auth bug
-     c) Breaches from logic bugs        → direct bridge to bug teaser, but narrows scope
-     Pick the framing once Boss gives you the real number. -->
+<div class="mt-6 text-base opacity-60">Verizon DBIR 2026</div>
+
+<!-- Source: Verizon DBIR 2026 news release (2026-05-19): "Nearly a third (31%) of all breaches start with vulnerability exploitation". For the first time in 19 years it has passed stolen credentials as the number one entry point.
+     https://www.verizon.com/about/news/breach-industry-wide-dbir-finds
+     Bridge: a third of breaches start with a bug somebody shipped. In code we wrote, or code we pulled in. That is the whole talk.
+     Alternative: Mandiant M-Trends 2026, mean time to exploit "an estimated -7 days" (exploited before the patch exists). -->
 
 ---
 layout: split-code
@@ -53,32 +53,29 @@ layout: split-code
 
 ###### intro / teaser
 
-# We shipped this
+# We shipped <Marker>this</Marker>
 
-Last year. Production.
+Thirteen months in production.
 
-An admin check that opened a door we didn't see.
+Code review approved it. Tests were green.
 
-We caught it. Barely.
+Hold that thought.
 
-<!-- Snippet adapted from the real incident. The bug is `||` where it should be `&&`: any tenant member passes the admin check on their own tenant, and tenant admins reach across tenants. Plausible in code review — that's the point. -->
+<!-- Go port of the real bug (the original was a GraphQL directive). Don't explain it here: the audience gets 10 seconds to spot it, then we move on. It comes back in section 02. -->
 
 ::right::
 
-```go {all|6}
-func isTenantAdmin(user User, tenantID string) bool {
-  if tenantID == "" {
-    return false
-  }
-
-  if user.IsAdmin || user.TenantID == tenantID {
-    return true
-  }
-
-  return false
+```go
+func canManageOrg(u User, orgID string) bool {
+	if u.IsSuperAdmin {
+		return true
+	}
+	if orgID == "" {
+		return true // org not resolved
+	}
+	return u.OrgID == orgID // membership, not role
 }
 ```
-
 
 ---
 layout: statement
@@ -126,240 +123,400 @@ transition: fade
 # The code you write
 
 ---
-layout: two-cols-header
----
-
-# Random isn't random
-
-::left::
-
-###### vulnerable
-
-```go
-// math/rand — seeded, predictable
-n := rand.Int63()
-token := fmt.Sprintf("%d", n)
-```
-
-::right::
-
-###### secure
-
-```go
-// crypto/rand — cryptographically secure
-b := make([]byte, 32)
-_, _ = rand.Read(b)
-token := hex.EncodeToString(b)
-```
-
----
-layout: split-code
----
-
-###### sez 1 / SSRF
-
-# The stdlib trusts your URL
-
-[Setup paragraph, 2-4 lines.
-Hint that `net/http` follows redirects by default,
-accepts arbitrary schemes, doesn't validate against
-private IPs. Reframe in your voice.]
-
-::right::
-
-```go
-// vulnerable: fetches whatever user asks for
-resp, err := http.Get(userProvidedURL)
-defer resp.Body.Close()
-io.Copy(w, resp.Body)
-```
-
----
-layout: split-code
----
-
-###### sez 1 / SSRF (fix)
-
-# Validate. Reject. Don't follow.
-
-[Pattern principles, 2-4 lines:
-- parse + validate scheme (http/https only)
-- reject private IPs (loopback, RFC1918, link-local)
-- disable redirect-following or whitelist destinations]
-
-::right::
-
-```go
-// safe pattern: validate before fetching
-client := &http.Client{
-  CheckRedirect: func(*http.Request, []*http.Request) error {
-    return http.ErrUseLastResponse
-  },
-}
-// [+ parse URL, reject private IPs, reject non-http(s) schemes]
-```
-
----
-layout: default
----
-
-# Other ways your code betrays you
-
-- SQL injection → parameterized queries, always
-- `html/template`, never `text/template` for HTML
-- `filepath.Join` doesn't block path traversal — `Clean` + prefix check
-- `io.ReadAll(r.Body)` without `MaxBytesReader` = free DoS
-- `InsecureSkipVerify: true` → just don't
-- Don't return `err.Error()` to the client (info leak)
-
-<!-- spoken: "I'm not covering these. The list lives on the slides — the talk repo too." -->
-
----
 layout: statement
 ---
 
-# Back to that beautiful bug
+# Go is safe by default.
 
-<!-- delivery: deadpan ironic. Davide's options:
-     "Thanks for the moral support. Saves on therapy."
-     "Yes, we shipped this. Yes, on stage. No, we don't talk about it at home."
-     Pick one or improvise. -->
+<v-click>
 
----
-layout: default
----
+# Your <Marker>application</Marker> isn't.
 
-# It started with a pen test
+</v-click>
 
-[Setup paragraph, 3-5 lines.
-e.g. "A routine penetration test found something odd:
-with the right (complex) sequence of requests, a non-admin user
-could reach the admin interface. We checked — it had never been exploited.
-But the path was real, and we'd shipped it."]
-
-<!-- delivery: emphasize "never exploited". The pen test caught it
-     BEFORE someone with bad intent did. That's the win. -->
-
----
-layout: default
----
-
-# We had tests. Just not the right ones.
-
-- Code review approved the change ✓
-- Unit tests passed ✓
-- Integration tests passed ✓
-- **No test covered _this specific_ permission combination** ✗
-
-<!-- delivery: this is THE meta-takeaway slide. ~45s here.
-     "Reviews and tests are a net. The holes in the net are exactly
-     the bugs that ship. We needed a finer net." -->
+<!-- ~30s. Pause between the two lines. -->
 
 ---
 layout: two-cols-header
 ---
 
-# We asked the model
+# What the compiler can't <Marker>know</Marker>
 
 ::left::
 
-###### prompt
+###### go build checks
 
-[Your real prompt, sanitized.
-Keep it short. Show what you ACTUALLY asked.
-e.g. "Do a vulnerability assessment of this auth check.
-Identify any logic issues."]
+- Types
+- Memory safety
+- Bounds and nil, at runtime
+- Data races, with `-race`
 
 ::right::
 
-###### model output (excerpt)
+###### nobody checks
 
-[Excerpt of the AI response — sanitized.
-Highlight the part that pointed to the real bug.
-Mention briefly that 2 other suggestions turned out to be false positives.]
+<v-clicks>
 
-<!-- Anti-vendor: NO RedCarbon, NO commercial product screenshots.
-     Use a generic LLM (Claude, GPT, Llama). -->
+- Who may read this resource
+- Where this request is going
+- How much this request costs
+
+</v-clicks>
+
+<!-- ~1min. Left side: what Go gives you for free, be generous, it's a Go room.
+     Right side, one click each: these three questions are the next three slides
+     (who → authorization, where → trust boundaries, how much → resource exhaustion). -->
+
+---
+layout: split-code
+---
+
+###### trust boundaries
+
+# The client chose this <Marker>URL</Marker>
+
+Every ID, URL and header in a request is a claim, not a fact.
+
+`net/http` fetches whatever you hand it: internal IPs, cloud metadata, redirects included.
+
+::right::
+
+```go {all|2|3}
+func preview(w http.ResponseWriter, r *http.Request) {
+	target := r.URL.Query().Get("url")
+	resp, err := http.Get(target) // 169.254.169.254?
+	if err != nil {
+		http.Error(w, "bad gateway", http.StatusBadGateway)
+		return
+	}
+	defer resp.Body.Close()
+	io.Copy(w, resp.Body)
+}
+```
+
+<!-- ~1min15. SSRF as ONE example of client-controlled data, not a tutorial.
+     The fix in one breath: allow-list the destinations, resolve and reject private/link-local IPs, control redirects with CheckRedirect.
+     The fix pattern lives in the template repo (section 04). -->
+
+---
+layout: split-code
+---
+
+###### resource exhaustion
+
+# Valid request. Unbounded <Marker>cost</Marker>.
+
+No malformed input. No exploit.
+
+Just a request bigger than you planned for.
+
+<v-click>
+
+We'll meet this again, inside the standard library.
+
+</v-click>
+
+::right::
+
+```go {1-2|4-6}
+// as big as the client wants
+body, err := io.ReadAll(r.Body)
+
+// 1 MB, then 413
+r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
+body, err = io.ReadAll(r.Body)
+```
+
+<!-- ~1min15. Same family: http.Server without ReadHeaderTimeout, unbounded goroutines per request, regex on user input.
+     The v-click line plants the seed for section 03: archive/zip, CVE-2025-61728, super-linear file name indexing → CPU DoS. -->
+
+---
+layout: fact
+---
+
+# 100%
+
+of the applications OWASP tested had some form of broken access control
+
+<div class="mt-6 text-base opacity-60">OWASP Top 10:2025 · A01</div>
+
+<!-- Exact wording on the A01 page: "100% of the applications tested were found to have some form of broken access control".
+     Number one category, 1,839,701 occurrences, 40 CWEs.
+     https://top10.owasp.org/2025/A01_2025-Broken_Access_Control
+     (Don't quote the incidence %: 3.73% on the intro page vs 3.74% on A01.) -->
 
 ---
 layout: statement
 ---
 
-# AI gives hypotheses. Tests give truth.
+# Including <Marker>ours</Marker>.
 
-<!-- delivery: pause after this. The whole AI section lives or dies on this line. -->
+<!-- Deadpan. Then click back to the teaser code. -->
+
+---
+layout: code-hero
+---
+
+###### the bug · 13 months in production
+
+```go {all|5-7|8}
+func canManageOrg(u User, orgID string) bool {
+	if u.IsSuperAdmin {
+		return true
+	}
+	if orgID == "" {
+		return true // org not resolved
+	}
+	return u.OrgID == orgID // membership, not role
+}
+```
+
+<!-- ~1min30. Two logic errors, one click each.
+     1) Fail-open: if the target org can't be resolved from the request, access granted. To anyone.
+     2) Role never checked: membership is enough. A viewer can use admin-only features.
+     Never exploited. About 13.5 months in production.
+     Original was not Go: don't make it a point. "This bug compiles in every language." -->
 
 ---
 layout: default
 ---
 
-# Step 3 — turn the bug into a property
+# Every test asked who gets <Marker>in</Marker>
 
-```go {all|7-9}
-func FuzzIsTenantAdmin(f *testing.F) {
-  f.Add("alice", "acme")
-  f.Add("bob", "globex")
+| Case | Tested |
+|---|:---:|
+| Super admin manages any org | ✓ |
+| Org admin manages their org | ✓ |
+| Viewer manages their org | ✗ |
+| Admin manages another org | ✗ |
+| Org can't be resolved | ✗ |
 
-  f.Fuzz(func(t *testing.T, userID, tenantID string) {
-    user := User{ID: userID, TenantID: tenantID, IsAdmin: false}
+<v-click>
 
-    if isTenantAdmin(user, tenantID) {
-      t.Fatalf("non-admin %q passed admin check on %q", userID, tenantID)
-    }
-  })
+**None asked who stays out.**
+
+</v-click>
+
+<!-- ~1min. THE meta-takeaway. Review approved it, tests were green, because every test was a positive case. -->
+
+---
+layout: statement
+---
+
+# We knew something was wrong. Not <Marker>where</Marker>.
+
+<!-- ~20s. ONE line about the trigger: an external security report said access control was broken somewhere. It didn't say where.
+     Don't dwell on "pen test": the point is what we did next. -->
+
+---
+layout: default
+---
+
+# The <Marker>loop</Marker>
+
+<Ladder compact>
+  <LadderRung v-click :n="1" title="Analyze">give the AI the context, not the whole codebase</LadderRung>
+  <LadderRung v-click :n="2" title="Find">it points to where it could break</LadderRung>
+  <LadderRung v-click :n="3" title="Test">it writes the test that would prove it</LadderRung>
+  <LadderRung v-click :n="4" title="Verify">a human reads the red test</LadderRung>
+  <LadderRung v-click :n="5" title="Fix">test first, then the code</LadderRung>
+</Ladder>
+
+<!-- ~45s. This loop is the spine of the talk: the next slides walk it once on this bug. -->
+
+---
+layout: default
+---
+
+<Rungs :active="2" :total="5" label="analyze · find" />
+
+# Ask a narrow <Marker>question</Marker> <Badge>reconstructed</Badge>
+
+<Chat>
+  <ChatBubble user>Review our authentication and authorization layer. For each check, list the logic errors that could grant access to the wrong user. Assume the caller is hostile.</ChatBubble>
+  <ChatBubble>canManageOrg returns true when orgID can't be resolved. It also checks membership, never the admin role.</ChatBubble>
+</Chat>
+
+<!-- ~1min. The original prompts are gone: say it, that's why the badge is there.
+     What matters is the shape: targeted on the auth layer, asking for logic errors, hostile caller. Not "find bugs in my repo". -->
+
+---
+layout: split-code
+---
+
+<Rungs :active="3" :total="5" label="test" />
+
+# Make it <Marker>red</Marker>
+
+We asked for tests on who must be denied.
+
+Generated by the AI. Read line by line by us.
+
+::right::
+
+```go {all|5-7}
+func TestCanManageOrgDenies(t *testing.T) {
+	viewer := User{OrgID: "acme"}
+	admin := User{IsOrgAdmin: true, OrgID: "acme"}
+
+	deny(t, viewer, "acme")  // member, not admin
+	deny(t, admin, "globex") // admin of another org
+	deny(t, admin, "")       // org not resolved
 }
 ```
 
-<!-- delivery: open by saying:
-     "First we did it the manual way — a matrix of every role × every tenant.
-     Once we found the breaking case, we made it permanent.
-     A property the fuzzer keeps checking, forever, on every commit."
-     Then highlight the assertion with `<Space>` and explain the property. -->
+<!-- ~1min. `deny` is a 4-line helper (t.Helper + t.Errorf if access is granted), not shown. -->
 
 ---
 layout: terminal
-title: "$ go test -fuzz=FuzzIsTenantAdmin -fuzztime=10s"
+title: "$ go test -run TestCanManageOrgDenies"
 ---
 
 ```sh
-fuzz: elapsed: 0s, gathering baseline coverage: 2/2 completed, now fuzzing
-fuzz: elapsed: 1s, execs: 8421 (8421/sec), new interesting: 12
-
---- FAIL: FuzzIsTenantAdmin (1.04s)
-    auth_test.go:8: non-admin "alice" passed admin check on "acme"
-
-    Failing input written to testdata/fuzz/FuzzIsTenantAdmin/3f9ab8c7
-    To re-run:
-        go test -run=FuzzIsTenantAdmin/3f9ab8c7
+--- FAIL: TestCanManageOrgDenies (0.00s)
+    authz_test.go:16: granted: {IsSuperAdmin:false IsOrgAdmin:false OrgID:acme} on "acme"
+    authz_test.go:18: granted: {IsSuperAdmin:false IsOrgAdmin:true OrgID:acme} on ""
 FAIL
 ```
 
-<!-- Optional: run this LIVE during the talk (low risk, local repo).
-     If WiFi/setup breaks, this static screen is the fallback. -->
+Two of three. That's not an opinion anymore.
+
+<!-- ~30s. Real output from the Go port. Hypothesis → evidence. -->
 
 ---
 layout: split-code
 ---
 
-###### sez 1 / step 4 — fix + CI
+<Rungs :active="5" :total="5" label="verify · fix" />
 
-# One operator. One workflow.
+# Deny by <Marker>default</Marker>
 
-The fix: `||` → `&&`.
+Two explicit ways in. Everything else stays out, including the request we can't place.
 
-Code review missed it. Existing tests didn't cover it.
-
-**The fuzz test won't miss it again.**
+Red to green, released right away.
 
 ::right::
 
-```yaml
-# .github/workflows/security.yml
-- name: Fuzz auth properties
-  run: |
-    go test -fuzz=FuzzIsTenantAdmin \
-      -fuzztime=30s ./auth
+```go {all|2-4|8}
+func canManageOrg(u User, orgID string) bool {
+	if orgID == "" {
+		return false
+	}
+	if u.IsSuperAdmin {
+		return true
+	}
+	return u.IsOrgAdmin && u.OrgID == orgID
+}
 ```
+
+<!-- ~1min. Note the order: the deny check comes BEFORE the super admin shortcut.
+     The follow-up PR added negative tests, multi-role scenarios and edge cases to every authorization check, not only this one. -->
+
+---
+layout: statement
+---
+
+# A bug can survive 13 months.
+
+<v-click>
+
+# Not because the code is complex. Because nobody tested the right <Marker>assumption</Marker>.
+
+</v-click>
+
+---
+layout: code-hero
+---
+
+###### make it stay fixed
+
+```go {all|2|6-7|9-11}
+func FuzzCanManageOrg(f *testing.F) {
+	f.Add(false, true, "acme", "acme") // the happy path
+	f.Fuzz(func(t *testing.T,
+		super, admin bool, userOrg, org string) {
+
+		u := User{super, admin, userOrg}
+		allowed := org != "" &&
+			(super || (admin && userOrg == org))
+
+		if canManageOrg(u, org) && !allowed {
+			t.Fatalf("granted: %+v on %q", u, org)
+		}
+	})
+}
+```
+
+<!-- ~1min15. The table test checks the cases we thought of. The fuzzer checks the ones we didn't.
+     Click 1: the seed is the ONLY case the old tests had, the happy path. The fuzzer starts from there.
+     Click 2: the property. Deny by default, written once.
+     Click 3: the assertion. -->
+
+---
+layout: terminal
+title: "$ go test -fuzz=FuzzCanManageOrg"
+---
+
+```sh
+fuzz: elapsed: 0s, gathering baseline coverage: 1/1 completed, now fuzzing with 15 workers
+fuzz: minimizing 70-byte failing input file
+--- FAIL: FuzzCanManageOrg (0.03s)
+    authz_test.go:31: granted: {IsSuperAdmin:false IsOrgAdmin:false OrgID:acme} on ""
+
+    Failing input written to testdata/fuzz/FuzzCanManageOrg/a8949c542c89c1fa
+    To re-run:
+    go test -run=FuzzCanManageOrg/a8949c542c89c1fa
+FAIL
+```
+
+<!-- Real output against the VULNERABLE version (go1.26, M-series Mac). Optional live run, low risk.
+     If you fix only the fail-open, the fuzzer finds the viewer case in the same ~0.05s.
+     Against the fixed version: 11.6M execs in 10s, clean.
+     The failing input lands in testdata/: commit it and it becomes a regression test forever. -->
+
+---
+layout: fact
+---
+
+# 0.03s
+
+for the fuzzer. Thirteen months for us.
+
+---
+layout: statement
+---
+
+# It also found a real bug in code nobody calls.
+
+<v-click>
+
+# True. But <Marker>unreachable</Marker>.
+
+</v-click>
+
+<!-- ~45s. After this bug we ran the loop on purpose, with no report to start from: it found things nobody had reported (missing security headers, broken logic).
+     It also flagged a real issue in a deprecated feature we would never call again. A true finding that doesn't matter.
+     Bridge to section 03: govulncheck draws exactly this line, using the call graph. -->
+
+---
+layout: statement
+---
+
+# Tools give you signals.
+
+<v-click>
+
+# AI gives you hypotheses.
+
+</v-click>
+
+<v-click>
+
+# Tests give you <Marker>evidence</Marker>.
+
+</v-click>
+
+<!-- The guiding line of the talk. It comes back in the closing. Pause after "evidence". -->
 
 ---
 layout: section

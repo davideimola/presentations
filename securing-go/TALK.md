@@ -1,32 +1,55 @@
 # Securing Go for Production: Best Practices, Supply Chain, Testing
 
-- **Issue**: #1
-- **Thesis**: The Go compiler saves you from memory bugs. It does NOT save you from auth bugs, vulnerable dependencies, or stale CVEs. The Go toolchain gives you the base — and beyond that, AI is the next tool in the defender's belt. Use everything you have. Validate everything.
+- **Talk note**: "Securing Go for Production" in Trilium (`CGnzmMgiVOLV`)
+- **Thesis**: The Go compiler removes whole classes of bugs. It can't know who is allowed to read what, which dependency is vulnerable, or which assumption nobody tested. Security tools give you signals. AI gives you hypotheses. Tests give you evidence. Use all three in one loop, and make the loop routine.
+- **Guiding line**: "Security tools give you signals. AI gives you hypotheses. Tests give you evidence."
 - **Tagline (intro slide)**: "The compiler won't save you. Your toolchain might."
-- **Audience**: Go developers, intermediate level. Familiarity with `go test` and `go mod` basics. NOT required: `govulncheck`, `go test -fuzz`, `sumdb` internals, AI-assisted security tooling.
+- **Audience**: Go developers, intermediate level. Familiarity with `go test` and `go mod` basics. NOT required: `govulncheck`, `sumdb` internals, AI-assisted security tooling.
 - **Takeaways**:
-  - Add `govulncheck` to your CI this week — one PR, one workflow file (prebuilt GitHub Action provided).
-  - Write one fuzz test as a property test on your most critical auth path.
-  - Use AI for vulnerability assessment as a hypothesis generator — validate every finding with a test. Attackers are already using AI; defenders should too.
+  - Add `govulncheck` to your CI this week: one PR, one workflow file (copy it from the talk's template repo).
+  - Write one fuzz test as a property test on your most critical auth path. Test who must be denied, not only who gets in. A table test checks the cases you thought of; the fuzzer checks the ones you didn't.
+  - Run AI-assisted security assessments as a loop: analyze, find, test, verify, fix. A finding without a failing test is a hypothesis, not a bug. Attackers are already using AI; defenders should too.
+- **The loop** (backbone of the talk): analyze → find → test → verify → fix.
+  - Sez 1 runs it once, on a real bug.
+  - Sez 2 shows the toolchain producing signals (`govulncheck`'s call graph separates signal from noise).
+  - Sez 3 makes it routine: CI, tests, and AI equipped with tools.
+- **Bug story** (climax of sez 1):
+  - The bug: the authorization check guarding org-admin-only features (a GraphQL directive in the original; shown as a Go function). Two logic errors:
+    - Fail-open: when the target organization could not be resolved from the request, the check returned `true`.
+    - Role not checked: it verified membership of the organization, not the admin role. Any member, even a viewer, could use admin-only features.
+  - The fix is deny-by-default: access only for a super admin, or for an admin of the same organization. Everything else, including an unresolved organization, is denied.
+  - Why it survived: the existing tests only checked that authorized users got in. There were no negative cases (a viewer, an admin of another org, a missing org).
+  - In production for about 13 and a half months. Never exploited.
+  - Trigger: an external report told us access control was broken somewhere. It did not tell us where. One line on stage, never the focus.
+  - Analyze/find: targeted prompts on the authentication and authorization system, asking the AI to highlight possible logic and security issues. It pointed to the faulty check.
+  - Test: we had the AI write tests describing the expected behavior. They failed: evidence, not opinion.
+  - Verify/fix: manual verification, then the fix TDD-style (failing test first), released immediately. A follow-up added negative tests, multi-role scenarios and edge cases to every authorization directive.
+  - Make it stay fixed: turn deny-by-default into a property and fuzz it. Shown on stage against the vulnerable version: the fuzzer finds both errors in seconds. This keeps the abstract's promise honestly: fuzzing is what would have caught it 13 months earlier, not what found it for us.
+  - Afterwards: the same loop, run proactively, found problems nobody had reported (missing security headers, broken logic). This answers "of course you caught it, you had a pen test".
+  - Signal vs noise: the AI also flags things that don't matter, e.g. a real issue in a deprecated feature nobody would ever call. True, but unreachable. That is the bridge to sez 2: `govulncheck` makes the same distinction with the call graph.
+  - The bug is shown in Go; the pattern is reproducible in any language.
+  - Line: "A bug can survive for 13 months, not because the code is complicated, but because nobody tested the right assumption."
 - **Outline**:
   - (4min) INTRO: incident urgency stat + auth bug teaser + thesis + roadmap
-  - (16min) SEZ 1 — Code you write: warm-up with obvious (`crypto/rand`, SSRF, recap slide) → climax with bug story walkthrough (manual exploratory → AI vulnerability assessment with caveat → property-based fuzz test → fix + CI)
-  - (14min) SEZ 2 — Code you use: Axios cautionary tale + sumdb arch (with `go mod verify` inline) + `govulncheck` LIVE DEMO expanded (focus on call graph) + transition to "next step"
-  - (6min) SEZ 3 — Make it routine: checklist + SBOM/SLSA "go see other Golab talks" + prebuilt GitHub Action CTA + AI as next step + closing
+  - (14min) SEZ 1 — Code you write: "Go is safe by default. Your application isn't." → trust boundaries (1 slide, SSRF as one example of client-controlled data) → resource exhaustion (1 slide, `MaxBytesReader`, seeds the zip DoS in sez 2) → bug story through the loop → make the fix stay fixed (property-based fuzz test in CI) → signal vs noise. No vulnerability catalog, no SQL injection / XSS.
+  - (14min) SEZ 2 — Code you use: npm cautionary tale + sumdb arch (with `go mod verify` inline) + `govulncheck` LIVE DEMO (focus on call graph: true but unreachable) + bridge: the resource exhaustion from sez 1, this time in the stdlib
+  - (8min) SEZ 3 — Make it routine: checklist + SBOM/SLSA "go see other GoLab talks" + the template repo CTA (everything in the talk, in one place) + make the loop routine (give your AI the tools: plain shell, your own MCP server, or a ready-made open source option such as Argus, which runs locally; ~60s, one option among three, never "you need Argus") + closing
   - (10min) Q&A
 - **Demo plan**:
-  - Main live demo (sez 2, ~9min): `govulncheck` on CVE-2025-61728 (zip DoS, stdlib). Plan B: `GOVULNDB` local mirror + asciinema + screenshots.
-  - Bug story walkthrough (sez 1, ~9min): slide-based, NOT a live demo. One optional live `go test -fuzz` shot at step 3 (low risk, local repo).
-  - NO live exploit PoC (zip DoS described conceptually only).
-  - NO live AI demo (static screenshots of the real incident's prompt + output).
+  - Main live demo (sez 2, ~9min): `govulncheck` on a reachable stdlib vulnerability (CVE-2025-61728 being verified). Plan B: `GOVULNDB` local mirror + asciinema + screenshots.
+  - Bug story (sez 1): slide-based, NOT a live demo. One optional live `go test -fuzz` shot against the vulnerable version (low risk, local repo).
+  - NO live exploit PoC (the stdlib DoS described conceptually only).
+  - NO live AI demo. The original prompts are gone: show a reconstructed targeted prompt and the shape of the generated tests, presented as reconstructed.
 - **Anti-vendor rules**:
-  - Never mention RedCarbon by name.
-  - No commercial product screenshots — only generic LLMs (Claude, GPT, Llama) and OSS tooling.
-  - AI caveat inline in bug story ("1 real lead, 2 false positives") to keep it honest, not a pitch.
+  - Never mention RedCarbon by name. No real file names, commit hashes or PR numbers from the incident.
+  - No commercial product screenshots: only generic LLMs (Claude, GPT, Llama) and OSS tooling.
+  - Argus: named in sez 3 as one open source option among others and linked from the talk repo, no demo, no walkthrough. Claim Go tooling only if it ships before the talk.
+  - No invented numbers on false positives.
+- **Overlap**: the same incident was the spot-the-bug case in the ComeToCode 2026 talk (`ai-defense/`). Here the angle is the loop and the fuzz property, not the spot-the-bug reveal.
 - **Open questions**:
-  - Exact Axios attack numbers (weekly downloads, exposure window, payload) — prepare before talk
-  - RedCarbon incident stats (YoY growth) — ask Boss
-  - Build the **prebuilt composite GitHub Action** before the talk: wraps `govulncheck` + `go test` + SBOM generation (cyclonedx-gomod / syft) + SLSA provenance (slsa-github-generator). Adoption pitch: `uses: davideimola/<action>@v1`. Repo + Action name TBD.
-  - Optional Go-side supply chain incident as secondary example
+  - Opening stat: pick one from verified sources (research in progress, starting from the ones used in `ai-defense/`)
+  - npm incident facts (Axios as believed, or the closest well-documented one): research in progress
+  - Optional Go-side supply chain incident as secondary example: research in progress
+  - **Secure Go template repo**, released with the talk: a Go project boilerplate with the talk's practices baked in (security CI, secure HTTP defaults, deny-by-default authz with its fuzz property, AI skills usable by any agent and by Argus). Name, scope and `gonew` support TBD. Blog post about it after the talk.
 - **Format**: 40 min talk + 10 min Q&A, EN
-- **Conference**: Golab 2026 (accepted)
+- **Conference**: GoLab 2026 (accepted), 3 November 2026, 11:30
