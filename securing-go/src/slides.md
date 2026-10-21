@@ -721,15 +721,18 @@ Severity:  CPU denial of service
      Issue go.dev/issue/77102, fix CL 736713, credit Jakub Ciolek. -->
 
 ---
-layout: two-cols-header
+layout: default
 clicks: 2
 ---
 
 # Same import. Which one is <Marker>affected</Marker>?
 
-::left::
+<div class="grid grid-cols-2 gap-x-10 gap-y-4 items-stretch mt-4">
 
-<Tape v-click="2" :n="0" class="mb-4">not affected</Tape>
+<div><Tape v-click="2" :n="0">not affected</Tape></div>
+<div><Tape v-click="1" :n="1">affected</Tape></div>
+
+<div class="snippet">
 
 ```go {all|all|3}
 zr, _ := zip.OpenReader(path)
@@ -739,11 +742,8 @@ for _, f := range zr.File {
 }
 ```
 
-<Callout v-click="2" type="note" label="why" class="mt-6"><code>File.Open</code> reads one entry. The index is never built.</Callout>
-
-::right::
-
-<Tape v-click="1" :n="1" class="mb-4">affected</Tape>
+</div>
+<div class="snippet">
 
 ```go
 zr, _ := zip.OpenReader(path)
@@ -751,7 +751,16 @@ f, _ := zr.Open("manifest.json")
 io.Copy(os.Stdout, f)
 ```
 
-<Callout v-click="1" type="note" label="why" class="mt-6"><code>Reader.Open</code> builds the file name index: the vulnerable code.</Callout>
+</div>
+
+<Callout v-click="2" type="note" label="why"><code>File.Open</code> reads one entry. The index is never built.</Callout>
+<Callout v-click="1" type="note" label="why"><code>Reader.Open</code> builds the file name index: the vulnerable code.</Callout>
+
+</div>
+
+<style>
+.snippet, .snippet > .slidev-code-wrapper, .snippet .slidev-code { height: 100%; margin: 0 !important; }
+</style>
 
 <!-- ~1min. Ask the room first. Both import archive/zip, both run on go1.25.5: a scanner that reads go.mod flags both.
      Click 1: the right one. zr.Open is Reader.Open, the fs.FS method that builds the file name index: that's the vulnerable symbol.
