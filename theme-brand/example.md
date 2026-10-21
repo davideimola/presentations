@@ -15,7 +15,6 @@ A short subtitle line, one sentence.
 layout: intro
 introImage: /theme/me.png
 github: davideimola
-bluesky: "@davideimola.dev"
 linkedin: davideimola
 ---
 

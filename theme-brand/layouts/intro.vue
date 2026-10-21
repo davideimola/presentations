@@ -3,7 +3,7 @@
     <div class="di-body intro__grid">
       <figure v-if="imageSrc" class="intro__photo">
         <img :src="imageSrc" alt="">
-        <Tape v-if="tape !== false" class="intro__tape" :n="1">{{ tape || 'whoami' }}</Tape>
+        <Tape v-if="tape !== false" class="intro__tape" :n="1">{{ tape || 'about' }}</Tape>
       </figure>
 
       <div class="intro__content">

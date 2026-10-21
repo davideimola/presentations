@@ -16,7 +16,6 @@ Best practices, supply chain, testing
 layout: intro
 introImage: /theme/me.png
 github: davideimola
-bluesky: "@davideimola.dev"
 linkedin: davideimola
 ---
 
