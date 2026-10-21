@@ -4,6 +4,10 @@
     <table class="whoami__table">
       <tbody>
         <tr>
+          <td class="whoami__key">role</td>
+          <td class="whoami__val">Tech Lead @ RedCarbon Srl</td>
+        </tr>
+        <tr>
           <td class="whoami__key">about</td>
           <td class="whoami__val">AI agents for SOC automation</td>
         </tr>
