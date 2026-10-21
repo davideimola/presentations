@@ -10,7 +10,7 @@ event: GoLab 2026
 
 # Securing Go for <Marker>Production</Marker>
 
-go run talk.go --topic="the compiler won't save you"
+Best practices, supply chain, testing
 
 ---
 layout: intro
@@ -527,101 +527,102 @@ transition: fade
 # The code you use
 
 ---
-layout: default
+layout: fact
 ---
 
-# When npm was npm
+# 100M
 
-[Narrative, 4-6 lines. Tell the Axios story sharply.
-- WHEN: date the malicious version went live (March 2026?)
-- WHAT: maintainer account compromised → malicious release auto-shipped
-- HOW BIG: weekly downloads (cite exact number, e.g. "~50M weekly")
-- TIME WINDOW: hours / days the bad version was live
-- PAYLOAD: brief — data exfiltration? backdoor? what kind?
-- CLEANUP: why it was hard (caching, auto-install, lockfiles)]
+weekly downloads of axios, the week it shipped a backdoor
 
-<!-- FILLER — gather exact numbers + payload details before the talk.
-     Open question in TALK.md. Without numbers this slide is just rhetoric. -->
+<div class="mt-6 text-base opacity-60">npm downloads API · 23 to 29 March 2026</div>
+
+<!-- Exact figure: 100,340,121 downloads, week of 23-29 March 2026 (npm downloads API). -->
 
 ---
 layout: default
 ---
 
-# "But this is npm." Is it?
+# Three hours on <Marker>npm</Marker>
 
-[Bridge line, 1-2 lines. e.g. "Go has better defaults. It's not bulletproof."]
+| 31 March 2026, UTC | |
+|---|---|
+| 00:21 | `axios@1.14.1` published with a stolen token |
+| ~01:00 | `axios@0.30.4`, same payload |
+| on install | a new dependency's `postinstall` drops a remote access trojan |
+| 03:15 | both versions removed |
 
-- [Go-side case 1 — e.g. `tj-actions/changed-files` (March 2025), secrets leaked from Go CI pipelines via a compromised GitHub Action]
-- [Go-side case 2 — research a real recent module compromise / typosquatting incident]
+<!-- ~1min30. How it got in: the lead maintainer was socially engineered. Fake founder, real-looking Slack workspace, a Teams "meeting" asking him to install an "update": a RAT. npm credentials stolen, 2FA on. Published by hand with a token, bypassing the project's OIDC CI publishing.
+     Payload: axios code untouched. package.json added plain-crypto-js@4.2.1, whose postinstall ran an obfuscated dropper (RAT for macOS, Windows, Linux) and then swapped package.json back to a clean one.
+     Detected by StepSecurity Harden-Runner (outbound connection in CI) and the community.
+     Attribution: North Korea-linked (GTIG: UNC1069, Microsoft: Sapphire Sleet).
+     Sources: github.com/axios/axios/issues/10636 · stepsecurity.io blog · cloud.google.com/blog/topics/threat-intelligence/north-korea-threat-actor-targets-axios-npm-package -->
 
-<!-- FILLER — research 1-2 real Go-side supply chain incidents before the talk.
-     If only 1 solid case exists, use 1 bullet (don't pad).
-     Open question in TALK.md. Goal: stop the audience thinking "this is a JS problem". -->
+---
+layout: quote
+---
 
-<!-- delivery: ~30-45s. Not a deep dive — acknowledgement.
-     "Go has the infrastructure. But the infrastructure is only as good as your habits." -->
+# "There was no automated way to detect an unauthorized publish."
+
+axios maintainer, post-mortem
+
+<!-- ~20s. Let it land. Source: github.com/axios/axios/issues/10636 -->
 
 ---
 layout: statement
 ---
 
-# Go gives you the answer: sumdb.
+# "But that's npm."
 
-<!-- delivery: short beat, pivot. The npm story sets up the urgency.
-     This statement says "we have a defense — and you're probably not using it consciously." -->
+<v-click>
+
+# Is <Marker>it</Marker>?
+
+</v-click>
+
+---
+layout: two-cols-header
+---
+
+# Same attack, different <Marker>defaults</Marker>
+
+::left::
+
+###### npm
+
+- `^1.14.0` pulls `1.14.1` on the next install
+- `postinstall` runs code the moment it lands
+
+::right::
+
+###### go
+
+<v-clicks>
+
+- `go.mod` pins `v1.14.0` until you ask
+- Fetching and building never run the module's code
+
+</v-clicks>
+
+<!-- ~1min. Go blog, "How Go Mitigates Supply Chain Attacks" (2022-03-31): "neither fetching nor building code will let that code execute". A new release reaches nobody until they explicitly update (go get -u, go mod tidy, a manual edit).
+     https://go.dev/blog/supply-chain -->
 
 ---
 layout: default
 ---
 
-# Go modules — the trust chain
+# The trust <Marker>chain</Marker>
 
 ```mermaid
 graph LR
     Code[your code] -->|declares| GoMod[go.mod]
-    GoMod -->|fetches| Proxy[proxy]
-    Proxy -->|hash| Sumdb[sumdb]
+    GoMod -->|fetches| Proxy[module proxy]
+    Proxy -->|hash checked| Sumdb[checksum db]
+    Sumdb -->|recorded in| GoSum[go.sum]
 ```
 
-<!-- delivery: ~45s. Walk left-to-right. The arrows tell the story:
-     code declares deps, proxy fetches them, sumdb provides the hash.
-     Then click to the next slide for the verify command.
+Same version, same bytes, for everyone, forever.
 
-     === NOTES: HOW IS THIS DIFFERENT FROM npm? ===
-     Important nuance: the Axios incident was a NEW minor release (e.g. 1.15.0 → 1.15.1)
-     pushed by the compromised maintainer account, NOT a rewrite of an existing version.
-     sumdb protects you from rewrites of an existing version's hash; it does NOT
-     protect you from a brand-new malicious release. The protections that matter
-     for the Axios-class threat are different:
-
-     1) Exact versions in go.mod (no caret/tilde ranges).
-        npm with `^1.15.0` pulls 1.15.1 automatically on the next `npm install`.
-        Go's `go.mod` pins an exact version. The new malicious 1.15.1 is NOT
-        downloaded until you explicitly run `go get -u` or update `go.mod`.
-
-     2) No auto-update without intent.
-        Go updates are deliberate: `go get pkg@latest`, `go mod tidy`, or a
-        manual edit. npm's defaults move silently inside the version range.
-
-     3) No script execution at install.
-        This is where Axios actually got people: the postinstall script ran
-        the moment `npm install` resolved the new version. Go's `go get` /
-        `go build` don't execute arbitrary code — a module runs only when
-        you explicitly import and call it.
-
-     4) (still true, different threat) sumdb is a transparent, immutable log.
-        Protects against rewrites/MITM on existing versions. Doesn't help
-        for new malicious releases — but eliminates a different attack class
-        entirely. npm has no equivalent.
-
-     PUNCHY LINE if you want it on stage:
-     "If a maintainer's account got compromised tomorrow and they pushed v1.15.1
-     with a malicious payload: in Go, your `go.mod` still pins v1.15.0 — the new
-     version isn't pulled until you explicitly run `go get -u`. And even then,
-     the code doesn't execute until you actually use the affected API.
-     In npm, with `^1.15.0` and a postinstall script, you're owned by the next
-     `npm install`."
--->
+<!-- ~45s. Walk left to right. sumdb is a transparent, append-only log: nobody can swap the contents of a version that already exists, not even the author. -->
 
 ---
 layout: terminal
@@ -632,21 +633,77 @@ title: "$ go mod verify"
 all modules verified
 ```
 
-`go.sum` records the hashes. **`go mod verify`** confirms they still match on disk.
+`go.sum` records the hashes. `go mod verify` checks your module cache still matches them.
 
-<!-- delivery: ~30s. The point: the verification is one command,
-     it should run in your release pipeline. Pair it with `govulncheck`. -->
+<!-- ~20s. One command, belongs in the release pipeline. -->
 
+---
+layout: statement
+---
+
+# Forever cuts both <Marker>ways</Marker>.
 
 ---
 layout: default
 ---
 
-# What about CVEs in our dependencies?
+# Typo. Cached. <Marker>Served</Marker> for years.
 
-Hashes match. But are any of them known to have CVEs?
+| When | What |
+|---|---|
+| Nov 2021 | `boltdb-go/bolt` v1.3.1, backdoored, cached by the proxy |
+| later | the GitHub tag is rewritten to point at clean code |
+| 3+ years | the proxy keeps serving the backdoor |
+| Feb 2025 | reported by Socket, now GO-2025-3451 |
 
-Go has an official scanner for that. Let's run it.
+<!-- ~1min. Typosquat of github.com/boltdb/bolt (8,367 dependents). Backdoor triggers on Open(): remote shell over C2.
+     Reviewing the repo on GitHub showed nothing: the code you get is the code in the proxy, not the code on GitHub.
+     Today proxy.golang.org answers 403: "The module proxy considers this module to be malicious and will not serve it". A screenshot of that would work well here.
+     Source: socket.dev/blog/malicious-package-exploits-go-module-proxy-caching-for-persistence (2025-02-04) -->
+
+---
+layout: statement
+---
+
+# The checksum database proves you got the same bytes.
+
+<v-click>
+
+# Not <Marker>good</Marker> bytes.
+
+</v-click>
+
+<!-- Bridge: integrity is solved. Knowing whether those bytes are vulnerable is the next question. -->
+
+---
+layout: code-hero
+---
+
+###### demo · unzipper, go1.25.5
+
+```go {all|2|7}
+func main() {
+	zr, err := zip.OpenReader(os.Args[1])
+	if err != nil {
+		panic(err)
+	}
+	defer zr.Close()
+	f, err := zr.Open("manifest.json")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	io.Copy(os.Stdout, f)
+}
+```
+
+<!-- LIVE DEMO start (~5min with the next slides). "Imagine this is behind your upload endpoint."
+     Why a CLI and not net/http: on go1.25.5 an HTTP server gets 22 reachable stdlib findings, ~400 lines of output. Unusable live.
+     Setup BEFORE the talk:
+       export GOTOOLCHAIN=go1.25.5+auto   (a toolchain line in go.mod does NOT downgrade; +auto lets the live fix work)
+       pre-download go1.25.5, build govulncheck with the newest Go you scan with
+       re-run the morning of the talk: the "4 ... 42" counts grow with the database
+     Plan B: GOVULNDB local mirror + asciinema + these slides. -->
 
 ---
 layout: terminal
@@ -654,116 +711,152 @@ title: "$ govulncheck ./..."
 ---
 
 ```sh
-$ govulncheck ./...
-Scanning... 234 packages, 12 modules.
+=== Symbol Results ===
 
-Vulnerability: GO-2025-61728
+Vulnerability #1: GO-2026-4342
+    Excessive CPU consumption when building archive index in archive/zip
+  More info: https://pkg.go.dev/vuln/GO-2026-4342
   Standard library
-    Found in:    archive/zip@go1.21.5
-    Fixed in:    archive/zip@go1.22.0
-    Example trace:
-      main.go:42  app.HandleUpload → archive/zip.NewReader
+    Found in: archive/zip@go1.25.5
+    Fixed in: archive/zip@go1.25.6
+    Example traces found:
+      #1: main.go:15:19: unzipper.main calls zip.Reader.Open
 
-Your code is affected by 1 vulnerability.
+Your code is affected by 1 vulnerability from the Go standard library.
+This scan also found 4 vulnerabilities in packages you import and 42
+vulnerabilities in modules you require, but your code doesn't appear to call
+these vulnerabilities.
 ```
 
-<!-- LIVE DEMO start. Plan B: GOVULNDB local mirror + asciinema + this slide as static fallback.
-     Cut from real output: long URL, prose CVE description (covered by next slide),
-     the boilerplate scan line. Kept: stdlib (dramatic), versions (actionable),
-     trace (the call-graph differentiator — that's the whole point). -->
-
+<!-- Real output, govulncheck on go1.25.5, 2026-10-21. Exit code 3.
+     Point at the trace: file, line, the call that reaches the vulnerable symbol. -->
 
 ---
 layout: default
 ---
 
-# It scans your call graph, not your go.sum
+# Known isn't <Marker>reachable</Marker>
 
-[Narrative, 3-5 lines. The KEY differentiator:
-- govulncheck walks the call graph from your `main`
-- Out of N CVEs in your dependencies, only the ones you *reach* are reported
-- Less noise → fixes you'll actually do
-- Example: "7 CVEs in `go.sum`, 2 in our call graph. The other 5 were quiet."]
+<StatGrid class="mt-6">
+  <Stat v-click value="47" source="this build, 2026-10-21">known vulnerabilities in the stdlib and modules</Stat>
+  <Stat v-click value="1" source="govulncheck ./...">that this code actually calls</Stat>
+</StatGrid>
 
-<!-- delivery: this is THE slide that sells govulncheck over alternatives.
-     Spend 90s here. The live demo on the previous slide is the wow,
-     this is the explanation that makes it stick. -->
+<!-- ~45s. Callback to section 02: "True. But unreachable." The AI flagged a real bug in code nobody calls. govulncheck draws the same line, with the call graph instead of a guess.
+     47 = 1 reachable + 4 in imported packages + 42 in required modules. -->
 
 ---
-layout: default
+layout: two-cols-header
 ---
 
-# CVE-2025-61728 — zip DoS
+# Same import. Different <Marker>verdict</Marker>.
 
-A malformed zip file → unbounded CPU/memory consumption.
+::left::
 
-Any service that decompresses user-uploaded zips dies.
+###### not reported
 
-You don't need to know how. **`govulncheck` knows for you.**
-
-<!-- 30 seconds max. Concept slide only — NO live exploit PoC.
-     The "you don't need to know how" line reinforces the thesis:
-     the toolchain does the work, you don't need to be a security expert. -->
-
----
-layout: terminal
-title: "$ go get -u && govulncheck ./..."
----
-
-```sh
-$ go get -u
-go: upgraded archive/zip to v1.22.0
-
-$ govulncheck ./...
-Scanning your code and 234 packages across 12 dependent modules
-for known vulnerabilities...
-
-No vulnerabilities found.
+```go
+for _, f := range zr.File {
+	rc, _ := f.Open()
+	io.Copy(os.Stdout, rc)
+}
 ```
 
-<!-- delivery: short. The fix is one command. Keep it punchy.
-     "That's it. We're back to clean. On every commit, this gets re-run." -->
+::right::
+
+###### reported
+
+```go
+f, _ := zr.Open("manifest.json")
+io.Copy(os.Stdout, f)
+```
+
+<!-- ~45s. Verified on go1.25.5: iterating zr.File and calling File.Open never reaches the vulnerable symbol (0 affected). zr.Open is Reader.Open, the fs.FS method that builds the file name index: reported.
+     A scanner that reads go.mod would flag both. govulncheck reads the call graph. -->
 
 ---
 layout: split-code
 ---
 
-###### sez 2 / in CI
+###### GO-2026-4342 · CVE-2025-61728
 
-# Bring it to your pipeline
+# Valid zip. Unbounded <Marker>cost</Marker>.
 
-You install `govulncheck` once. It runs on every PR and push.
+The first `Open` builds a file name index, and that index is super-linear.
 
-The build fails on new vulnerabilities.
+A crafted archive burns the CPU.
+
+Section 02 again, this time inside the standard library.
 
 ::right::
 
-```yaml
-# .github/workflows/security.yml
-name: Security
+```text
+Affected:  before go1.24.12
+           go1.25.0 to go1.25.5
+Fixed:     go1.24.12, go1.25.6
+Released:  15 January 2026
+Severity:  CPU denial of service
+```
+
+<!-- ~45s. Official text: "archive/zip uses a super-linear file name indexing algorithm that is invoked the first time a file in an archive is opened. This can lead to a denial of service when consuming a maliciously constructed ZIP archive."
+     CPU only, not memory. NO exploit PoC on stage.
+     Issue go.dev/issue/77102, fix CL 736713, credit Jakub Ciolek. -->
+
+---
+layout: terminal
+title: "$ go get toolchain@go1.26.10 && govulncheck ./..."
+---
+
+```sh
+go: added toolchain go1.26.10
+
+No vulnerabilities found.
+```
+
+A stdlib fix is a toolchain upgrade. `go get -u` won't touch it.
+
+<!-- Real output (GOTOOLCHAIN=go1.25.5+auto, so the toolchain line takes effect). Exit 0.
+     Verified: go get -u ./... leaves go.mod unchanged and the finding stays.
+     go1.25 is out of support since go1.27.0 (2026-08-19): that's why we jump to go1.26.10 and not to the minimum go1.25.6.
+     For a service what matters is the Go you build with: CI image, Dockerfile golang:1.27.3, the toolchain line. -->
+
+---
+layout: split-code
+---
+
+###### in CI
+
+# Scan the Go you <Marker>ship</Marker>
+
+By default the action scans with the latest stable Go.
+
+It won't see the stdlib bugs of the version you build with.
+
+::right::
+
+```yaml {all|9-10}
+name: govulncheck
 on: [pull_request, push]
+
 jobs:
   govulncheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with: { go-version: 'stable' }
-      - run: |
-          go install \
-            golang.org/x/vuln/cmd/govulncheck@latest
-          govulncheck ./...
+      - uses: golang/govulncheck-action@v1
+        with:
+          go-version-file: go.mod
 ```
+
+<!-- ~45s. golang/govulncheck-action, current major v1 (v1.1.0, 2026-07-10), README still says experimental.
+     It checks out the repo and installs govulncheck itself. Fails the job on findings with text output (not with json/sarif). -->
 
 ---
 layout: statement
 ---
 
-# You fixed the known. What about the unknown?
+# One run is a demo. Every PR is a <Marker>habit</Marker>.
 
-<!-- transition to sez 3. "Known" = govulncheck (CVEs in DB).
-     "Unknown" = SBOM (what's actually in your build), SLSA (what you shipped),
-     AI (hypothesis-driven assessment). Pause briefly, then click to next section. -->
+<!-- Transition to section 04: make it routine. -->
 
 ---
 layout: section
@@ -872,4 +965,4 @@ qr: https://links.davideimola.dev
 
 # Thank you
 
-exit 0
+Slides, links and feedback.
