@@ -45,11 +45,10 @@ import Marker from './Marker.vue'
 
 .whoami__line {
   margin: 0 0 28px;
-  font-size: 34px;
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-  color: var(--di-fg);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--di-fg-muted);
 }
 
 .whoami__lead {
@@ -59,8 +58,11 @@ import Marker from './Marker.vue'
   color: var(--di-slide-meta);
 }
 
+/* The rule: the brand's only divider, in full ink on slides */
 .whoami__facts {
   margin: 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--di-fg);
   display: grid;
   gap: 10px;
 }

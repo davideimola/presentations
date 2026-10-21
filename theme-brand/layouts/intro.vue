@@ -8,11 +8,11 @@
 
       <div class="intro__content">
         <slot />
-        <ul v-if="hasSocials" class="intro__socials">
-          <li v-if="github"><span>github</span>{{ github }}</li>
-          <li v-if="bluesky"><span>bluesky</span>{{ bluesky }}</li>
-          <li v-if="linkedin"><span>linkedin</span>{{ linkedin }}</li>
-        </ul>
+        <dl v-if="hasSocials" class="intro__socials">
+          <div v-if="github"><dt>github</dt><dd>{{ github }}</dd></div>
+          <div v-if="bluesky"><dt>bluesky</dt><dd>{{ bluesky }}</dd></div>
+          <div v-if="linkedin"><dt>linkedin</dt><dd>{{ linkedin }}</dd></div>
+        </dl>
       </div>
     </div>
     <SlideFooter />
@@ -26,7 +26,7 @@ import SlideFooter from '../components/SlideFooter.vue'
 import Tape from '../components/Tape.vue'
 
 /* Speaker intro: black and white portrait cropped tight, a tape on its
-   edge, <WhoAmI /> and the socials in mono. */
+   edge, <WhoAmI />, and the socials as more rows of its facts. */
 const props = defineProps({
   introImage: { type: String },
   github: { type: String },
@@ -74,27 +74,29 @@ const hasSocials = computed(() => props.github || props.bluesky || props.linkedi
 }
 
 .intro__socials {
-  list-style: none;
-  padding: 0;
-  margin: 28px 0 0;
-  display: flex;
-  gap: 32px;
+  margin: 10px 0 0;
+  display: grid;
+  gap: 10px;
 }
 
-.intro__socials li {
+.intro__socials div {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  align-items: baseline;
+}
+
+.intro__socials dt {
   font-family: var(--di-font-family-mono);
-  font-size: 20px;
-  color: var(--di-fg);
-  margin: 0;
-  padding: 0;
-}
-
-.intro__socials li span {
-  display: block;
   font-size: 18px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--di-slide-meta);
-  margin-bottom: 2px;
+}
+
+.intro__socials dd {
+  margin: 0;
+  font-family: var(--di-font-family-mono);
+  font-size: 22px;
+  color: var(--di-fg);
 }
 </style>
