@@ -23,4 +23,4 @@ Vocabolario di default: i cinque ruoli canonici (`needs-triage`, `needs-info`, `
 
 ### Domain docs
 
-Layout single-context: un `CONTEXT.md` + `docs/adr/` alla radice del repo. See `docs/agents/domain.md`.
+Layout single-context: un `GLOSSARY.md` + `docs/adr/` alla radice del repo. See `docs/agents/domain.md`.
