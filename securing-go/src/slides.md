@@ -310,19 +310,20 @@ layout: statement
 
 ---
 layout: default
+clicks: 5
 ---
 
 # The <Marker>loop</Marker>
 
-<Ladder compact>
-  <LadderRung v-click :n="1" title="Analyze">give the AI the context, not the whole codebase</LadderRung>
-  <LadderRung v-click :n="2" title="Find">it points to where it could break</LadderRung>
-  <LadderRung v-click :n="3" title="Test">it writes the test that would prove it</LadderRung>
-  <LadderRung v-click :n="4" title="Verify">a human reads the red test</LadderRung>
-  <LadderRung v-click :n="5" title="Fix">test first, then the code</LadderRung>
-</Ladder>
+<DrawnSvg src="/drawings/loop.svg" alt="A loop: analyze, find, test, verify, fix, and back to analyze" steps class="mt-2 mx-auto w-[86%]" />
 
-<!-- ~45s. This loop is the spine of the talk: the next slides walk it once on this bug. -->
+<!-- ~45s. One click per step, the loop closes on "fix". The red knot is on "test": the failing test is where a hypothesis becomes evidence.
+     analyze: give the AI the context, not the whole codebase.
+     find: it points to where it could break.
+     test: it writes the test that would prove it.
+     verify: a human reads the red test.
+     fix: test first, then the code.
+     This loop is the spine of the talk: the next slides walk it once on this bug. -->
 
 ---
 layout: default
