@@ -302,7 +302,7 @@ layout: default
 
 <Rungs :active="1" :total="3" label="hypothesis" />
 
-# Ask a narrow <Marker>question</Marker>
+# Assume the caller is <Marker>hostile</Marker>
 
 <Chat>
   <ChatBubble user>Review our authentication and authorization layer. For each check, list the logic errors that could grant access to the wrong user. Assume the caller is hostile.</ChatBubble>
@@ -310,7 +310,7 @@ layout: default
 </Chat>
 
 <!-- ~1min. The original prompts are gone: this one is reconstructed, say it out loud ("something like this").
-     What matters is the shape: targeted on the auth layer, asking for logic errors, hostile caller. Not "find bugs in my repo". -->
+     What matters is the shape: targeted on the auth layer, asking for logic errors, and the line in the title: assume the caller is hostile. Not "find bugs in my repo". -->
 
 ---
 layout: split-code
