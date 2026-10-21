@@ -20,7 +20,7 @@ When invoked, locate the talk folder from the user's prompt (e.g. `securing-go/`
 1. **`<talk>/TALK.md`** — the brief: thesis, audience, takeaways, outline, demo plan, anti-vendor rules. This is your primary source of truth for *what* to scaffold.
 2. **`<talk>/src/slides.md`** — the current state of the slide deck. Some slides may already be scaffolded; respect them. Ask before overwriting.
 3. **The theme catalog** — check the `theme:` line of the deck. For `../../theme-brand` (the default for new talks) read `theme-brand/example.md` and `theme-brand/BRAND.md`: layouts `cover`, `intro`, `default`, `section`, `statement`, `fact`, `quote`, `center`, `two-cols`, `two-cols-header`, `split-code`, `code-hero`, `image-right`, `image-left`, `terminal`, `end`, plus `<Marker>` (one per slide) and `<Tape>`. Brand limits: body at least 24px, code at least 22px, at most 14 lines of code per slide. For `../../theme-davideimola` (older decks such as `ai-defense`) read `theme-davideimola/example.md`. Read the catalog before suggesting layouts to confirm syntax and slot names (`::right::`, `::left::`, etc.).
-4. **The owning content-os Talk Piece** (`content-os#<n>`, referenced by `TALK.md` — only if Davide explicitly asks you to). Otherwise the brief in `TALK.md` is enough.
+4. **The owning talk note in Trilium** (referenced by `TALK.md`, read through the `trilium` MCP server — only if Davide explicitly asks you to). Otherwise the brief in `TALK.md` is enough.
 
 If the talk folder doesn't exist or `TALK.md` is missing, stop and tell Davide to run `/talk-forge` first.
 
@@ -141,8 +141,8 @@ Wait for answers, then scaffold.
 
 ## Coordination with other skills
 
-- `talk-forge` owns the **Brief** (`TALK.md`) and the scaffolded folder structure; the editorial **Talk Piece** lives on content-os. If Davide wants to change thesis/outline/takeaways, redirect there.
+- `talk-forge` owns the **Brief** (`TALK.md`) and the scaffolded folder structure; the editorial **talk note** lives in Trilium. If Davide wants to change thesis/outline/takeaways, redirect there.
 - `cfp-submit` owns submitting talks to conferences. Unrelated to slide content.
-- `slide-craft` (this skill) owns the **slide deck** (`<talk>/src/slides.md`). It's a pure Artifact editor: it inherits the owning `content-os#<n>` link transitively through `TALK.md` and wires nothing to content-os directly.
+- `slide-craft` (this skill) owns the **slide deck** (`<talk>/src/slides.md`). It's a pure Artifact editor: it inherits the owning talk note link transitively through `TALK.md` and writes nothing to Trilium.
 
 If Davide blurs the line ("aggiungi una sezione AI alla sezione 1"), check: is this a content change inside an existing brief outline (you handle it) or a structural change to the brief itself (redirect to `talk-forge`)?

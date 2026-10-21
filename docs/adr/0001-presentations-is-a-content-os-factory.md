@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by ADR-0002
 ---
 
 # presentations is a content-os Factory: artifacts only, editorial creation stays upstream

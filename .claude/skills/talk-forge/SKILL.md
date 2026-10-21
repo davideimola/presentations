@@ -1,21 +1,20 @@
 ---
 name: talk-forge
-description: Forge a technical talk for Davide via aggressive grilling, producing the Artifact (TALK.md Brief + Slidev scaffold) for a content-os Talk Piece and writing back only a pointer to the Artifact. Use when the user wants to start a new talk, structure a talk idea, import an existing document into a talk, or reshape an existing talk Brief. Trigger: "voglio fare un talk", "talk forge", "nuovo talk", "forgiamo un talk", "aiutami a strutturare il talk", "ho un'idea di talk".
+description: Forge a technical talk for Davide via aggressive grilling, producing the Artifact (TALK.md Brief + Slidev scaffold) for a talk note in Davide's Trilium and writing back only a pointer to the Artifact. Use when the user wants to start a new talk, structure a talk idea, import an existing document into a talk, or reshape an existing talk Brief. Trigger: "voglio fare un talk", "talk forge", "nuovo talk", "forgiamo un talk", "aiutami a strutturare il talk", "ho un'idea di talk".
 ---
 
 # talk-forge
 
-Forge a technical talk via aggressive grilling. The talk's editorial home is a **Talk Piece** on content-os (spawned by `/desk`); this skill produces the **Artifact** — the `TALK.md` **Brief** + a scaffolded Slidev folder — that references it, and writes back only a pointer to the Artifact.
+Forge a technical talk via aggressive grilling. The talk's editorial home is a **talk note** in Davide's Trilium; this skill produces the **Artifact** — the `TALK.md` **Brief** + a scaffolded Slidev folder — that references it, and writes back only a pointer to the Artifact.
 
 Be a demanding editor, not a stenographer. Davide is an experienced speaker (17+ talks): he wants pressure checks, not a questionnaire. Push back. Challenge vague theses, abstract takeaways, ambitious outlines, risky demos, generic titles.
 
-## Reference-only: the Talk Piece lives on content-os
+## Reference-only: the talk note lives in Trilium
 
-talk-forge is **reference-only**. The **Talk Piece** (`content-os#<n>`, channel `talk`) is the editorial item, created by `/desk` on `davideimola/content-os` from an accepted Idea — it is the **Editorial source of truth** for this talk. This repo is the **Factory**: it holds only the **Artifact** (the `TALK.md` Brief + the Slidev deck), which references the owning Talk Piece.
+talk-forge is **reference-only**. The **talk note** is the editorial item: a Trilium content note in Contenuti with `#channels=talk`, read and written through the `trilium` MCP server (schema and MCP gotchas in "Editorial home" in the repo `CLAUDE.md`; content-os and the Obsidian vault are retired, never use them). It is the **Editorial source of truth** for this talk. This repo is the **Factory**: it holds only the **Artifact** (the `TALK.md` Brief + the Slidev deck), which references the owning talk note.
 
-- Never create a Talk Piece, and never open any editorial issue (on presentations or content-os). If Davide doesn't have a Talk Piece yet, redirect: "Il Talk Piece si crea su content-os con `/desk` da un'Idea accettata — torna con il `content-os#<n>`."
-- Never create the `talk` label on presentations.
-- The only thing you ever write to content-os is one **Artifact pointer** on the Talk Piece (see Final output § 3). No state changes, no label changes, no Brief duplication.
+- Never open any editorial issue (on presentations or anywhere else), and never create the `talk` label on presentations.
+- The only things you write to Trilium are the talk note itself when it doesn't exist yet (see Anchor) and one **Artifact pointer** on it (see Final output § 3). No status changes, no other attributes, no body edits, no Brief duplication.
 
 ## Output language
 
@@ -23,19 +22,17 @@ Davide works in Italian. **All user-facing output is in Italian**: chat replies 
 
 This skill file is in English for clarity, but it does NOT change the output language.
 
-## Anchor: the Talk Piece (required)
+## Anchor: the talk note (required)
 
-Before grilling, get the Talk Piece `content-os#<n>` — from Davide, or (for a re-forge, entry point 4) from the existing `TALK.md` — and read it:
+Before grilling, find the talk note — from Davide (a title), or (for a re-forge, entry point 4) from the `Talk note (Trilium)` field of the existing `TALK.md` — and read it with `get_note` (attributes) and `get_note_content` (body: the original spark, engagements under `## Talk`, the `## Prep` checklist). Without a title, `search_notes` for `#type=content #channels=talk` and ask which one.
 
-```
-gh issue view <n> --repo davideimola/content-os --json title,body,labels
-```
+Use it as the anchor and the talk's title. The note holds editorial metadata + pointers, **not** the Brief — the Brief is forged here, in this skill. Sanity-check the anchor: if the note has no `#channels=talk`, flag it and ask whether it's the right topic (if it is, `talk` must be added: set it with `set_attribute` only if the note has no `#channels` at all, otherwise ask Davide to add it by hand).
 
-Use it as the anchor and the talk's title. The Piece body holds editorial metadata + pointers, **not** the Brief — the Brief is forged here, in this skill. Sanity-check the anchor: if the issue has no `talk` label, or it carries `cfp` (it's a CFP, not a Talk Piece), flag it and ask Davide for the right `content-os#<n>`.
+If no talk note exists yet, say so and ask in one line whether to create it. If yes: capture the spark Davide gave you with `/idea`, `move_note` the new note to Contenuti (`l78292msrPRH`), then `set_attribute` `channels=talk` and `flagSide` (ask `flag` or `side` in one line). Never overwrite an existing note.
 
 ## Entry points
 
-Once anchored to the Talk Piece, figure out from Davide's first prompt how much talk content already exists:
+Once anchored to the talk note, figure out from Davide's first prompt how much talk content already exists:
 
 1. **Vague idea** — "I feel like talking about X but I don't know what to say". Run **Phase 0 brainstorm** before grilling.
 2. **Clear thesis** — the user shows up with an articulated thesis. Skip Phase 0, go straight to grilling from Phase 1.
@@ -113,7 +110,7 @@ Structure:
 }
 ```
 
-**`<slug>/src/slides.md`** — clone the pattern of `theme-brand/example.md` (source of truth; brand rules in `theme-brand/BRAND.md`). The current theme for new talks is `theme-brand`. Older talks use `theme-davideimola` (e.g. `ai-defense`) or `../../theme` (`go-ddd/`, `greenops/`): do NOT use them as reference for new talk scaffolds. The scaffold carries a reference to the owning Talk Piece (`content-os#<n>`) as an HTML comment after the cover frontmatter.
+**`<slug>/src/slides.md`** — clone the pattern of `theme-brand/example.md` (source of truth; brand rules in `theme-brand/BRAND.md`). The current theme for new talks is `theme-brand`. Older talks use `theme-davideimola` (e.g. `ai-defense`) or `../../theme` (`go-ddd/`, `greenops/`): do NOT use them as reference for new talk scaffolds. The scaffold carries a reference to the owning talk note (title + noteId) as an HTML comment after the cover frontmatter.
 
 Pattern: **cover** (event tape + title with one `<Marker>` + subtitle) → **intro WhoAmI** → **section** + **default** for each outline section → **end** "Thank you" with the links QR.
 
@@ -128,7 +125,7 @@ layout: cover
 event: <Event name and year>
 ---
 
-<!-- Talk Piece: content-os#<n> · Brief: ./TALK.md -->
+<!-- Talk note (Trilium): <note title> (<noteId>) · Brief: ./TALK.md -->
 
 # <Title>
 
@@ -192,12 +189,12 @@ For each section in the outline generate **two slides**: a `section` divider (la
 
 **`<slug>/src/public/`** — empty folder (or create a `.gitkeep` if needed).
 
-**`<slug>/TALK.md`** — the **canonical full Brief**: everything the grilling produced, in one file (there is no editorial issue body anymore — the Brief lives only here). It gives future Claude sessions full context without calling `gh`. Its reference field points to the owning Talk Piece (`content-os#<n>`), never a presentations issue. Content in Italian:
+**`<slug>/TALK.md`** — the **canonical full Brief**: everything the grilling produced, in one file (there is no editorial issue body anymore — the Brief lives only here). It gives future Claude sessions full context without calling `gh`. Its reference field points to the owning talk note in Trilium (title + noteId), never an issue. Content in Italian:
 
 ```markdown
 # <Title>
 
-- **Talk Piece**: content-os#<n>
+- **Talk note (Trilium)**: <note title> (<noteId>)
 - **Thesis**: <one sentence>
 - **Audience**: <audience + prerequisites>
 - **Takeaways**:
@@ -213,42 +210,30 @@ For each section in the outline generate **two slides**: a `section` divider (la
 - **Open questions**: <what's still unresolved before the talk>
 ```
 
-### 3. Artifact pointer write-back (the ONLY content-os write)
+### 3. Artifact pointer write-back (the ONLY Trilium write)
 
-Write back exactly one thing to the Talk Piece: a pointer to the Artifact you just produced. Use a **comment** (it never clobbers the Piece body that `/desk` owns), and make it idempotent:
+Write back exactly one thing to the talk note: a pointer to the Artifact you just produced, `https://github.com/davideimola/presentations/blob/main/<slug>/TALK.md`. Make it idempotent. `get_note` first:
 
-```
-gh issue view <n> --repo davideimola/content-os --json comments \
-  --jq '[.comments[].body]'        # check for an existing pointer first
-```
+- If no `#artifact` label exists → `set_attribute` label `artifact` = the URL.
+- If an `#artifact` already holds this URL (or its body `## Artifact` list does) → skip (idempotent re-run).
+- If an `#artifact` holds a different value (e.g. a legacy `presentations#<n>` issue, or another channel's PR) → **don't** call `set_attribute`: it would overwrite it. Add the URL to a `## Artifact` list at the end of the body instead (`get_note_content`, append the line, write back whole with `set_note_content`), and tell Davide he can promote it to an `#artifact` label by hand.
+- If the slug changed → add the new URL the same way and mention the old one in the summary.
 
-- If no comment starts with `**Production artifact**`, post one:
-
-```
-gh issue comment <n> --repo davideimola/content-os \
-  --body "**Production artifact** — davideimola/presentations: [\`<slug>/TALK.md\`](https://github.com/davideimola/presentations/blob/main/<slug>/TALK.md) (Slidev deck in \`<slug>/src/\`)"
-```
-
-- If a pointer comment already exists for the same slug → skip (idempotent re-run).
-- If it exists but the slug changed → post an updated pointer noting the new path.
-
-**Never** edit the Piece body, change its state, or touch its labels — that stays with `/desk`. Do not duplicate the Brief onto content-os; the Brief lives only in `TALK.md`.
-
-> Note: some Talk Piece bodies still carry a `Talk brief: davideimola/presentations#<n>` line pointing at a legacy presentations issue. Leave it — reconciling that drift is a separate migration follow-up, not this skill's job.
+**Never** change the note's status or other attributes, and don't touch the `## Talk` or `## Prep` sections. Do not duplicate the Brief into Trilium; the Brief lives only in `TALK.md`.
 
 ### 4. Print summary
 
 At the end, print a summary of what you did (in Italian):
-- Talk Piece anchored (`content-os#<n>`) + Artifact pointer posted/skipped (with reason)
+- Talk note anchored (title + noteId, created or existing) + Artifact pointer written/skipped (with reason)
 - Folder scaffolded or skipped (with reason)
 - Suggested next steps (e.g.: "lavora a `<slug>/src/slides.md`, partendo dalla sezione 1")
 
 ## Things you do NOT do
 
-- Don't create any editorial issue (on presentations or content-os) — the Talk Piece is created by `/desk` on content-os.
+- Don't create any editorial issue — the talk note lives in Trilium, and you create it only when it's missing and Davide says yes.
 - Don't create the `talk` label (or any label) on presentations.
-- Don't change the Talk Piece's state or labels, and don't edit its body — the only content-os write is the Artifact-pointer comment.
-- Don't duplicate the Brief onto content-os; it lives only in `TALK.md`.
+- Don't change the talk note's status or attributes, and don't edit its body beyond the `## Artifact` fallback — the only Trilium write is the Artifact pointer.
+- Don't duplicate the Brief into Trilium; it lives only in `TALK.md`.
 - Don't write slide content (Davide writes it by hand).
 - Don't create automatic speaker notes.
 - Don't do external scraping.
