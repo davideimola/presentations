@@ -622,7 +622,8 @@ graph LR
 
 Same version, same bytes, for everyone, forever.
 
-<!-- ~45s. Walk left to right. sumdb is a transparent, append-only log: nobody can swap the contents of a version that already exists, not even the author. -->
+<!-- ~45s. Walk left to right. sumdb is a transparent, append-only log: nobody can swap the contents of a version that already exists, not even the author.
+     Deep dive from a past GoLab: Katie Hockman, "Go Module Proxy: Life of a Query" (2019) https://www.youtube.com/watch?v=kqMxaO9d1NM -->
 
 ---
 layout: terminal
@@ -892,46 +893,16 @@ layout: default
 - **SBOM**: know what's actually in your build (`cyclonedx-gomod`, `syft`)
 - **SLSA**: prove that what you shipped is what you built
 
-<Callout type="tip" label="at golab">Yesterday, "Trust nothing: how to audit third-party Go binaries securely" by Ivan Pesenti. Catch the recording.</Callout>
+<Callout type="tip" label="watch next">GoLab 2023: "Essential security checks for your Go project", Cosmin Cojocar.<br>Yesterday: "Trust nothing: how to audit third-party Go binaries securely", Ivan Pesenti.</Callout>
 
 <!-- ~45s. Don't teach SBOM/SLSA, acknowledge them.
      Schedule checked 2026-10-21 (marked "not final"): no SBOM/SLSA talk at GoLab 2026, so the old "GoLab has them" line was wrong.
      Related talks: Pesenti, Nov 2 15:30 Golab #2. Also "Your tests pass, but do they work? Mutation testing in Go" (Takuma Shibuya, Nov 2 14:45 Golab #1) pairs with "nobody tested the right assumption".
-     Re-check the schedule the day before. -->
-
----
-layout: split-code
----
-
-###### take this
-
-# Everything, in one <Marker>repo</Marker>
-
-Every practice from this talk, already wired in.
-
-Start a new service from it, or copy the one file you need.
-
-`gonew github.com/davideimola/[REPO] example.com/svc`
-
-::right::
-
-```text
-.github/workflows/
-  security.yml       # govulncheck, verify, fuzz
-internal/authz/
-  authz.go           # deny by default
-  authz_fuzz_test.go # the property
-internal/httpx/
-  server.go          # timeouts, body limits
-  headers.go         # security headers
-skills/
-  go-security-review/
-  verify-with-fuzz/
-```
-
-<!-- ~1min30. [REPO] = name TBD: the template repo is released with the talk (see TALK.md).
-     gonew (golang.org/x/tools/cmd/gonew) is the official Go way to start from a template module.
-     The skills folder is plain Agent Skills: works with any coding agent, and with Argus. -->
+     Re-check the schedule the day before.
+     Past GoLabs (YouTube, channel UCMEvzoHTIdZI7IM8LoRbLsQ): no talk covers SBOM/SLSA directly. Closest:
+       Cojocar (gosec maintainer), GoLab 2023: gosec, govulncheck, sigstore/cosign on gosec's own release pipeline. https://www.youtube.com/watch?v=OpspliszWDg
+       Katie Hockman, GoLab 2019, "Go Module Proxy: Life of a Query" (proxy + sumdb), fits section 03. https://www.youtube.com/watch?v=kqMxaO9d1NM
+     Honest framing: don't say GoLab covered SBOM/SLSA. -->
 
 ---
 layout: default
@@ -942,12 +913,54 @@ layout: default
 <Ladder compact>
   <LadderRung v-click :n="1" title="Shell">let it run govulncheck and go test -fuzz itself</LadderRung>
   <LadderRung v-click :n="2" title="Your own MCP server">typed tools instead of a raw shell</LadderRung>
-  <LadderRung v-click :n="3" title="Argus">open source, runs locally, already wired</LadderRung>
+  <LadderRung v-click :n="3" title="Argus">an open source MCP server that runs govulncheck and gosec for your agent</LadderRung>
 </Ladder>
 
 <!-- ~1min30. The loop from section 02, made routine: the AI proposes, the tools give signals, the tests give evidence.
-     Argus: ONE option among three, ~60s max, no demo. "If you want it ready-made, I built one. Use it, fork it, or build your own." Claim Go tooling only if it has shipped by now.
+     Argus: ONE option among three, ~60s max, no demo. Present it in Toolbox mode: an MCP server that runs the scanners and serves skills, no LLM provider needed; your agent does the reasoning. "If you want it ready-made, I built one. Use it, fork it, or build your own." Go tooling is on main since 2026-10-15 (run_govulncheck, gosec via the Tool Catalog, #118) but NOT in a release yet (latest v0.3.0, 2026-07-30): cut a release before the talk. The built-in authz-audit skill hunts exactly the bug from section 02.
      Next in Golab #1 at 12:15: "Your AGENTS.md Is a Lie (And Here's How to Fix It)" by Dario Castañé. Good hand-off if the timing works. -->
+
+---
+layout: split-code
+---
+
+###### take this
+
+# Everything, in one <Marker>repo</Marker>
+
+Every practice from this talk, as Agent Skills.
+
+Give them to your agent. Everything they write is tested.
+
+::right::
+
+```text
+skills/
+  go-security-audit/   # analyze, find
+  verify-with-fuzz/    # hypothesis → evidence
+  go-security-setup/   # make it routine
+```
+
+<!-- ~1min30. github.com/davideimola/go-security-skills, MIT, open Agent Skills format: Claude Code, Codex, Copilot, Cursor, Gemini CLI.
+     go-security-audit: govulncheck, gosec triaged against the code, timeouts and body limits, fail-open authz, trust boundaries, unpinned actions. Reports findings, applies only the fixes you confirm.
+     verify-with-fuzz: the section 02 story, packaged. Deny-by-default tests plus a fuzz property, run on today's code: reproduced or not.
+     go-security-setup: installs security.yml (verify, vet, govulncheck, tests, weekly bounded fuzzing) and grouped Dependabot, checks the toolchain is patched, adds SECURITY.md.
+     The point for the room: a skill that writes CI is itself supply chain. Every file these skills write already exists in the repo and is verified by its CI, actions pinned to full commit SHAs.
+     "and with Argus" (Toolbox mode, skills in ~/.argus/skills/) only if the end-to-end test passed. -->
+
+---
+layout: center
+---
+
+# Give them to your <Marker>agent</Marker>
+
+```sh
+npx skills add davideimola/go-security-skills
+```
+
+<QRBlock value="https://github.com/davideimola/go-security-skills" label="github.com/davideimola/go-security-skills" />
+
+<!-- ~20s. Leave it on screen long enough for phones to come out. Claude Code plugin install is in the README, not on the slide. -->
 
 ---
 layout: fact
@@ -990,6 +1003,9 @@ layout: statement
 
 ---
 layout: end
+links:
+  - github.com/davideimola/go-security-skills
+  - links.davideimola.dev
 qr: https://links.davideimola.dev
 ---
 

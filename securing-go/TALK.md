@@ -6,7 +6,7 @@
 - **Tagline (intro slide)**: "The compiler won't save you. Your toolchain might."
 - **Audience**: Go developers, intermediate level. Familiarity with `go test` and `go mod` basics. NOT required: `govulncheck`, `sumdb` internals, AI-assisted security tooling.
 - **Takeaways**:
-  - Add `govulncheck` to your CI this week: one PR, one workflow file (copy it from the talk's template repo).
+  - Add `govulncheck` to your CI this week: one PR, one workflow file (let `go-security-setup` from the talk's skills repo install it).
   - Write one fuzz test as a property test on your most critical auth path. Test who must be denied, not only who gets in. A table test checks the cases you thought of; the fuzzer checks the ones you didn't.
   - Run AI-assisted security assessments as a loop: analyze, find, test, verify, fix. A finding without a failing test is a hypothesis, not a bug. Attackers are already using AI; defenders should too.
 - **The loop** (backbone of the talk): analyze → find → test → verify → fix.
@@ -33,7 +33,7 @@
   - (4min) INTRO: incident urgency stat + auth bug teaser + thesis + roadmap
   - (14min) SEZ 1 — Code you write: "Go is safe by default. Your application isn't." → trust boundaries (1 slide, SSRF as one example of client-controlled data) → resource exhaustion (1 slide, `MaxBytesReader`, seeds the zip DoS in sez 2) → bug story through the loop → make the fix stay fixed (property-based fuzz test in CI) → signal vs noise. No vulnerability catalog, no SQL injection / XSS.
   - (14min) SEZ 2 — Code you use: npm cautionary tale + sumdb arch (with `go mod verify` inline) + `govulncheck` LIVE DEMO (focus on call graph: true but unreachable) + bridge: the resource exhaustion from sez 1, this time in the stdlib
-  - (8min) SEZ 3 — Make it routine: checklist + SBOM/SLSA acknowledged (no SBOM/SLSA talk at GoLab 2026; point to the binary auditing talk) + the template repo CTA (everything in the talk, in one place) + make the loop routine (give your AI the tools: plain shell, your own MCP server, or a ready-made open source option such as Argus, which runs locally; ~60s, one option among three, never "you need Argus") + closing
+  - (8min) SEZ 3 — Make it routine: checklist + SBOM/SLSA acknowledged (no SBOM/SLSA talk at GoLab 2026; point to the binary auditing talk) + the skills repo CTA (everything in the talk, in one place) + make the loop routine (give your AI the tools: plain shell, your own MCP server, or a ready-made open source option such as Argus, which runs locally; ~60s, one option among three, never "you need Argus") + closing
   - (10min) Q&A
 - **Demo plan**:
   - Main live demo (sez 2, ~9min): `govulncheck` on a reachable stdlib vulnerability (CVE-2025-61728 being verified). Plan B: `GOVULNDB` local mirror + asciinema + screenshots.
@@ -50,6 +50,6 @@
   - Opening stat: pick one from verified sources (research in progress, starting from the ones used in `ai-defense/`)
   - npm incident facts (Axios as believed, or the closest well-documented one): research in progress
   - Optional Go-side supply chain incident as secondary example: research in progress
-  - **Secure Go template repo**, released with the talk: a Go project boilerplate with the talk's practices baked in (security CI, secure HTTP defaults, deny-by-default authz with its fuzz property, AI skills usable by any agent and by Argus). Name, scope and `gonew` support TBD. Blog post about it after the talk.
+  - **Skills repo** `github.com/davideimola/go-security-skills`, released with the talk (public, created 2026-10-21): Agent Skills only, no code template and no `gonew`. Three skills: `go-security-setup` (installs a CI-verified `security.yml` and Dependabot config), `go-security-audit` (govulncheck, gosec, the talk's patterns; no fix without evidence) and `verify-with-fuzz` (hypothesis to failing fuzz property). Everything a skill writes is a canonical asset tested in the repo's CI. Installed with `npx skills add davideimola/go-security-skills`. Argus is mentioned as an MCP server (Toolbox mode) only after its release. Slide changes: decision 19 in the repo's `docs/design/2026-10-21-design-session.md`. Blog post ("how I built it") after the talk.
 - **Format**: 40 min talk + 10 min Q&A, EN
 - **Conference**: GoLab 2026 (accepted), 3 November 2026, 11:30
