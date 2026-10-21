@@ -823,22 +823,36 @@ clicks: 2
      Numbers from govulncheck on 2026-10-21; re-run the morning of the talk, the database grows. -->
 
 ---
-layout: terminal
-title: "$ go get toolchain@go1.26.10 && govulncheck ./..."
+layout: split-code
 ---
 
-```text
-go: added toolchain go1.26.10
+###### the fix
 
+# Upgrade <Marker>Go</Marker>, not the module
+
+The bug is in the standard library: it ships with Go.
+
+`go get -u` updates your modules. It never touches Go.
+
+::right::
+
+```diff
+ // go.mod
+ module example.com/unzip
+
+ go 1.25.5
++toolchain go1.26.10
+```
+
+```text
+$ govulncheck ./...
 No vulnerabilities found.
 ```
 
-A stdlib fix is a toolchain upgrade. `go get -u` won't touch it.
-
-<!-- Real output (GOTOOLCHAIN=go1.25.5+auto, so the toolchain line takes effect). Exit 0.
+<!-- ~45s. go get toolchain@go1.26.10 adds the toolchain line; with GOTOOLCHAIN=go1.25.5+auto the go command switches to it. Real output, exit 0.
      Verified: go get -u ./... leaves go.mod unchanged and the finding stays.
-     go1.25 is out of support since go1.27.0 (2026-08-19): that's why we jump to go1.26.10 and not to the minimum go1.25.6.
-     For a service what matters is the Go you build with: CI image, Dockerfile golang:1.27.3, the toolchain line. -->
+     Why 1.26.10 and not the minimum 1.25.6: go1.25 is out of support since go1.27.0 (2026-08-19).
+     For a service what matters is the Go you actually build with: the CI image, the Dockerfile (golang:1.27.3), the toolchain line. -->
 
 ---
 layout: split-code
