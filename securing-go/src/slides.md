@@ -646,32 +646,37 @@ all modules verified
 <!-- ~20s. One command, belongs in the release pipeline. -->
 
 ---
-layout: two-cols-header
+layout: default
 ---
 
 # What the checksum database <Marker>guarantees</Marker>
 
-::left::
+<div class="grid grid-cols-2 gap-12">
+<div>
 
 ###### it does
 
 - Same bytes for everyone
 - Nobody can swap a version
 
+</div>
+<div>
+
 ###### it doesn't
 
 - That the bytes are **honest**
 - That the bytes are **safe**
 
-::right::
+</div>
+</div>
 
-<v-click>
+<div v-click class="mt-8">
 
-<Callout type="note" label="boltdb-go/bolt">A typo of boltdb, backdoored from its first version. Then the GitHub tag was rewritten to clean code. For three years the repo looked fine, and the proxy served the backdoor.</Callout>
+<Callout type="note" label="boltdb-go/bolt">A typo of boltdb with a backdoor, cached by the proxy. Then its GitHub tag was moved to a clean commit: for three years the repo looked fine, and the proxy kept serving the backdoor.</Callout>
 
-</v-click>
+</div>
 
-<!-- ~1min30. Left: the map for the rest of the section. Honest and safe are the two holes.
+<!-- ~1min30. Top: the map for the rest of the section. Honest and safe are the two holes.
      Click: the story of "not honest". A typosquat of github.com/boltdb/bolt (8,367 dependents), v1.3.1 cached by the proxy in Nov 2021. Backdoor on Open(): remote shell over C2.
      Nothing was rewritten in the proxy: the checksum db forbids that. The attacker rewrote the GitHub tag, so whoever reviewed the repo saw clean code while the proxy kept serving the original, malicious bytes. The immutability that protects us kept the backdoor alive.
      Reported by Socket in Feb 2025 (GO-2025-3451). Today proxy.golang.org answers 403: "The module proxy considers this module to be malicious and will not serve it".
