@@ -708,13 +708,19 @@ Like the unbounded request body, this time inside the standard library.
 
 ::right::
 
-```text
-Affected:  before go1.24.12
-           go1.25.0 to go1.25.5
-Fixed:     go1.24.12, go1.25.6
-Released:  15 January 2026
-Severity:  CPU denial of service
-```
+<dl class="cve-facts">
+  <div><dt>affected</dt><dd><code>go1.25.0</code> to <code>go1.25.5</code><br>and everything before <code>go1.24.12</code></dd></div>
+  <div><dt>fixed in</dt><dd><code>go1.24.12</code> · <code>go1.25.6</code></dd></div>
+  <div><dt>released</dt><dd>15 January 2026</dd></div>
+  <div><dt>impact</dt><dd>CPU denial of service</dd></div>
+</dl>
+
+<style>
+.cve-facts { margin: 0; border-top: 1px solid var(--di-fg); }
+.cve-facts div { display: grid; grid-template-columns: 150px minmax(0, 1fr); align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--di-border); }
+.cve-facts dt { font-family: var(--di-font-family-mono); font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--di-slide-meta); }
+.cve-facts dd { margin: 0; font-size: 26px; line-height: 1.4; color: var(--di-fg); }
+</style>
 
 <!-- ~45s. Don't say which call triggers it yet: the next slide asks the room. The title echoes "Valid request. Unbounded cost." from the code you write.
      Official text: "archive/zip uses a super-linear file name indexing algorithm that is invoked the first time a file in an archive is opened. This can lead to a denial of service when consuming a maliciously constructed ZIP archive."
