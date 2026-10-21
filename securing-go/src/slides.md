@@ -906,14 +906,12 @@ layout: default
 
 # Monday <Marker>morning</Marker>
 
-<v-clicks>
-
-- Add `govulncheck` to CI, scanning the Go you ship
-- Write one fuzz test on your most critical auth path: who must be denied
-- Run `go mod verify` in your release pipeline
-- Point your AI at one critical path: every finding needs a red test
-
-</v-clicks>
+<Ladder class="mt-4">
+  <LadderRung v-click :n="1" title="govulncheck in CI">on every PR, scanning the Go you ship: <code>go-version-file: go.mod</code></LadderRung>
+  <LadderRung v-click :n="2" title="One fuzz property">on your most critical auth path, written as who must be denied</LadderRung>
+  <LadderRung v-click :n="3" title="go mod verify">in the release pipeline, before anything gets built</LadderRung>
+  <LadderRung v-click :n="4" title="One AI pass">on one critical path: every finding needs a red test</LadderRung>
+</Ladder>
 
 <!-- ~1min30. Read each item, half a beat between. They already saw all of it: the point is to make it small and concrete. -->
 
