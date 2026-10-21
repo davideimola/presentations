@@ -610,10 +610,12 @@ layout: two-cols-header
 
 - `go.mod` pins `v1.14.0` until you ask
 - Fetching and building never run the module's code
+- **Until you update.** Then it's yours.
 
 </v-clicks>
 
-<!-- ~1min. Go blog, "How Go Mitigates Supply Chain Attacks" (2022-03-31): "neither fetching nor building code will let that code execute". A new release reaches nobody until they explicitly update (go get -u, go mod tidy, a manual edit).
+<!-- ~1min. Go makes it slow and deliberate, not impossible: go get -u or a Dependabot PR would have pulled 1.14.1 too, and its init functions run the moment the program starts. Review dependency bumps like code.
+     Go blog, "How Go Mitigates Supply Chain Attacks" (2022-03-31): "neither fetching nor building code will let that code execute". A new release reaches nobody until they explicitly update (go get -u, go mod tidy, a manual edit).
      https://go.dev/blog/supply-chain -->
 
 ---
@@ -644,14 +646,36 @@ all modules verified
 <!-- ~20s. One command, belongs in the release pipeline. -->
 
 ---
-layout: statement
+layout: two-cols-header
 ---
 
-# Forever cuts both <Marker>ways</Marker>.
+# What the checksum database <Marker>guarantees</Marker>
+
+::left::
+
+###### it does
+
+- Same bytes for everyone
+- Nobody can swap a version, not even its author
+
+::right::
+
+###### it doesn't
+
+<v-clicks>
+
+- That the bytes are **honest**
+- That the bytes are **safe**
+
+</v-clicks>
+
+<!-- ~45s. The map for the rest of the section. Honest: a module can be malicious from its first version (next slide). Safe: an honest module can carry a known vulnerability (govulncheck, after that). -->
 
 ---
 layout: default
 ---
+
+###### not honest
 
 # Typo. Cached. <Marker>Served</Marker> for years.
 
@@ -663,7 +687,8 @@ layout: default
 | Feb 2025 | reported by Socket, now GO-2025-3451 |
 
 <!-- ~1min. Typosquat of github.com/boltdb/bolt (8,367 dependents). Backdoor triggers on Open(): remote shell over C2.
-     Reviewing the repo on GitHub showed nothing: the code you get is the code in the proxy, not the code on GitHub.
+     Nothing was rewritten in the proxy: the checksum db forbids that. The attacker rewrote the GitHub tag, so whoever reviewed the repo saw clean code while the proxy kept serving the original, malicious bytes. The immutability that protects us kept the backdoor alive.
+     Lesson: review the code the proxy serves (go mod download, pkg.go.dev source), not the repo.
      Today proxy.golang.org answers 403: "The module proxy considers this module to be malicious and will not serve it". A screenshot of that would work well here.
      Source: socket.dev/blog/malicious-package-exploits-go-module-proxy-caching-for-persistence (2025-02-04) -->
 
@@ -671,15 +696,9 @@ layout: default
 layout: statement
 ---
 
-# The checksum database proves you got the same bytes.
+# Honest bytes can still be <Marker>vulnerable</Marker>.
 
-<v-click>
-
-# Not <Marker>good</Marker> bytes.
-
-</v-click>
-
-<!-- Bridge: integrity is solved. Knowing whether those bytes are vulnerable is the next question. -->
+<!-- Bridge to "not safe": an honest module, a known CVE. That's what govulncheck answers. -->
 
 ---
 layout: code-hero
