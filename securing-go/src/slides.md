@@ -700,9 +700,9 @@ layout: split-code
 
 # Valid zip. Unbounded <Marker>cost</Marker>.
 
-The first `Open` builds a file name index, and that index is super-linear.
+A file name nested thousands of folders deep.
 
-A crafted archive burns the CPU.
+One `Open`: **26 seconds of CPU**.
 
 The resource exhaustion from section 02, this time inside the standard library.
 
@@ -717,7 +717,10 @@ Severity:  CPU denial of service
 ```
 
 <!-- ~45s. Official text: "archive/zip uses a super-linear file name indexing algorithm that is invoked the first time a file in an archive is opened. This can lead to a denial of service when consuming a maliciously constructed ZIP archive."
-     CPU only, not memory. NO exploit PoC on stage.
+     How it works: zip.Reader is an fs.FS, so on the first Open it indexes every file's parent folders. The old loop called path.Dir at each level (re-scanning the whole name) and never stopped early, even for folders already indexed: cost ~ depth x length per file. A zip name can be 64 KB, so "a/a/a/..." thousands of levels deep is cheap to send.
+     26 s: the fix's own benchmark, ReaderOneDeepDir on an Apple M4 Pro, 25.98 s before, 46 ms after (commit bb7c0c7, "archive/zip: reduce CPU usage in index construction").
+     The fix: strings.LastIndex slicing instead of path.Dir, and stop at the first folder already indexed.
+     CPU only, not memory, nothing written to disk. NO exploit PoC on stage.
      Issue go.dev/issue/77102, fix CL 736713, credit Jakub Ciolek. -->
 
 ---
@@ -763,6 +766,8 @@ io.Copy(os.Stdout, f)
 </style>
 
 <!-- ~1min. Ask the room first. Both import archive/zip, both run on go1.25.5: a scanner that reads go.mod flags both.
+     Line for the stage: "You open manifest.json, a harmless file, and the server burns 26 seconds of CPU on a file you never asked for." The first Open indexes the whole archive, so the poisoned entry can sit anywhere in the zip.
+     The left one reads entry by entry: File.Open decompresses that one entry and never asks which folders it lives in. A long name is just a long string nobody walks.
      Click 1: the right one. zr.Open is Reader.Open, the fs.FS method that builds the file name index: that's the vulnerable symbol.
      Click 2: the left one is not. Iterating zr.File and calling File.Open never reaches it (verified with govulncheck on go1.25.5: 0 affected).
      Only a tool that reads the call graph can tell them apart. -->
