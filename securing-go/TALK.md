@@ -41,7 +41,7 @@
   - NO live exploit PoC (the stdlib DoS described conceptually only).
   - NO live AI demo. The original prompts are gone: show a reconstructed targeted prompt and the shape of the generated tests, presented as reconstructed.
 - **Anti-vendor rules**:
-  - Never mention RedCarbon by name. No real file names, commit hashes or PR numbers from the incident.
+  - RedCarbon appears only on the WhoAmI slide, as Davide's role. Never in the bug story, on the cover or on the end slide, and never tied to the incident. No real file names, commit hashes or PR numbers from the incident.
   - No commercial product screenshots: only generic LLMs (Claude, GPT, Llama) and OSS tooling.
   - Argus: named in sez 3 as one open source option among others and linked from the talk repo, no demo, no walkthrough. Claim Go tooling only if it ships before the talk.
   - No invented numbers on false positives.
