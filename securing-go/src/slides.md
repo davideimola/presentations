@@ -969,11 +969,11 @@ layout: default
 <Ladder class="mt-6">
   <LadderRung v-click :n="1" title="Shell">let it run <code>govulncheck</code> and <code>go test -fuzz</code> itself</LadderRung>
   <LadderRung v-click :n="2" title="Your own MCP server">typed tools instead of a raw shell</LadderRung>
-  <LadderRung v-click :n="3" title="Argus" tag="built by me">an open source MCP server that runs <code>govulncheck</code> and <code>gosec</code> for your agent</LadderRung>
+  <LadderRung v-click :n="3" title="Argus" tag="built by me">an open source MCP server that runs <code>govulncheck</code> and <code>gosec</code> for your agent, or as an agent itself</LadderRung>
 </Ladder>
 
 <!-- ~1min30. Red or it didn't happen from section 02, made routine: the AI proposes, the tools give signals, the tests give evidence.
-     Argus: ONE option among three, ~60s max, no demo. Present it in Toolbox mode: an MCP server that runs the scanners and serves skills, no LLM provider needed; your agent does the reasoning. "If you want it ready-made, I built one. Use it, fork it, or build your own." Go tooling is on main since 2026-10-15 (run_govulncheck, gosec via the Tool Catalog, #118) but NOT in a release yet (latest v0.3.0, 2026-07-30): cut a release before the talk. The built-in authz-audit skill hunts exactly the bug from section 02.
+     Argus: ONE option among three, ~60s max, no demo. Present it in Toolbox mode: an MCP server that runs the scanners and serves skills, no LLM provider needed; your agent does the reasoning. "Or as an agent itself": it can also review PRs on its own; one clause, not a pitch. "If you want it ready-made, I built one. Use it, fork it, or build your own." Go tooling is on main since 2026-10-15 (run_govulncheck, gosec via the Tool Catalog, #118) but NOT in a release yet (latest v0.3.0, 2026-07-30): cut a release before the talk. The built-in authz-audit skill hunts exactly the bug from section 02.
      Next in Golab #1 at 12:15: "Your AGENTS.md Is a Lie (And Here's How to Fix It)" by Dario Castañé. Good hand-off if the timing works. -->
 
 ---
