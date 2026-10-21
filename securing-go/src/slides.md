@@ -810,12 +810,17 @@ layout: default
 # Known isn't <Marker>reachable</Marker>
 
 <StatGrid class="mt-6">
-  <Stat v-click value="47" source="this build, 2026-10-21">known vulnerabilities in the stdlib and modules</Stat>
-  <Stat v-click value="1" source="govulncheck ./...">that this code actually calls</Stat>
+  <Stat v-click value="47" source="Go and the modules you build with">known vulnerabilities</Stat>
+  <Stat v-click value="5" source="the packages you import">in code you pulled in</Stat>
+  <Stat v-click value="1" source="govulncheck ./...">in code you actually call</Stat>
 </StatGrid>
 
-<!-- ~45s. Callback to section 02: "True. But unreachable." The AI flagged a real bug in code nobody calls. govulncheck draws the same line, with the call graph instead of a guess.
-     47 = 1 reachable + 4 in imported packages + 42 in required modules. -->
+<!-- ~1min. Same build, three questions, one click each.
+     47: everything known in the Go release and the modules this build carries (42 in packages it never imports).
+     5: in packages it imports (4 of them in functions it never calls).
+     1: a function the code reaches through the call graph. That's the only one govulncheck reports as a finding.
+     A scanner that reads go.mod stops at the first or second number. Callback to "True. But unreachable.": the same line the AI couldn't draw, govulncheck draws with the call graph.
+     Numbers from govulncheck on 2026-10-21; re-run the morning of the talk, the database grows. -->
 
 ---
 layout: terminal
