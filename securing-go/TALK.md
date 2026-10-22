@@ -9,7 +9,7 @@
   - Add `govulncheck` to your CI this week: one PR, one workflow file (let `go-security-setup` from the talk's skills repo install it).
   - Write one fuzz test as a property test on your most critical auth path. Test who must be denied, not only who gets in. A table test checks the cases you thought of; the fuzzer checks the ones you didn't.
   - Red or it didn't happen: treat every AI finding as a hypothesis, read the code, then prove it with a failing test before you fix anything. Attackers are already using AI; defenders should too.
-- **Red or it didn't happen** (the process, backbone of the talk; a drawn diagram in sez 1, after the bug story): the AI raises signals → you read the code (some dismissed, with a reason) → hypotheses → a test → red is evidence and gets a fix, green stays as a test → both end in CI, which keeps guarding every PR. Not TDD: the AI proposes what to test, and a human filters twice.
+- **Red or it didn't happen** (the process, backbone of the talk; a drawn diagram in sez 1, after the bug story): tools raise signals → the AI reads them with the code (some dismissed, with a reason; it can also raise its own) → hypotheses → a test → red is evidence and gets a fix, green stays as a test → both end in CI, which keeps guarding every PR. Not TDD: the AI proposes what to test, and a human filters twice.
   - Sez 1 tells the bug first (hypothesis, evidence, guard), then shows the process as what was built after it ("Then we did it on purpose").
   - Sez 2 shows the toolchain producing signals (`govulncheck`'s call graph separates signal from noise).
   - Sez 3 makes it routine: CI, tests, and AI equipped with tools; the skills repo packages the same process.

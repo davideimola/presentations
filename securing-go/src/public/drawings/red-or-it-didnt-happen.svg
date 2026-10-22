@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 30 1400 610" width="1400" height="610">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="25 30 1435 610" width="1435" height="610">
   <g fill="none" stroke="#1C2233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" font-family="IBM Plex Mono, monospace" font-size="38">
     <g data-step="0">
-      <circle cx="110" cy="300" r="36"/>
-      <text x="110" y="313" fill="#1C2233" stroke="none" text-anchor="middle">AI</text>
-      <path d="M135 275 L291 119 M142 284 L288 211 M146 300 L287 300 M142 316 L288 389 M135 325 L291 481"/>
+      <rect x="40" y="262" width="132" height="76" rx="14"/>
+      <text x="106" y="312" fill="#1C2233" stroke="none" text-anchor="middle" font-size="34">tools</text>
+      <path d="M172 272 L292 120 M172 286 L289 212 M172 300 L287 300 M172 314 L289 388 M172 328 L292 480"/>
       <circle cx="300" cy="110" r="13"/>
       <circle cx="300" cy="205" r="13"/>
       <circle cx="300" cy="300" r="13"/>
@@ -14,7 +14,7 @@
     <g data-step="1">
       <path d="M312 114 L430 150 M313 207 L430 225 M313 300 L430 300 M313 393 L430 375 M312 486 L430 450"/>
       <rect x="430" y="100" width="32" height="400" rx="12"/>
-      <text x="446" y="72" fill="#1C2233" stroke="none" text-anchor="middle">read the code</text>
+      <text x="446" y="72" fill="#1C2233" stroke="none" text-anchor="middle">AI reads the code</text>
       <path d="M446 500 V540"/>
       <path d="M434 552 L458 576 M458 552 L434 576"/>
       <text x="478" y="577" fill="#1C2233" stroke="none">dismissed</text>

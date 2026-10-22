@@ -457,13 +457,13 @@ clicks: 4
 
 # <Marker>Red</Marker> or it didn't happen
 
-<DrawnSvg src="/drawings/red-or-it-didnt-happen.svg" alt="The AI raises signals; reading the code dismisses some and keeps hypotheses; a test turns one red, which is evidence and leads to a fix, while a green one stays as a test; both end in CI, which keeps guarding every PR" steps class="mt-1 mx-auto w-[72%]" />
+<DrawnSvg src="/drawings/red-or-it-didnt-happen.svg" alt="Tools raise signals; the AI reads them with the code, dismisses some and keeps hypotheses; a test turns one red, which is evidence and leads to a fix, while a green one stays as a test; both end in CI, which keeps guarding every PR" steps class="mt-1 mx-auto w-[72%]" />
 
 <p v-click="4" class="text-center mt-2"><strong>Dismissed:</strong> a real bug in a deprecated feature nobody calls. True, but unreachable.</p>
 
 <!-- ~1min. The story, turned into a process. This is not TDD: the developer doesn't know what to test. The AI proposes it, and a human filters it twice.
-     On enter: the AI raises signals. Many, cheap.
-     Click 1: you read the code. Some signals are dismissed on the spot, with a reason. What survives is a hypothesis.
+     On enter: the tools raise signals (govulncheck, gosec, scanners). Many, cheap, noisy.
+     Click 1: the AI reads those signals together with the code. Some are dismissed on the spot, with a reason; the rest become hypotheses. Reading the code it can also raise its own, as it did with our bug.
      Click 2: the test. Red is evidence, the only red on the slide. Green is not wasted: the test stays and guards the rule.
      Click 3: the red one gets its fix. Both end in CI, and the arrow back: they keep guarding the whole class of bug, every PR.
      This is what go-security-audit and verify-with-fuzz do, step by step (section 03).
