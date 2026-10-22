@@ -453,22 +453,20 @@ layout: default
 clicks: 4
 ---
 
-###### then we did it on purpose
-
 # <Marker>Red</Marker> or it didn't happen
 
-<DrawnSvg src="/drawings/red-or-it-didnt-happen.svg" alt="Tools raise signals; the AI reads them with the code, dismisses some and keeps hypotheses; a test turns one red, which is evidence and leads to a fix, while a green one stays as a test; both end in CI, which keeps guarding every PR" steps class="mt-1 mx-auto w-[72%]" />
+<DrawnSvg src="/drawings/red-or-it-didnt-happen.svg" alt="Tools raise signals; the AI reads them with the code, dismisses some and keeps hypotheses; a test turns one red, which is evidence and leads to a fix, while a green one stays as a test; both end in CI, which keeps guarding every PR" steps class="mt-1 mx-auto w-[86%]" />
 
 <p v-click="4" class="text-center mt-2"><strong>Dismissed:</strong> a real bug in a deprecated feature nobody calls. True, but unreachable.</p>
 
-<!-- ~1min. The story, turned into a process. This is not TDD: the developer doesn't know what to test. The AI proposes it, and a human filters it twice.
+<!-- ~1min. Open with "then we did it on purpose": the story, turned into a process. This is not TDD: the developer doesn't know what to test. The AI proposes it, and a human filters it twice.
      On enter: the tools raise signals (govulncheck, gosec, scanners). Many, cheap, noisy.
      Click 1: the AI reads those signals together with the code. Some are dismissed on the spot, with a reason; the rest become hypotheses. Reading the code it can also raise its own, as it did with our bug.
      Click 2: the test. Red is evidence, the only red on the slide. Green is not wasted: the test stays and guards the rule.
      Click 3: the red one gets its fix. Both end in CI, and the arrow back: they keep guarding the whole class of bug, every PR.
      This is what go-security-audit and verify-with-fuzz do, step by step (section 03).
      Every piece is something they just saw on our bug: the prompt was a hypothesis, the red test the evidence, the property in CI the guard. The dismissed branch is the deprecated feature.
-     Click 4, the dismissed example: ~45s. Callback to the "green: dropped" branch of red or it didn't happen. After this bug we ran the same process on purpose, with no report to start from: it found things nobody had reported (missing security headers, broken logic).
+     Click 4, the dismissed example: ~45s, the hypothesis that leaves the AI's reading crossed out. After this bug we ran the same process on purpose, with no report to start from: it found things nobody had reported (missing security headers, broken logic).
      It also flagged a real issue in a deprecated feature we would never call again. A true finding that doesn't matter.
      Bridge to section 02: govulncheck draws exactly this line, using the call graph. -->
 

@@ -10,7 +10,7 @@
   - Write one fuzz test as a property test on your most critical auth path. Test who must be denied, not only who gets in. A table test checks the cases you thought of; the fuzzer checks the ones you didn't.
   - Red or it didn't happen: treat every AI finding as a hypothesis, read the code, then prove it with a failing test before you fix anything. Attackers are already using AI; defenders should too.
 - **Red or it didn't happen** (the process, backbone of the talk; a drawn diagram in sez 1, after the bug story): tools raise signals → the AI reads them with the code (some dismissed, with a reason; it can also raise its own) → hypotheses → a test → red is evidence and gets a fix, green stays as a test → both end in CI, which keeps guarding every PR. Not TDD: the AI proposes what to test, and a human filters twice.
-  - Sez 1 tells the bug first (hypothesis, evidence, guard), then shows the process as what was built after it ("Then we did it on purpose").
+  - Sez 1 tells the bug first (hypothesis, evidence, guard), then shows the process as what was built after it (said aloud: "then we did it on purpose").
   - Sez 2 shows the toolchain producing signals (`govulncheck`'s call graph separates signal from noise).
   - Sez 3 makes it routine: CI, tests, and AI equipped with tools; the skills repo packages the same process.
 - **Bug story** (climax of sez 1):
@@ -31,7 +31,7 @@
   - Line: "A bug can survive for 13 months, not because the code is complicated, but because nobody tested the right assumption."
 - **Outline**:
   - (4min) INTRO: incident urgency stat + auth bug teaser + thesis + roadmap
-  - (14min) SEZ 1 — Code you write: "Go is safe by default. Your application isn't." → trust boundaries (1 slide, SSRF as one example of client-controlled data) → resource exhaustion (1 slide, `MaxBytesReader`, seeds the zip DoS in sez 2) → bug story (hypothesis, evidence, guard) → make the fix stay fixed (property-based fuzz test in CI) → "Then we did it on purpose" → the Red or it didn't happen diagram → signal vs noise. No vulnerability catalog, no SQL injection / XSS.
+  - (14min) SEZ 1 — Code you write: "Go is safe by default. Your application isn't." → trust boundaries (1 slide, SSRF as one example of client-controlled data) → resource exhaustion (1 slide, `MaxBytesReader`, seeds the zip DoS in sez 2) → bug story (hypothesis, evidence, guard) → make the fix stay fixed (property-based fuzz test in CI) → the Red or it didn't happen diagram (introduced aloud: "then we did it on purpose") → signal vs noise. No vulnerability catalog, no SQL injection / XSS.
   - (14min) SEZ 2 — Code you use: npm cautionary tale + Go's defaults ("until you update, then it's yours") + sumdb arch (with `go mod verify` inline) + what the checksum database guarantees (same bytes) and doesn't (honest: boltdb; safe: govulncheck) + which of two snippets is affected + `govulncheck` live in the slide + the call graph drawing (known isn't reachable) + the fix is a newer Go + bridge: the resource exhaustion from sez 1, this time in the stdlib
   - (8min) SEZ 3 — Make it routine: checklist + SBOM/SLSA acknowledged (no SBOM/SLSA talk at GoLab 2026; point to the binary auditing talk) + the skills repo CTA (everything in the talk, in one place) + make the process routine (give your AI the tools: plain shell, your own MCP server, or a ready-made open source option such as Argus, which runs locally; ~60s, one option among three, never "you need Argus") + closing
   - (10min) Q&A

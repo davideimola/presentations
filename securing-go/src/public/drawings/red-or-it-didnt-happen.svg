@@ -15,9 +15,11 @@
       <path d="M312 114 L430 150 M313 207 L430 225 M313 300 L430 300 M313 393 L430 375 M312 486 L430 450"/>
       <rect x="430" y="100" width="32" height="400" rx="12"/>
       <text x="446" y="72" fill="#1C2233" stroke="none" text-anchor="middle">AI reads the code</text>
-      <path d="M446 500 V540"/>
-      <path d="M434 552 L458 576 M458 552 L434 576"/>
-      <text x="478" y="577" fill="#1C2233" stroke="none">dismissed</text>
+      <path d="M462 440 L550 521"/>
+      <circle cx="560" cy="530" r="13"/>
+      <path d="M573 530 H612"/>
+      <path d="M626 516 L654 544 M654 516 L626 544"/>
+      <text x="610" y="600" fill="#1C2233" stroke="none" text-anchor="middle">dismissed</text>
       <path d="M462 250 L587 232 M462 350 L587 368"/>
       <circle cx="600" cy="230" r="13"/>
       <circle cx="600" cy="370" r="13"/>
