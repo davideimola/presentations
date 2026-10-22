@@ -22,16 +22,6 @@ linkedin: davideimola
 <WhoAmI />
 
 ---
-layout: section
-label: "01 · why now"
-transition: fade
----
-
-# Why now
-
-Security is becoming more and more important.
-
----
 layout: fact
 ---
 
@@ -60,7 +50,7 @@ Code review approved it. Tests were green.
 
 Hold that thought.
 
-<!-- Go port of the real bug (the original was a GraphQL directive). Don't explain it here: the audience gets 10 seconds to spot it, then we move on. It comes back in section 02. -->
+<!-- Go port of the real bug (the original was a GraphQL directive). Don't explain it here: the audience gets 10 seconds to spot it, then we move on. It comes back in section 01. -->
 
 ::right::
 
@@ -70,9 +60,9 @@ func canManageOrg(u User, orgID string) bool {
 		return true
 	}
 	if orgID == "" {
-		return true // org not resolved
+		return true
 	}
-	return u.OrgID == orgID // membership, not role
+	return u.OrgID == orgID
 }
 ```
 
@@ -89,16 +79,16 @@ layout: default
 # What we'll <Marker>cover</Marker>
 
 <Ladder class="mt-6">
-  <LadderRung v-click :n="2" title="The code you write">a real bug, and how we proved it</LadderRung>
-  <LadderRung v-click :n="3" title="The code you use">dependencies, the checksum database, govulncheck</LadderRung>
-  <LadderRung v-click :n="4" title="Make it routine">a checklist, CI, and skills for your agent</LadderRung>
+  <LadderRung v-click :n="1" title="The code you write">a real bug, and how we proved it</LadderRung>
+  <LadderRung v-click :n="2" title="The code you use">dependencies, the checksum database, govulncheck</LadderRung>
+  <LadderRung v-click :n="3" title="Make it routine">a checklist, CI, and skills for your agent</LadderRung>
 </Ladder>
 
-<!-- ~30s. The numbers match the section tapes (01 is this intro). One click per section. -->
+<!-- ~30s. The numbers match the section tapes. One click per section. -->
 
 ---
 layout: section
-label: "02 · the code you write"
+label: "01 · the code you write"
 transition: fade
 ---
 
@@ -178,7 +168,7 @@ func preview(w http.ResponseWriter, r *http.Request) {
 
 <!-- ~1min15. SSRF as ONE example of client-controlled data, not a tutorial.
      The fix in one breath: allow-list the destinations, resolve and reject private/link-local IPs, control redirects with CheckRedirect.
-     The fix pattern lives in the template repo (section 04). -->
+     The fix pattern lives in the template repo (section 03). -->
 
 ---
 layout: split-code
@@ -210,7 +200,7 @@ body, err = io.ReadAll(r.Body)
 ```
 
 <!-- ~1min15. Same family: http.Server without ReadHeaderTimeout, unbounded goroutines per request, regex on user input.
-     The v-click line plants the seed for section 03: archive/zip, CVE-2025-61728, super-linear file name indexing → CPU DoS. -->
+     The v-click line plants the seed for section 02: archive/zip, CVE-2025-61728, super-linear file name indexing → CPU DoS. -->
 
 ---
 layout: fact
@@ -222,18 +212,13 @@ of the applications OWASP tested had some form of broken access control
 
 <div class="mt-6 text-base opacity-60">OWASP Top 10:2025 · A01</div>
 
+<p v-click class="mt-10" style="font-size: 48px; font-weight: 700; letter-spacing: -0.02em; color: var(--di-fg)">Including <Marker>ours</Marker>.</p>
+
 <!-- Exact wording on the A01 page: "100% of the applications tested were found to have some form of broken access control".
      Number one category, 1,839,701 occurrences, 40 CWEs.
      https://top10.owasp.org/2025/A01_2025-Broken_Access_Control
-     (Don't quote the incidence %: 3.73% on the intro page vs 3.74% on A01.) -->
-
----
-layout: statement
----
-
-# Including <Marker>ours</Marker>.
-
-<!-- Deadpan. Then click back to the teaser code. -->
+     (Don't quote the incidence %: 3.73% on the intro page vs 3.74% on A01.)
+     Click: "Including ours." Deadpan. Then on to the teaser code. -->
 
 ---
 layout: code-hero
@@ -331,13 +316,13 @@ func TestCanManageOrgDenies(t *testing.T) {
 	viewer := User{OrgID: "acme"}
 	admin := User{IsOrgAdmin: true, OrgID: "acme"}
 
-	deny(t, viewer, "acme")  // member, not admin
-	deny(t, admin, "globex") // admin of another org
-	deny(t, admin, "")       // org not resolved
+	deny(t, "member, not admin", viewer, "acme")
+	deny(t, "admin of another org", admin, "globex")
+	deny(t, "org not resolved", admin, "")
 }
 ```
 
-<!-- ~1min. `deny` is a 4-line helper (t.Helper + t.Errorf if access is granted), not shown. -->
+<!-- ~1min. `deny` is a 4-line helper (t.Helper + t.Errorf("granted: %s", name) if access is granted), not shown. -->
 
 ---
 layout: terminal
@@ -346,8 +331,8 @@ title: "$ go test -run TestCanManageOrgDenies"
 
 ```sh
 --- FAIL: TestCanManageOrgDenies (0.00s)
-    authz_test.go:16: granted: {IsSuperAdmin:false IsOrgAdmin:false OrgID:acme} on "acme"
-    authz_test.go:18: granted: {IsSuperAdmin:false IsOrgAdmin:true OrgID:acme} on ""
+    authz_test.go:16: granted: member, not admin
+    authz_test.go:18: granted: org not resolved
 FAIL
 ```
 
@@ -460,36 +445,30 @@ FAIL
 layout: fact
 ---
 
-# 0.03s
+# < 0.1s
 
 for the fuzzer. Thirteen months for us.
 
-<!-- After the live run the time on screen varies (0.03-0.08s in tests). If it's far from 0.03s, say "a few hundredths of a second" instead of reading the number. -->
+<!-- The live run varies between 0.03 and 0.08s in tests: "under a tenth of a second" stays true whatever comes out. -->
 
-
----
-layout: statement
----
-
-# Then we did it on <Marker>purpose</Marker>.
-
-<!-- ~15s. The bug was the trigger. What we built after it is the point. -->
 
 ---
 layout: default
 clicks: 3
 ---
 
+###### then we did it on purpose
+
 # <Marker>Red</Marker> or it didn't happen
 
-<DrawnSvg src="/drawings/red-or-it-didnt-happen.svg" alt="The AI raises signals; reading the code dismisses some and keeps hypotheses; a test turns one red, which is evidence and leads to a fix, while a green one stays as a test; both end in CI, which keeps guarding every PR" steps class="mt-4" />
+<DrawnSvg src="/drawings/red-or-it-didnt-happen.svg" alt="The AI raises signals; reading the code dismisses some and keeps hypotheses; a test turns one red, which is evidence and leads to a fix, while a green one stays as a test; both end in CI, which keeps guarding every PR" steps class="mt-2 mx-auto w-[80%]" />
 
 <!-- ~1min. The story, turned into a process. This is not TDD: the developer doesn't know what to test. The AI proposes it, and a human filters it twice.
      On enter: the AI raises signals. Many, cheap.
      Click 1: you read the code. Some signals are dismissed on the spot, with a reason. What survives is a hypothesis.
      Click 2: the test. Red is evidence, the only red on the slide. Green is not wasted: the test stays and guards the rule.
      Click 3: the red one gets its fix. Both end in CI, and the arrow back: they keep guarding the whole class of bug, every PR.
-     This is what go-security-audit and verify-with-fuzz do, step by step (section 04).
+     This is what go-security-audit and verify-with-fuzz do, step by step (section 03).
      Every piece is something they just saw on our bug: the prompt was a hypothesis, the red test the evidence, the property in CI the guard. The dismissed branch is the deprecated feature (next slide). -->
 
 ---
@@ -506,7 +485,7 @@ layout: statement
 
 <!-- ~45s. Callback to the "green: dropped" branch of red or it didn't happen. After this bug we ran the same process on purpose, with no report to start from: it found things nobody had reported (missing security headers, broken logic).
      It also flagged a real issue in a deprecated feature we would never call again. A true finding that doesn't matter.
-     Bridge to section 03: govulncheck draws exactly this line, using the call graph. -->
+     Bridge to section 02: govulncheck draws exactly this line, using the call graph. -->
 
 ---
 layout: statement
@@ -530,27 +509,17 @@ layout: statement
 
 ---
 layout: section
-label: "03 · the code you use"
+label: "02 · the code you use"
 transition: fade
 ---
 
 # The code you use
 
 ---
-layout: fact
----
-
-# 100M
-
-weekly downloads of axios, the week it shipped a backdoor
-
-<div class="mt-6 text-base opacity-60">npm downloads API · 23 to 29 March 2026</div>
-
-<!-- Exact figure: 100,340,121 downloads, week of 23-29 March 2026 (npm downloads API). -->
-
----
 layout: default
 ---
+
+###### axios · 100M downloads a week
 
 # Three hours on <Marker>npm</Marker>
 
@@ -561,7 +530,8 @@ layout: default
 | on install | a new dependency's `postinstall` drops a remote access trojan |
 | 03:15 | both versions removed |
 
-<!-- ~1min30. How it got in: the lead maintainer was socially engineered. Fake founder, real-looking Slack workspace, a Teams "meeting" asking him to install an "update": a RAT. npm credentials stolen, 2FA on. Published by hand with a token, bypassing the project's OIDC CI publishing.
+<!-- ~1min30. 100,340,121 downloads in the week of 23-29 March 2026 (npm downloads API).
+     How it got in: the lead maintainer was socially engineered. Fake founder, real-looking Slack workspace, a Teams "meeting" asking him to install an "update": a RAT. npm credentials stolen, 2FA on. Published by hand with a token, bypassing the project's OIDC CI publishing.
      Payload: axios code untouched. package.json added plain-crypto-js@4.2.1, whose postinstall ran an obfuscated dropper (RAT for macOS, Windows, Linux) and then swapped package.json back to a clean one.
      Detected by StepSecurity Harden-Runner (outbound connection in CI) and the community.
      Attribution: North Korea-linked (GTIG: UNC1069, Microsoft: Sapphire Sleet).
@@ -627,23 +597,10 @@ clicks: 3
 
 <DrawnSvg src="/drawings/trust-chain.svg" alt="go.mod, then the module proxy, then the checksum database, then go.sum" steps class="mt-6" />
 
-<p v-click="3">Same version, same bytes, for everyone, forever.</p>
+<p v-click="3">Same version, same bytes, for everyone, forever. <code>go mod verify</code> checks your module cache still matches <code>go.sum</code>.</p>
 
 <!-- ~45s. Walk left to right, one click per hop: go.mod declares exact versions, the proxy serves the module, the checksum db checks its hash (the red seal), go.sum records it. sumdb is a transparent, append-only log: nobody can swap the contents of a version that already exists, not even the author.
      Deep dive from a past GoLab: Katie Hockman, "Go Module Proxy: Life of a Query" (2019) https://www.youtube.com/watch?v=kqMxaO9d1NM -->
-
----
-layout: terminal
-title: "$ go mod verify"
----
-
-```sh
-all modules verified
-```
-
-`go.sum` records the hashes. `go mod verify` checks your module cache still matches them.
-
-<!-- ~20s. One command, belongs in the release pipeline. -->
 
 ---
 layout: default
@@ -893,37 +850,6 @@ jobs:
      It checks out the repo and installs govulncheck itself. Fails the job on findings with text output (not with json/sarif). -->
 
 ---
-layout: statement
----
-
-# One run is a demo. Every PR is a <Marker>habit</Marker>.
-
-<!-- Transition to section 04: make it routine. -->
-
----
-layout: section
-label: "04 · make it routine"
-transition: fade
----
-
-# Make it routine
-
----
-layout: default
----
-
-# Your next working <Marker>day</Marker>
-
-<Ladder class="mt-4">
-  <LadderRung v-click :n="1" title="govulncheck in CI">on every PR, scanning the Go you ship: <code>go-version-file: go.mod</code></LadderRung>
-  <LadderRung v-click :n="2" title="One fuzz property">on your most critical auth path, written as who must be denied</LadderRung>
-  <LadderRung v-click :n="3" title="go mod verify">in the release pipeline, before anything gets built</LadderRung>
-  <LadderRung v-click :n="4" title="One AI pass">on one critical path: every finding needs a red test</LadderRung>
-</Ladder>
-
-<!-- ~1min30. Read each item, half a beat between. They already saw all of it: the point is to make it small and concrete. -->
-
----
 layout: default
 ---
 
@@ -940,8 +866,33 @@ layout: default
      Re-check the schedule the day before.
      Past GoLabs (YouTube, channel UCMEvzoHTIdZI7IM8LoRbLsQ): no talk covers SBOM/SLSA directly. Closest:
        Cojocar (gosec maintainer), GoLab 2023: gosec, govulncheck, sigstore/cosign on gosec's own release pipeline. https://www.youtube.com/watch?v=OpspliszWDg
-       Katie Hockman, GoLab 2019, "Go Module Proxy: Life of a Query" (proxy + sumdb), fits section 03. https://www.youtube.com/watch?v=kqMxaO9d1NM
+       Katie Hockman, GoLab 2019, "Go Module Proxy: Life of a Query" (proxy + sumdb), fits section 02. https://www.youtube.com/watch?v=kqMxaO9d1NM
      Honest framing: don't say GoLab covered SBOM/SLSA. -->
+
+---
+layout: section
+label: "03 · make it routine"
+transition: fade
+---
+
+# Make it routine
+
+One run is a demo. Every PR is a habit.
+
+---
+layout: default
+---
+
+# Your next working <Marker>day</Marker>
+
+<Ladder class="mt-4">
+  <LadderRung v-click :n="1" title="govulncheck in CI">on every PR, scanning the Go you ship: <code>go-version-file: go.mod</code></LadderRung>
+  <LadderRung v-click :n="2" title="One fuzz property">on your most critical auth path, written as who must be denied</LadderRung>
+  <LadderRung v-click :n="3" title="go mod verify">in the release pipeline, before anything gets built</LadderRung>
+  <LadderRung v-click :n="4" title="One AI pass">on one critical path: every finding needs a red test</LadderRung>
+</Ladder>
+
+<!-- ~1min30. Read each item, half a beat between. They already saw all of it: the point is to make it small and concrete. -->
 
 ---
 layout: fact
@@ -980,8 +931,8 @@ layout: default
   <LadderRung v-click :n="3" title="Argus" tag="built by me">an open source MCP server that runs <code>govulncheck</code> and <code>gosec</code> for your agent, or as an agent itself</LadderRung>
 </Ladder>
 
-<!-- ~1min30. Red or it didn't happen from section 02, made routine: the AI proposes, the tools give signals, the tests give evidence.
-     Argus: ONE option among three, ~60s max, no demo. Present it in Toolbox mode: an MCP server that runs the scanners and serves skills, no LLM provider needed; your agent does the reasoning. "Or as an agent itself": it can also review PRs on its own; one clause, not a pitch. "If you want it ready-made, I built one. Use it, fork it, or build your own." Go tooling is on main since 2026-10-15 (run_govulncheck, gosec via the Tool Catalog, #118) but NOT in a release yet (latest v0.3.0, 2026-07-30): cut a release before the talk. The built-in authz-audit skill hunts exactly the bug from section 02.
+<!-- ~1min30. Red or it didn't happen from section 01, made routine: the AI proposes, the tools give signals, the tests give evidence.
+     Argus: ONE option among three, ~60s max, no demo. Present it in Toolbox mode: an MCP server that runs the scanners and serves skills, no LLM provider needed; your agent does the reasoning. "Or as an agent itself": it can also review PRs on its own; one clause, not a pitch. "If you want it ready-made, I built one. Use it, fork it, or build your own." Go tooling is on main since 2026-10-15 (run_govulncheck, gosec via the Tool Catalog, #118) but NOT in a release yet (latest v0.3.0, 2026-07-30): cut a release before the talk. The built-in authz-audit skill hunts exactly the bug from section 01.
      Next in Golab #1 at 12:15: "Your AGENTS.md Is a Lie (And Here's How to Fix It)" by Dario Castañé. Good hand-off if the timing works. -->
 
 ---
@@ -1007,7 +958,7 @@ skills/
 
 <!-- ~1min30. github.com/davideimola/go-security-skills, MIT, open Agent Skills format: Claude Code, Codex, Copilot, Cursor, Gemini CLI.
      go-security-audit: govulncheck, gosec triaged against the code, timeouts and body limits, fail-open authz, trust boundaries, unpinned actions. Reports findings, applies only the fixes you confirm.
-     verify-with-fuzz: the section 02 story, packaged. Deny-by-default tests plus a fuzz property, run on today's code: reproduced or not.
+     verify-with-fuzz: the section 01 story, packaged. Deny-by-default tests plus a fuzz property, run on today's code: reproduced or not.
      go-security-setup: installs security.yml (verify, vet, govulncheck, tests, weekly bounded fuzzing) and grouped Dependabot, checks the toolchain is patched, adds SECURITY.md.
      The point for the room: a skill that writes CI is itself supply chain. Every file these skills write already exists in the repo and is verified by its CI, actions pinned to full commit SHAs.
      "and with Argus" (Toolbox mode, skills in ~/.argus/skills/) only if the end-to-end test passed. -->
@@ -1037,15 +988,23 @@ npx skills add davideimola/go-security-skills
 layout: statement
 ---
 
-# Signals. Hypotheses. Evidence.
+# The compiler won't save you.
 
 <v-click>
 
-# Don't aim for perfect. Aim for paranoid and fix <Marker>fast</Marker>.
+# Signals, hypotheses and <Marker>evidence</Marker> will.
 
 </v-click>
 
-<!-- THE closing. First line recalls the guiding line from section 02, then the payoff. Pause. Then the end slide. -->
+<!-- The opening thesis, kept: "Your toolchain might" at the start, now said in full. Pause after "will". -->
+
+---
+layout: statement
+---
+
+# Don't aim for perfect. Aim for paranoid and fix <Marker>fast</Marker>.
+
+<!-- THE closing line. Pause. Then the end slide. -->
 
 ---
 layout: end

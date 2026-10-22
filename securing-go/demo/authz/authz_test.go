@@ -2,10 +2,10 @@ package authz
 
 import "testing"
 
-func deny(t *testing.T, u User, org string) {
+func deny(t *testing.T, name string, u User, org string) {
 	t.Helper()
 	if canManageOrg(u, org) {
-		t.Errorf("granted: %+v on %q", u, org)
+		t.Errorf("granted: %s", name)
 	}
 }
 
@@ -13,9 +13,9 @@ func TestCanManageOrgDenies(t *testing.T) {
 	viewer := User{OrgID: "acme"}
 	admin := User{IsOrgAdmin: true, OrgID: "acme"}
 
-	deny(t, viewer, "acme")  // member, not admin
-	deny(t, admin, "globex") // admin of another org
-	deny(t, admin, "")       // org not resolved
+	deny(t, "member, not admin", viewer, "acme")
+	deny(t, "admin of another org", admin, "globex")
+	deny(t, "org not resolved", admin, "")
 }
 
 func FuzzCanManageOrg(f *testing.F) {
