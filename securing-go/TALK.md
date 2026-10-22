@@ -32,11 +32,13 @@
 - **Outline**:
   - (4min) INTRO: incident urgency stat + auth bug teaser + thesis + roadmap
   - (14min) SEZ 1 — Code you write: "Go is safe by default. Your application isn't." → trust boundaries (1 slide, SSRF as one example of client-controlled data) → resource exhaustion (1 slide, `MaxBytesReader`, seeds the zip DoS in sez 2) → bug story (hypothesis, evidence, guard) → make the fix stay fixed (property-based fuzz test in CI) → "Then we did it on purpose" → the Red or it didn't happen diagram → signal vs noise. No vulnerability catalog, no SQL injection / XSS.
-  - (14min) SEZ 2 — Code you use: npm cautionary tale + Go's defaults ("until you update, then it's yours") + sumdb arch (with `go mod verify` inline) + what the checksum database guarantees (same bytes) and doesn't (honest: boltdb; safe: govulncheck) + `govulncheck` LIVE DEMO (focus on call graph: true but unreachable) + bridge: the resource exhaustion from sez 1, this time in the stdlib
+  - (14min) SEZ 2 — Code you use: npm cautionary tale + Go's defaults ("until you update, then it's yours") + sumdb arch (with `go mod verify` inline) + what the checksum database guarantees (same bytes) and doesn't (honest: boltdb; safe: govulncheck) + which of two snippets is affected + `govulncheck` live in the slide + the call graph drawing (known isn't reachable) + the fix is a newer Go + bridge: the resource exhaustion from sez 1, this time in the stdlib
   - (8min) SEZ 3 — Make it routine: checklist + SBOM/SLSA acknowledged (no SBOM/SLSA talk at GoLab 2026; point to the binary auditing talk) + the skills repo CTA (everything in the talk, in one place) + make the process routine (give your AI the tools: plain shell, your own MCP server, or a ready-made open source option such as Argus, which runs locally; ~60s, one option among three, never "you need Argus") + closing
   - (10min) Q&A
 - **Demo plan**:
-  - Main live demo (sez 2, ~9min): `govulncheck` on a reachable stdlib vulnerability (CVE-2025-61728 being verified). Plan B: `GOVULNDB` local mirror + asciinema + screenshots.
+  - Live demo 1 (sez 1, ~1min): `go test -fuzz` inside the slide (`LiveRun`, `securing-go/demo/authz`), the fuzzer fails in a few hundredths of a second with "granted with no org".
+  - Live demo 2 (sez 2, ~2-3min): `govulncheck ./...` inside the slide (`LiveRun`, `securing-go/demo/unzip` on go1.25.5), reading the vulnerability database from disk: run `securing-go/demo/fetch-vulndb.sh` the day before, no Wi-Fi needed. Everything else in the govulncheck part (the CVE, the two snippets, the call graph, the fix) is on slides.
+  - Both demos fall back to their recorded output in the presenter view, the static build and on any error. Do one dry run of each before the talk (downloads go1.25.5, warms the build cache).
   - Bug story (sez 1): slide-based, NOT a live demo. One optional live `go test -fuzz` shot against the vulnerable version (low risk, local repo).
   - NO live exploit PoC (the stdlib DoS described conceptually only).
   - NO live AI demo. The original prompts are gone: show a reconstructed targeted prompt and the shape of the generated tests, presented as reconstructed.
@@ -51,5 +53,5 @@
   - npm incident facts (Axios as believed, or the closest well-documented one): research in progress
   - Optional Go-side supply chain incident as secondary example: research in progress
   - **Skills repo** `github.com/davideimola/go-security-skills`, released with the talk (public, created 2026-10-21): Agent Skills only, no code template and no `gonew`. Three skills: `go-security-setup` (installs a CI-verified `security.yml` and Dependabot config), `go-security-audit` (govulncheck, gosec, the talk's patterns; no fix without evidence) and `verify-with-fuzz` (hypothesis to failing fuzz property). Everything a skill writes is a canonical asset tested in the repo's CI. Installed with `npx skills add davideimola/go-security-skills`. Argus is mentioned as an MCP server (Toolbox mode) only after its release. Slide changes: decision 19 in the repo's `docs/design/2026-10-21-design-session.md`. Blog post ("how I built it") after the talk.
-- **Format**: 40 min talk + 10 min Q&A, EN
+- **Format**: 40 min talk + 10 min Q&A, EN (GoLab lists a 45 min slot). Rehearsal on 2026-10-22: about 30 min before the live govulncheck demo; expect 33-35 on stage.
 - **Conference**: GoLab 2026 (accepted), 3 November 2026, 11:30

@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import { spawn } from 'node:child_process'
-import { rmSync } from 'node:fs'
+import { existsSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -12,21 +12,68 @@ import { fileURLToPath } from 'node:url'
 interface Command {
   cwd: string
   cmd: string
-  args: string[]
+  // Computed at each run, so a flag can depend on what is on disk then.
+  args: () => string[]
+  env?: Record<string, string>
   // Paths under cwd removed before every run, so each run starts clean.
   clean?: string[]
+  // Output lines to leave out, the same cuts a slide makes by hand.
+  drop?: RegExp[]
 }
 
-const demo = fileURLToPath(new URL('../demo/authz', import.meta.url))
+const authz = fileURLToPath(new URL('../demo/authz', import.meta.url))
+const unzip = fileURLToPath(new URL('../demo/unzip', import.meta.url))
+// Filled by demo/fetch-vulndb.sh before the talk: govulncheck reads it from
+// disk, so the demo does not depend on the conference Wi-Fi.
+const vulndb = fileURLToPath(new URL('../demo/vulndb', import.meta.url))
 
 const commands: Record<string, Command> = {
   'fuzz-authz': {
-    cwd: demo,
+    cwd: authz,
     cmd: 'go',
-    args: ['test', '-run=^$', '-fuzz=FuzzCanManageOrg', '-fuzztime=30s', '.'],
+    args: () => ['test', '-run=^$', '-fuzz=FuzzCanManageOrg', '-fuzztime=30s', '.'],
     // A failing input left in testdata/ would replay instantly and skip the fuzzing.
     clean: ['testdata/fuzz'],
   },
+  'govulncheck-unzip': {
+    cwd: unzip,
+    cmd: 'govulncheck',
+    args: () => existsSync(join(vulndb, 'index')) ? ['-db', `file://${vulndb}`, './...'] : ['./...'],
+    // The vulnerable Go release the demo is about.
+    env: { GOTOOLCHAIN: 'go1.25.5+auto' },
+    drop: [
+      /^=== Symbol Results ===$/,
+      /^\s+More info:/,
+      /^\s+Standard library$/,
+      /^This scan also found/,
+      /^vulnerabilities in modules you require/,
+      /^these vulnerabilities\.$/,
+      /^Use '-show verbose'/,
+    ],
+  },
+}
+
+// Passes the output through line by line, leaving out the dropped lines
+// and any blank line before the first one kept.
+function filterLines(drop: RegExp[], write: (text: string) => void) {
+  let rest = ''
+  let started = false
+  return {
+    push(chunk: Buffer) {
+      const lines = (rest + chunk.toString()).split('\n')
+      rest = lines.pop() ?? ''
+      for (const line of lines) {
+        if (drop.some(re => re.test(line)) || (!started && line.trim() === ''))
+          continue
+        started = true
+        write(`${line}\n`)
+      }
+    },
+    flush() {
+      if (rest && !drop.some(re => re.test(rest)))
+        write(rest)
+    },
+  }
 }
 
 function liveRun(): Plugin {
@@ -64,14 +111,19 @@ function liveRun(): Plugin {
         res.setHeader('Content-Type', 'text/plain; charset=utf-8')
         res.setHeader('Cache-Control', 'no-store')
 
-        const child = spawn(command.cmd, command.args, { cwd: command.cwd })
-        child.stdout.pipe(res, { end: false })
-        child.stderr.pipe(res, { end: false })
+        const child = spawn(command.cmd, command.args(), {
+          cwd: command.cwd,
+          env: { ...process.env, ...command.env },
+        })
+        const out = filterLines(command.drop ?? [], text => res.write(text))
+        child.stdout.on('data', out.push)
+        child.stderr.on('data', out.push)
         child.on('error', (err) => {
           running = false
           res.end(`\n${err.message}\n`)
         })
         child.on('close', () => {
+          out.flush()
           running = false
           res.end()
         })

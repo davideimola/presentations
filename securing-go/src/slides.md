@@ -784,20 +784,28 @@ f, err := zr.Open("manifest.json")
 ---
 layout: terminal
 title: "$ govulncheck ./..."
+clicks: 1
 ---
+
+<LiveRun id="govulncheck-unzip">
 
 ```text
 Vulnerability #1: GO-2026-4342
     Excessive CPU consumption when building archive index in archive/zip
-  Found in: archive/zip@go1.25.5
-  Fixed in: archive/zip@go1.25.6
-  Example traces found:
-    #1: main.go:17:19: unzip.handleUpload calls zip.Reader.Open
+    Found in: archive/zip@go1.25.5
+    Fixed in: archive/zip@go1.25.6
+    Example traces found:
+      #1: main.go:17:19: unzip.handleUpload calls zip.Reader.Open
 
 Your code is affected by 1 vulnerability from the Go standard library.
 ```
 
-<!-- On the right-hand code: securing-go/demo/unzip, handleUpload(upload, size) called by a tiny main. Real output, trimmed: the "=== Symbol Results ===" header, the More info link and the "also found" paragraph are cut (the paragraph is the next slide). Exit code 3.
+</LiveRun>
+
+<!-- LIVE: the first click runs govulncheck for real on securing-go/demo/unzip (go1.25.5 via GOTOOLCHAIN) and streams the output here, with the same lines cut as below. Takes a few seconds: talk over it ("it's building the call graph").
+     It reads the vulnerability database from securing-go/demo/vulndb: run securing-go/demo/fetch-vulndb.sh the day before, then no Wi-Fi needed. Without it, it falls back to vuln.go.dev over the network.
+     Before the talk: one dry run so go1.25.5 is downloaded and the build cache is warm. Presenter view, static build or any error show the recorded output below.
+     Recorded output: on the right-hand code: securing-go/demo/unzip, handleUpload(upload, size) called by a tiny main. Real output, trimmed: the "=== Symbol Results ===" header, the More info link and the "also found" paragraph are cut (the paragraph is the next slide). Exit code 3.
      Point at the trace: the file, the line, the call that reaches the vulnerable symbol.
      On the left-hand code the same scan says "Your code is affected by 0 vulnerabilities."
      Setup BEFORE the talk: export GOTOOLCHAIN=go1.25.5+auto (a toolchain line in go.mod does NOT downgrade; +auto lets the fix work), pre-download go1.25.5, build govulncheck with the newest Go you scan with, re-run the morning of the talk (the counts grow with the database).
