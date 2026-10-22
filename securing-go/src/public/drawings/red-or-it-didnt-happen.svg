@@ -13,20 +13,21 @@
     </g>
     <g data-step="1">
       <path d="M312 114 L430 150 M313 207 L430 225 M313 300 L430 300 M313 393 L430 375 M312 486 L430 450"/>
-      <rect x="430" y="100" width="32" height="400" rx="12"/>
-      <text x="446" y="72" fill="#1C2233" stroke="none" text-anchor="middle">AI reads the code</text>
-      <path d="M462 440 L550 521"/>
-      <circle cx="560" cy="530" r="13"/>
-      <path d="M573 530 H612"/>
-      <path d="M626 516 L654 544 M654 516 L626 544"/>
-      <text x="610" y="600" fill="#1C2233" stroke="none" text-anchor="middle">dismissed</text>
-      <path d="M462 250 L587 232 M462 350 L587 368"/>
-      <circle cx="600" cy="230" r="13"/>
-      <circle cx="600" cy="370" r="13"/>
-      <text x="600" y="190" fill="#1C2233" stroke="none" text-anchor="middle">hypotheses</text>
+      <rect x="430" y="100" width="80" height="400" rx="16"/>
+      <text x="470" y="313" fill="#1C2233" stroke="none" text-anchor="middle">AI</text>
+      <text x="470" y="72" fill="#1C2233" stroke="none" text-anchor="middle">reads the code</text>
+      <path d="M510 450 L614 513"/>
+      <circle cx="625" cy="520" r="13"/>
+      <path d="M638 520 H660"/>
+      <path d="M672 506 L700 534 M700 506 L672 534"/>
+      <text x="600" y="592" fill="#1C2233" stroke="none" text-anchor="middle">dismissed</text>
+      <path d="M510 250 L612 232 M510 350 L612 368"/>
+      <circle cx="625" cy="230" r="13"/>
+      <circle cx="625" cy="370" r="13"/>
+      <text x="625" y="192" fill="#1C2233" stroke="none" text-anchor="middle" font-size="33">hypotheses</text>
     </g>
     <g data-step="2">
-      <path d="M613 233 L740 260 M613 367 L740 340"/>
+      <path d="M638 233 L740 260 M638 367 L740 340"/>
       <rect x="740" y="160" width="32" height="280" rx="12"/>
       <text x="756" y="135" fill="#1C2233" stroke="none" text-anchor="middle">test</text>
       <path d="M772 250 H880"/>
