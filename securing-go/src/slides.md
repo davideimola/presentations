@@ -370,16 +370,12 @@ func canManageOrg(u User, orgID string) bool {
      The follow-up PR added negative tests, multi-role scenarios and edge cases to every authorization check, not only this one. -->
 
 ---
-layout: statement
+layout: fact
 ---
 
-# 13 months in production.
+# 13 months
 
-<v-click>
-
-# Nobody tested the right <Marker>assumption</Marker>.
-
-</v-click>
+<p v-click>in production. Nobody tested the right <Marker>assumption</Marker>.</p>
 
 <!-- Say it, don't show it: "Not because the code was complex. It's ten lines." -->
 
@@ -454,14 +450,16 @@ for the fuzzer. Thirteen months for us.
 
 ---
 layout: default
-clicks: 3
+clicks: 4
 ---
 
 ###### then we did it on purpose
 
 # <Marker>Red</Marker> or it didn't happen
 
-<DrawnSvg src="/drawings/red-or-it-didnt-happen.svg" alt="The AI raises signals; reading the code dismisses some and keeps hypotheses; a test turns one red, which is evidence and leads to a fix, while a green one stays as a test; both end in CI, which keeps guarding every PR" steps class="mt-2 mx-auto w-[80%]" />
+<DrawnSvg src="/drawings/red-or-it-didnt-happen.svg" alt="The AI raises signals; reading the code dismisses some and keeps hypotheses; a test turns one red, which is evidence and leads to a fix, while a green one stays as a test; both end in CI, which keeps guarding every PR" steps class="mt-1 mx-auto w-[72%]" />
+
+<p v-click="4" class="text-center mt-2"><strong>Dismissed:</strong> a real bug in a deprecated feature nobody calls. True, but unreachable.</p>
 
 <!-- ~1min. The story, turned into a process. This is not TDD: the developer doesn't know what to test. The AI proposes it, and a human filters it twice.
      On enter: the AI raises signals. Many, cheap.
@@ -469,21 +467,8 @@ clicks: 3
      Click 2: the test. Red is evidence, the only red on the slide. Green is not wasted: the test stays and guards the rule.
      Click 3: the red one gets its fix. Both end in CI, and the arrow back: they keep guarding the whole class of bug, every PR.
      This is what go-security-audit and verify-with-fuzz do, step by step (section 03).
-     Every piece is something they just saw on our bug: the prompt was a hypothesis, the red test the evidence, the property in CI the guard. The dismissed branch is the deprecated feature (next slide). -->
-
----
-layout: statement
----
-
-# It also found a real bug in code nobody calls.
-
-<v-click>
-
-# True. But <Marker>unreachable</Marker>.
-
-</v-click>
-
-<!-- ~45s. Callback to the "green: dropped" branch of red or it didn't happen. After this bug we ran the same process on purpose, with no report to start from: it found things nobody had reported (missing security headers, broken logic).
+     Every piece is something they just saw on our bug: the prompt was a hypothesis, the red test the evidence, the property in CI the guard. The dismissed branch is the deprecated feature.
+     Click 4, the dismissed example: ~45s. Callback to the "green: dropped" branch of red or it didn't happen. After this bug we ran the same process on purpose, with no report to start from: it found things nobody had reported (missing security headers, broken logic).
      It also flagged a real issue in a deprecated feature we would never call again. A true finding that doesn't matter.
      Bridge to section 02: govulncheck draws exactly this line, using the call graph. -->
 
@@ -548,22 +533,10 @@ axios maintainer, post-mortem
 <!-- ~20s. Let it land. Source: github.com/axios/axios/issues/10636 -->
 
 ---
-layout: statement
----
-
-# "But that's npm."
-
-<v-click>
-
-# Is <Marker>it</Marker>?
-
-</v-click>
-
----
 layout: two-cols-header
 ---
 
-# Same attack, different <Marker>defaults</Marker>
+# "But that's npm." Is <Marker>it</Marker>?
 
 ::left::
 
