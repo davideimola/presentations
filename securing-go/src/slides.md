@@ -129,15 +129,16 @@ layout: two-cols-header
 
 <v-clicks>
 
-- Who may read this resource
-- Where this request is going
-- How much this request costs
+- Who may read this resource <Tape v-click="4" :n="0" :size="14" class="ml-2">our bug</Tape>
+- Where this request is going <Tape v-click="4" :n="1" :size="14" class="ml-2">ssrf</Tape>
+- How much this request costs <Tape v-click="4" :n="2" :size="14" class="ml-2">body size</Tape>
 
 </v-clicks>
 
 <!-- ~1min. Left side: what Go gives you for free, be generous, it's a Go room.
-     Right side, one click each: these three questions are the next three slides
-     (who → authorization, where → trust boundaries, how much → resource exhaustion). -->
+     Right side, one click each: the three questions the next slides answer.
+     Click 4, the tapes. Say it: "Let's look at a few examples." Then: where → trust boundaries (SSRF), how much → resource exhaustion, who → authorization, our bug story. -->
+
 
 ---
 layout: split-code
@@ -207,16 +208,36 @@ Just a request bigger than you planned for.
 
 ::right::
 
-```go {1-2|4-6}
-// as big as the client wants
-body, err := io.ReadAll(r.Body)
-
-// 1 MB, then 413
-r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
-body, err = io.ReadAll(r.Body)
+````md magic-move
+```go {all|2-3}
+func upload(w http.ResponseWriter, r *http.Request) {
+	// as big as the client wants
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	store(body)
+}
 ```
 
-<!-- ~1min15. Same family: http.Server without ReadHeaderTimeout, unbounded goroutines per request, regex on user input.
+```go {2-3}
+func upload(w http.ResponseWriter, r *http.Request) {
+	// 1 MB, then Read fails
+	r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	store(body)
+}
+```
+````
+
+<!-- ~1min15. Click 1: io.ReadAll reads whatever the client sends, all of it in memory. Click 2, the code morphs into the fix: one line, the limit.
+     MaxBytesReader does not answer 413 on its own: Read fails with *http.MaxBytesError and the connection closes. For a proper 413, check it with errors.As.
+     Same family: http.Server without ReadHeaderTimeout, unbounded goroutines per request, regex on user input.
      Seed for section 02, said not shown, optional: "Keep this one in mind." The payoff is "Valid zip. Unbounded cost.", same title, inside the standard library (archive/zip, CVE-2025-61728, super-linear file name indexing, CPU DoS). -->
 
 ---

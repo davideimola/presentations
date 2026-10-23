@@ -16,7 +16,8 @@ import { computed, ref, unref, watch } from 'vue'
    window. Until then it shows a blinking cursor, like a terminal waiting.
    Without the dev server (static build, export) or on any error it shows
    the slot instead: put the recorded output there. Lines matching `mark`
-   (a regular expression) show in the accent color: the one line that matters.
+   (a regular expression) show in bold: the one line that matters. Ink, not
+   red: in the brand, red is only for the knot, the marker and code keywords.
    The `mark` slot is placed on the first of them, so an annotation drawn
    there follows the line wherever the output puts it. */
 const props = defineProps({
@@ -90,7 +91,6 @@ async function run() {
 
 .live-run__mark {
   position: relative;
-  color: var(--di-accent);
   font-weight: 700;
 }
 
