@@ -131,7 +131,7 @@ layout: two-cols-header
 
 <v-clicks>
 
-- Who may read this resource <Tape v-click="4" :n="0" :size="14" class="ml-2">access control</Tape>
+- Who may read this resource <Tape v-click="4" :n="0" :size="14" class="ml-2">bac</Tape>
 - Where this request is going <Tape v-click="4" :n="1" :size="14" class="ml-2">ssrf</Tape>
 - How much this request costs <Tape v-click="4" :n="2" :size="14" class="ml-2">dos</Tape>
 
@@ -139,7 +139,7 @@ layout: two-cols-header
 
 <!-- ~1min. Left side: what Go gives you for free, be generous, it's a Go room.
      Right side, one click each: the three questions the next slides answer.
-     Click 4, the tapes. Say it: "Let's look at a few examples." Then: where → trust boundaries (SSRF), how much → resource exhaustion, who → authorization, our bug story. -->
+     Click 4, the tapes. Say it: "Let's look at a few examples." Say BAC in full the first time: broken access control. The 100% slide spells it out next. Then: where → trust boundaries (SSRF), how much → resource exhaustion, who → authorization, our bug story. -->
 
 
 ---
