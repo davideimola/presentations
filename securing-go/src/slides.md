@@ -260,18 +260,30 @@ of the applications OWASP tested had some form of broken access control
      Say it, don't show it: "Including ours." Deadpan, after a pause. Then on to the report: access control broken somewhere, nobody said where. -->
 
 ---
-layout: statement
+layout: default
 ---
 
 <Rungs :active="1" :total="4" label="signal" />
 
+<div class="signal">
+
 # We knew something was wrong. Not <Marker>where</Marker>.
 
-<v-click>
+<div v-click class="signal__next">
 
 # So we asked an AI.
 
-</v-click>
+</div>
+
+</div>
+
+<style>
+/* Set like a statement, but on a default slide so the step indicator
+   sits where it does on the other three steps of the story. */
+.signal { height: 100%; max-width: 1080px; display: flex; flex-direction: column; justify-content: center; padding-bottom: 60px; }
+.signal h1 { font-size: var(--di-type-display-size); line-height: var(--di-type-display-line-height); letter-spacing: var(--di-type-display-tracking); margin: 0; }
+.signal__next { margin-top: 28px; }
+</style>
 
 <!-- ~20s. ONE line about the trigger: an external security report said access control was broken somewhere. It didn't say where.
      Don't dwell on "pen test": the point is what we did next. -->
