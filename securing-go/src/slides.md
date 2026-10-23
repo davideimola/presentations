@@ -276,6 +276,8 @@ of the applications OWASP tested had some form of broken access control
 layout: statement
 ---
 
+<Rungs :active="1" :total="4" label="signal" />
+
 # We knew something was wrong. Not <Marker>where</Marker>.
 
 <v-click>
@@ -291,7 +293,7 @@ layout: statement
 layout: default
 ---
 
-<Rungs :active="1" :total="3" label="hypothesis" />
+<Rungs :active="2" :total="4" label="hypothesis" />
 
 # Assume the caller is <Marker>hostile</Marker>
 
@@ -355,7 +357,7 @@ layout: default
 layout: split-code
 ---
 
-<Rungs :active="2" :total="3" label="evidence" />
+<Rungs :active="3" :total="4" label="evidence" />
 
 # Make it <Marker>red</Marker>
 
@@ -398,7 +400,7 @@ Two of three. That's not an opinion anymore.
 layout: split-code
 ---
 
-<Rungs :active="3" :total="3" label="guard" />
+<Rungs :active="4" :total="4" label="guard" />
 
 # Deny by <Marker>default</Marker>
 
@@ -590,6 +592,7 @@ clicks: 4
 
 <!-- ~1min. Open with "then we did it on purpose": the story, turned into a process. This is not TDD: the developer doesn't know what to test. The AI proposes it, and a human filters it twice.
      On enter: the tools raise signals (govulncheck, gosec, scanners). Many, cheap, noisy.
+     Say it: "In our story the signal was a report. When you do this on purpose, tools raise them."
      Click 1: the AI reads those signals together with the code. Some are dismissed on the spot, with a reason; the rest become hypotheses. Reading the code it can also raise its own, as it did with our bug.
      Click 2: the test. Red is evidence, the only red on the slide. Green is not wasted: the test stays and guards the rule.
      Click 3: the red one gets its fix. Both end in CI, and the arrow back: they keep guarding the whole class of bug, every PR.
