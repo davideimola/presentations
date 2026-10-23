@@ -22,19 +22,33 @@ linkedin: davideimola
 <WhoAmI />
 
 ---
-layout: fact
+layout: default
 ---
 
-# 31%
+# Attacks now run at machine <Marker>speed</Marker>
 
-of breaches start with vulnerability exploitation
+<div class="mt-8">
+  <div v-click class="flex items-center gap-12 py-6" style="border-top: 1px solid var(--di-fg)">
+    <div style="font-size: 120px; font-weight: 700; letter-spacing: -0.055em; line-height: 0.9; width: 440px; flex-shrink: 0">80-90%</div>
+    <div>
+      <p style="margin: 0">of a cyber espionage campaign,<br>run by an AI agent</p>
+      <Tape :n="0" :size="14" class="mt-3">anthropic · nov 2025</Tape>
+    </div>
+  </div>
+  <div v-click class="flex items-center gap-12 py-6" style="border-top: 1px solid var(--di-fg); border-bottom: 1px solid var(--di-fg)">
+    <div style="font-size: 120px; font-weight: 700; letter-spacing: -0.055em; line-height: 0.9; width: 440px; flex-shrink: 0">27s</div>
+    <div>
+      <p style="margin: 0">the fastest breakout ever observed,<br>from first access to lateral movement</p>
+      <Tape :n="1" :size="14" class="mt-3">crowdstrike gtr 2026</Tape>
+    </div>
+  </div>
+</div>
 
-<div class="mt-6 text-base opacity-60">Verizon DBIR 2026</div>
-
-<!-- Source: Verizon DBIR 2026 news release (2026-05-19): "Nearly a third (31%) of all breaches start with vulnerability exploitation". For the first time in 19 years it has passed stolen credentials as the number one entry point.
-     https://www.verizon.com/about/news/breach-industry-wide-dbir-finds
-     Bridge: a third of breaches start with a bug somebody shipped. In code we wrote, or code we pulled in. That is the whole talk.
-     Alternative: Mandiant M-Trends 2026, mean time to exploit "an estimated -7 days" (exploited before the patch exists). -->
+<!-- ~1min. The why now, before the teaser. One row per click.
+     Click 1: Anthropic, 2025-11-13: the AI performed "80-90% of the campaign", humans only at a few decision points. The agent was a coding agent, the same kind of tool you use every day. The "GTG-1002" name is not on the Anthropic news page: don't say it unless verified.
+     Click 2: CrowdStrike Global Threat Report 2026: 27 seconds from initial access to moving to another system. It's the record, not the average: say "fastest".
+     Sources verified 2026-07 for ai-defense.
+     Bridge to the teaser: "Bugs used to wait for a patient human. Now a machine looks for them, fast. Here's one that waited thirteen months." -->
 
 ---
 layout: split-code
@@ -70,7 +84,7 @@ func canManageOrg(u User, orgID string) bool {
 layout: statement
 ---
 
-# The compiler won't save you. Your toolchain might.
+# The compiler won't save you. Your process might.
 
 ---
 layout: default
@@ -256,53 +270,7 @@ of the applications OWASP tested had some form of broken access control
      Number one category, 1,839,701 occurrences, 40 CWEs.
      https://top10.owasp.org/2025/A01_2025-Broken_Access_Control
      (Don't quote the incidence %: 3.73% on the intro page vs 3.74% on A01.)
-     Click: "Including ours." Deadpan. Then on to the teaser code. -->
-
----
-layout: code-hero
----
-
-###### the bug · 13 months in production
-
-```go {all|5-7|8}
-func canManageOrg(u User, orgID string) bool {
-	if u.IsSuperAdmin {
-		return true
-	}
-	if orgID == "" {
-		return true // org not resolved
-	}
-	return u.OrgID == orgID // membership, not role
-}
-```
-
-<!-- ~1min30. Two logic errors, one click each.
-     1) Fail-open: if the target org can't be resolved from the request, access granted. To anyone.
-     2) Role never checked: membership is enough. A viewer can use admin-only features.
-     Never exploited. About 13.5 months in production.
-     Original was not Go: don't make it a point. "This bug compiles in every language." -->
-
----
-layout: default
----
-
-# Every test asked who gets <Marker>in</Marker>
-
-| Case | Tested |
-|---|:---:|
-| Super admin manages any org | ✓ |
-| Org admin manages their org | ✓ |
-| Viewer manages their org | ✗ |
-| Admin manages another org | ✗ |
-| Org can't be resolved | ✗ |
-
-<v-click>
-
-**None asked who stays out.**
-
-</v-click>
-
-<!-- ~1min. THE meta-takeaway. Review approved it, tests were green, because every test was a positive case. -->
+     Click: "Including ours." Deadpan. Then on to the report: access control broken somewhere, nobody said where. -->
 
 ---
 layout: statement
@@ -334,6 +302,54 @@ layout: default
 
 <!-- ~1min. The original prompts are gone: this one is reconstructed, say it out loud ("something like this").
      What matters is the shape: targeted on the auth layer, asking for logic errors, and the line in the title: assume the caller is hostile. Not "find bugs in my repo". -->
+
+---
+layout: code-hero
+---
+
+###### what the AI pointed at · 13 months in production
+
+```go {all|5-7|8}
+func canManageOrg(u User, orgID string) bool {
+	if u.IsSuperAdmin {
+		return true
+	}
+	if orgID == "" {
+		return true // org not resolved
+	}
+	return u.OrgID == orgID // membership, not role
+}
+```
+
+<!-- ~1min30. The AI's answer, read on the code. Callback to the intro teaser ("Hold that thought"): did you spot it?
+     Two logic errors, one click each.
+     1) Fail-open: if the target org can't be resolved from the request, access granted. To anyone.
+     2) Role never checked: membership is enough. A viewer can use admin-only features.
+     Never exploited. About 13.5 months in production.
+     Original was not Go: don't make it a point. "This bug compiles in every language." -->
+
+---
+layout: default
+---
+
+# Every test asked who gets <Marker>in</Marker>
+
+| Case | Tested |
+|---|:---:|
+| Super admin manages any org | ✓ |
+| Org admin manages their org | ✓ |
+| Viewer manages their org | ✗ |
+| Admin manages another org | ✗ |
+| Org can't be resolved | ✗ |
+
+<v-click>
+
+**None asked who stays out.**
+
+</v-click>
+
+<!-- ~1min. THE meta-takeaway: why it survived 13 months. Review approved it, tests were green, because every test was a positive case.
+     The three ✗ rows are exactly the tests on the next slide. -->
 
 ---
 layout: split-code
@@ -1011,19 +1027,6 @@ layout: default
 <!-- ~1min30. Read each item, half a beat between. They already saw all of it: the point is to make it small and concrete. -->
 
 ---
-layout: fact
----
-
-# 80-90%
-
-of a cyber espionage campaign, executed by an AI agent
-
-<div class="mt-6 text-base opacity-60">Anthropic · November 2025</div>
-
-<!-- Anthropic, 2025-11-13: the AI performed "80-90% of the campaign", humans only at a few decision points.
-     The "GTG-1002" name is not on the news page (maybe in the full PDF): don't say it unless verified. -->
-
----
 layout: statement
 ---
 
@@ -1034,6 +1037,8 @@ layout: statement
 # Make them <Marker>red</Marker> first.
 
 </v-click>
+
+<!-- Callback to the opening ("Attacks now run at machine speed"): don't repeat the numbers, point back to them. -->
 
 ---
 layout: default
@@ -1112,7 +1117,7 @@ layout: statement
 
 </v-click>
 
-<!-- The opening thesis, kept: "Your toolchain might" at the start, now said in full. Pause after "will". -->
+<!-- The opening thesis, kept: "Your process might" at the start, and here is the process. Pause after "will". -->
 
 ---
 layout: statement
