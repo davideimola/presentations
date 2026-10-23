@@ -27,6 +27,12 @@ defineProps({
   align-items: center;
   gap: 48px;
   padding: 24px 0;
+  border-bottom: 1px solid var(--di-fg);
+}
+
+/* Every row closes itself and the first one also opens the ledger: with
+   v-click rows, each rule shows together with its row, never alone. */
+.ledger-row:first-child {
   border-top: 1px solid var(--di-fg);
 }
 

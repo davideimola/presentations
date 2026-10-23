@@ -12,9 +12,3 @@ defineProps({
   valueWidth: { type: Number, default: 440 },
 })
 </script>
-
-<style scoped>
-.ledger {
-  border-bottom: 1px solid var(--di-fg);
-}
-</style>
