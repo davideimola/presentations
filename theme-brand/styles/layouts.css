@@ -4,9 +4,10 @@
 /* ── Cover ───────────────────────────────────────────────────────────── */
 
 .slidev-layout.cover .cover__title {
+  /* Room for a descender over an i's dot on the next line (g over i). */
   h1 {
     font-size: 112px;
-    line-height: 0.96;
+    line-height: 1.1;
     letter-spacing: -0.055em;
     margin: 0;
   }
