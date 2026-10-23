@@ -544,15 +544,17 @@ FAIL
 
 ---
 layout: default
-clicks: 1
 ---
 
 # Same bug, two <Marker>clocks</Marker>
 
-<DrawnSvg src="/drawings/two-clocks.svg" alt="Two timelines on the same scale: thirteen months of green tests, one tick per month across the slide; under a tenth of a second for the fuzzer, a red dot at the very start" steps class="mt-10 mx-auto w-[92%]" />
+<Ledger class="mt-8" :value-width="620">
+  <LedgerRow value="13 months" :n="0">green tests,<br>each one asking who gets in</LedgerRow>
+  <LedgerRow v-click value="< 0.1s" :n="1">the fuzzer,<br>asking who stays out</LedgerRow>
+</Ledger>
 
-<!-- On enter: thirteen months of green tests that never asked who stays out, one tick per month. Let it draw. Blame the method, not the people.
-     Click: the fuzzer's clock. Same scale, a dot. "Under a tenth of a second." Pause.
+<!-- On enter: thirteen months of green tests, every one asking who gets in. Blame the method, not the people.
+     Click: the fuzzer, asking who stays out. "Under a tenth of a second." Pause.
      The live run varies between 0.04 and 0.09s in tests: "under a tenth of a second" stays true whatever comes out. -->
 
 ---
