@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 420" width="1600" height="420">
   <g fill="none" stroke="#1C2233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" font-family="IBM Plex Mono, monospace" font-size="36">
     <g data-step="0">
-      <text x="40" y="70" fill="#1C2233" stroke="none">us</text>
+      <text x="40" y="70" fill="#1C2233" stroke="none">green tests</text>
       <path d="M40 130 H1560"/>
       <path d="M40 110 V150 M157 118 V142 M274 118 V142 M391 118 V142 M508 118 V142 M625 118 V142 M742 118 V142 M859 118 V142 M976 118 V142 M1093 118 V142 M1210 118 V142 M1327 118 V142 M1444 118 V142 M1560 110 V150"/>
       <text x="1560" y="210" fill="#1C2233" stroke="none" text-anchor="end">13 months</text>

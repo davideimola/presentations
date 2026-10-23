@@ -252,13 +252,12 @@ of the applications OWASP tested had some form of broken access control
 
 <Tape :n="0" class="mt-6">owasp top 10:2025 · a01</Tape>
 
-<p v-click class="mt-10" style="font-size: 48px; font-weight: 700; letter-spacing: -0.02em; color: var(--di-fg)">Including <Marker>ours</Marker>.</p>
 
 <!-- Exact wording on the A01 page: "100% of the applications tested were found to have some form of broken access control".
      Number one category, 1,839,701 occurrences, 40 CWEs.
      https://top10.owasp.org/2025/A01_2025-Broken_Access_Control
      (Don't quote the incidence %: 3.73% on the intro page vs 3.74% on A01.)
-     Click: "Including ours." Deadpan. Then on to the report: access control broken somewhere, nobody said where. -->
+     Say it, don't show it: "Including ours." Deadpan, after a pause. Then on to the report: access control broken somewhere, nobody said where. -->
 
 ---
 layout: statement
@@ -297,7 +296,7 @@ layout: default
 layout: code-hero
 ---
 
-###### what the AI pointed at · 13 months in production
+###### what the AI pointed at
 
 ```go {all|5-7|8}
 func canManageOrg(u User, orgID string) bool {
@@ -412,16 +411,6 @@ func canManageOrg(u User, orgID string) bool {
 
 <!-- ~1min. Note the order: the deny check comes BEFORE the super admin shortcut.
      The follow-up PR added negative tests, multi-role scenarios and edge cases to every authorization check, not only this one. -->
-
----
-layout: fact
----
-
-# 13 months
-
-<p v-click>in production. Nobody tested the right <Marker>assumption</Marker>.</p>
-
-<!-- Say it, don't show it: "Not because the code was complex. It's ten lines." -->
 
 ---
 layout: statement
@@ -541,9 +530,9 @@ clicks: 1
 
 # Same bug, two <Marker>clocks</Marker>
 
-<DrawnSvg src="/drawings/two-clocks.svg" alt="Two timelines on the same scale: thirteen months for us, one tick per month across the slide; under a tenth of a second for the fuzzer, a red dot at the very start" steps class="mt-10 mx-auto w-[92%]" />
+<DrawnSvg src="/drawings/two-clocks.svg" alt="Two timelines on the same scale: thirteen months of green tests, one tick per month across the slide; under a tenth of a second for the fuzzer, a red dot at the very start" steps class="mt-10 mx-auto w-[92%]" />
 
-<!-- On enter: our clock, thirteen months, one tick per month. Let it draw.
+<!-- On enter: thirteen months of green tests that never asked who stays out, one tick per month. Let it draw. Blame the method, not the people.
      Click: the fuzzer's clock. Same scale, a dot. "Under a tenth of a second." Pause.
      The live run varies between 0.04 and 0.09s in tests: "under a tenth of a second" stays true whatever comes out. -->
 
