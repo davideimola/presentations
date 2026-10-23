@@ -27,22 +27,10 @@ layout: default
 
 # Attacks now run at machine <Marker>speed</Marker>
 
-<div class="mt-8">
-  <div v-click class="flex items-center gap-12 py-6" style="border-top: 1px solid var(--di-fg)">
-    <div style="font-size: 120px; font-weight: 700; letter-spacing: -0.055em; line-height: 0.9; width: 440px; flex-shrink: 0">80-90%</div>
-    <div>
-      <p style="margin: 0">of a cyber espionage campaign,<br>run by an AI agent</p>
-      <Tape :n="0" :size="14" class="mt-3">anthropic · nov 2025</Tape>
-    </div>
-  </div>
-  <div v-click class="flex items-center gap-12 py-6" style="border-top: 1px solid var(--di-fg); border-bottom: 1px solid var(--di-fg)">
-    <div style="font-size: 120px; font-weight: 700; letter-spacing: -0.055em; line-height: 0.9; width: 440px; flex-shrink: 0">27s</div>
-    <div>
-      <p style="margin: 0">the fastest breakout ever observed,<br>from first access to lateral movement</p>
-      <Tape :n="1" :size="14" class="mt-3">crowdstrike gtr 2026</Tape>
-    </div>
-  </div>
-</div>
+<Ledger class="mt-8">
+  <LedgerRow v-click value="80-90%" source="anthropic · nov 2025" :n="0">of a cyber espionage campaign,<br>run by an AI agent</LedgerRow>
+  <LedgerRow v-click value="27s" source="crowdstrike gtr 2026" :n="1">the fastest breakout ever observed,<br>from first access to lateral movement</LedgerRow>
+</Ledger>
 
 <!-- ~1min. The why now, before the teaser. One row per click.
      Click 1: Anthropic, 2025-11-13: the AI performed "80-90% of the campaign", humans only at a few decision points. The agent was a coding agent, the same kind of tool you use every day. The "GTG-1002" name is not on the Anthropic news page: don't say it unless verified.
@@ -262,7 +250,7 @@ layout: fact
 
 of the applications OWASP tested had some form of broken access control
 
-<div class="mt-6 text-base opacity-60">OWASP Top 10:2025 · A01</div>
+<Tape :n="0" class="mt-6">owasp top 10:2025 · a01</Tape>
 
 <p v-click class="mt-10" style="font-size: 48px; font-weight: 700; letter-spacing: -0.02em; color: var(--di-fg)">Including <Marker>ours</Marker>.</p>
 
@@ -547,14 +535,17 @@ FAIL
      The failing input lands in testdata/: commit it and it becomes a regression test forever. -->
 
 ---
-layout: fact
+layout: default
+clicks: 1
 ---
 
-# < 0.1s
+# Same bug, two <Marker>clocks</Marker>
 
-for the fuzzer. Thirteen months for us.
+<DrawnSvg src="/drawings/two-clocks.svg" alt="Two timelines on the same scale: thirteen months for us, one tick per month across the slide; under a tenth of a second for the fuzzer, a red dot at the very start" steps class="mt-10 mx-auto w-[92%]" />
 
-<!-- The live run varies between 0.04 and 0.09s in tests: "under a tenth of a second" stays true whatever comes out. -->
+<!-- On enter: our clock, thirteen months, one tick per month. Let it draw.
+     Click: the fuzzer's clock. Same scale, a dot. "Under a tenth of a second." Pause.
+     The live run varies between 0.04 and 0.09s in tests: "under a tenth of a second" stays true whatever comes out. -->
 
 ---
 layout: terminal
@@ -632,20 +623,24 @@ transition: fade
 
 ---
 layout: default
+clicks: 3
 ---
 
 ###### axios · 100M downloads a week
 
 # Three hours on <Marker>npm</Marker>
 
-| 31 March 2026, UTC | |
-|---|---|
-| 00:21 | `axios@1.14.1` published with a stolen token |
-| ~01:00 | `axios@0.30.4`, same payload |
-| on install | a new dependency's `postinstall` drops a remote access trojan |
-| 03:15 | both versions removed |
+<Timeline class="mt-6" :from="0" :to="210" :ticks="[[0, '00:00'], [60, '01:00'], [120, '02:00'], [180, '03:00']]">
+  <TimelineEvent v-click :at="21" time="00:21" title="axios@1.14.1" mark>stolen token</TimelineEvent>
+  <TimelineEvent v-click :at="60" time="~01:00" title="axios@0.30.4">same payload</TimelineEvent>
+  <TimelineEvent v-click="3" :at="195" time="03:15" title="removed" align="end">both versions</TimelineEvent>
+  <template #spans>
+    <TimelineSpan v-click="3" :from="21" :to="195">31 march 2026, utc · every install drops a trojan</TimelineSpan>
+  </template>
+</Timeline>
 
-<!-- ~1min30. 100,340,121 downloads in the week of 23-29 March 2026 (npm downloads API).
+<!-- ~1min30. 31 March 2026, UTC. On enter: the axis. Click 1: 00:21, the first release, stolen token. Click 2: ~01:00, the second branch, same payload. Click 3: removed at 03:15, and the bracket: on install, a new dependency's postinstall dropped a remote access trojan.
+     100,340,121 downloads in the week of 23-29 March 2026 (npm downloads API).
      How it got in: the lead maintainer was socially engineered. Fake founder, real-looking Slack workspace, a Teams "meeting" asking him to install an "update": a RAT. npm credentials stolen, 2FA on. Published by hand with a token, bypassing the project's OIDC CI publishing.
      Payload: axios code untouched. package.json added plain-crypto-js@4.2.1, whose postinstall ran an obfuscated dropper (RAT for macOS, Windows, Linux) and then swapped package.json back to a clean one.
      Detected by StepSecurity Harden-Runner (outbound connection in CI) and the community.
@@ -663,29 +658,17 @@ axios maintainer, post-mortem
 <!-- ~20s. Let it land. Source: github.com/axios/axios/issues/10636 -->
 
 ---
-layout: two-cols-header
+layout: default
 ---
 
 # "But that's npm." Is <Marker>it</Marker>?
 
-::left::
+| | npm | Go |
+|---|---|---|
+| A new release | `^1.14.0` pulls `1.14.1` on the next install | `go.mod` pins `v1.14.0` until you ask |
+| Getting it | `postinstall` runs code the moment it lands | fetching and building never run its code |
 
-###### npm
-
-- `^1.14.0` pulls `1.14.1` on the next install
-- `postinstall` runs code the moment it lands
-
-::right::
-
-###### go
-
-<v-clicks>
-
-- `go.mod` pins `v1.14.0` until you ask
-- Fetching and building never run the module's code
-- **Until you update.** Then it's yours.
-
-</v-clicks>
+<p v-click class="mt-8"><strong>Until you update.</strong> Then it's yours.</p>
 
 <!-- ~1min. Go makes it slow and deliberate, not impossible: go get -u or a Dependabot PR would have pulled 1.14.1 too, and its init functions run the moment the program starts. Review dependency bumps like code.
      Go blog, "How Go Mitigates Supply Chain Attacks" (2022-03-31): "neither fetching nor building code will let that code execute". A new release reaches nobody until they explicitly update (go get -u, go mod tidy, a manual edit).
@@ -995,7 +978,8 @@ layout: two-cols-header
 - Treat request data as a claim
 - Bound every resource
 - Deny by default
-- Test who stays out
+- Test who stays out <Tape v-click="4" :n="0" :size="14" class="ml-2">day 1</Tape>
+- Prove every AI finding red <Tape v-click="4" :n="1" :size="14" class="ml-2">day 1</Tape>
 
 ::right::
 
@@ -1003,31 +987,20 @@ layout: two-cols-header
 
 <v-clicks>
 
-- Scan the Go you ship, not the latest
+- Scan the Go you ship <Tape v-click="4" :n="2" :size="14" class="ml-2">day 1</Tape>
 - Upgrade Go, not the module
-- `go mod verify` before you build
+- `go mod verify` before you build <Tape v-click="4" :n="0" :size="14" class="ml-2">day 1</Tape>
 
 </v-clicks>
 
-<!-- ~45s. The best practices of the title, in one place. Every line is a slide they already saw: don't explain, point back.
-     Left, on enter: the SSRF slide (check the claim, allow-list), MaxBytesReader (and ReadHeaderTimeout, time is a resource too), deny by default, the fuzz property.
+<!-- ~1min30. The best practices of the title, in one place, and where to start. Every line is a slide they already saw: don't explain, point back.
+     Left, on enter: the SSRF slide (check the claim, allow-list), MaxBytesReader (and ReadHeaderTimeout, time is a resource too), deny by default, the fuzz property, red or it didn't happen.
      Right, one click each: govulncheck with go-version-file, the archive/zip fix lives in a Go release, the checksum database.
-     Then: "Here's how to start on Monday." -->
-
----
-layout: default
----
-
-# Your next working <Marker>day</Marker>
-
-<Ladder class="mt-4">
-  <LadderRung v-click :n="1" title="govulncheck in CI">on every PR, scanning the Go you ship: <code>go-version-file: go.mod</code></LadderRung>
-  <LadderRung v-click :n="2" title="One fuzz property">on your most critical auth path, written as who must be denied</LadderRung>
-  <LadderRung v-click :n="3" title="go mod verify">in the release pipeline, before anything gets built</LadderRung>
-  <LadderRung v-click :n="4" title="One AI pass">on one critical path: every finding needs a red test</LadderRung>
-</Ladder>
-
-<!-- ~1min30. Read each item, half a beat between. They already saw all of it: the point is to make it small and concrete. -->
+     Click 4, the day 1 tapes: "Your next working day, four things."
+       govulncheck in CI on every PR, scanning the Go you ship: go-version-file: go.mod.
+       One fuzz property on your most critical auth path, written as who must be denied.
+       go mod verify in the release pipeline, before anything gets built.
+       One AI pass on one critical path: every finding needs a red test. -->
 
 ---
 layout: statement
