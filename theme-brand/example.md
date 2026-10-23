@@ -354,6 +354,32 @@ layout: default
 layout: default
 ---
 
+# Ledger
+
+<Ledger class="mt-6">
+  <LedgerRow v-click value="17+" source="source a · 2026" :n="0">talks and conferences,<br>one row per number</LedgerRow>
+  <LedgerRow v-click value="42" source="source b · 2026" :n="1">the answer to everything,<br>the meanings line up in one column</LedgerRow>
+</Ledger>
+
+---
+layout: default
+---
+
+# Timeline
+
+<Timeline class="mt-6" :from="0" :to="180" :ticks="[[0, '00:00'], [60, '01:00'], [120, '02:00'], [180, '03:00']]">
+  <TimelineEvent v-click :at="20" time="00:20" title="first event" mark>the one that matters</TimelineEvent>
+  <TimelineEvent v-click :at="75" time="01:15" title="second event">a plain dot</TimelineEvent>
+  <TimelineEvent v-click :at="170" time="02:50" title="last event" align="end">label ends here</TimelineEvent>
+  <template #spans>
+    <TimelineSpan v-click :from="20" :to="170">a span under the axis</TimelineSpan>
+  </template>
+</Timeline>
+
+---
+layout: default
+---
+
 # Table
 
 | Column A  | Column B    | Column C |

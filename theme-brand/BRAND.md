@@ -100,6 +100,8 @@ Loaded from Google Fonts through the theme's `fonts` defaults:
 | `<Rungs :active="2" />`, `<RungBadge :n="1" />` | Step indicator, active step in ink |
 | `<Ladder>`, `<LadderRung :n title tag>` | Vertical list of steps split by hairlines; `compact` for one line per rung; `tag` adds a small tape beside a rung's title ("built by me") |
 | `<StatGrid>`, `<Stat value source>` | Big numbers in ink under a rule |
+| `<Ledger valueWidth>`, `<LedgerRow value source n>` | Big numbers as rows between ink rules: the number on the left, its meaning beside it, the source on a small tape (alternate `n` row to row). `v-click` on a row reveals it |
+| `<Timeline from to ticks>`, `<TimelineEvent at time title align mark>`, `<TimelineSpan from to>` | Events on an ink axis, any unit (`ticks` as `[at, label]` pairs). Labels run right from their event, or end there with `align="end"`; `mark` fills the dot of the event that matters. Spans bracket a stretch under the axis, in the `spans` slot. Never red |
 | `<QRCode>`, `<QRBlock>` | Ink on paper QR code, the block adds a mono label |
 | `<BrowserFrame url bodyBg>` | Screenshot frame: 2px ink border, hard offset shadow, 44px linen bar with three ink-outlined dots and the url in a white field. Images fill the body edge to edge |
 | `<DrawnSvg src alt steps />` | A drawing from `public/` that draws itself with the brand's `draw` module: ink traces in, red lands last. With `steps`, each `<g data-step="n">` draws on click n (0 on enter; set `clicks:` in the frontmatter). Drawn in exports and overview |
