@@ -153,12 +153,13 @@ Every ID, URL and header in a request is a claim, not a fact.
 
 ::right::
 
+````md magic-move
 ```go {all|2|3}
 func preview(w http.ResponseWriter, r *http.Request) {
 	target := r.URL.Query().Get("url")
 	resp, err := http.Get(target) // 169.254.169.254?
 	if err != nil {
-		http.Error(w, "bad gateway", http.StatusBadGateway)
+		w.WriteHeader(http.StatusBadGateway)
 		return
 	}
 	defer resp.Body.Close()
@@ -166,9 +167,31 @@ func preview(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-<!-- ~1min15. SSRF as ONE example of client-controlled data, not a tutorial.
-     The fix in one breath: allow-list the destinations, resolve and reject private/link-local IPs, control redirects with CheckRedirect.
-     The fix pattern lives in the template repo (section 03). -->
+```go {2-6|7}
+func preview(w http.ResponseWriter, r *http.Request) {
+	u, err := url.Parse(r.URL.Query().Get("url"))
+	if err != nil || !allowed[u.Host] {
+		w.WriteHeader(http.StatusForbidden)
+		return
+	}
+	resp, err := client.Get(u.String())
+	if err != nil {
+		w.WriteHeader(http.StatusBadGateway)
+		return
+	}
+	defer resp.Body.Close()
+	io.Copy(w, resp.Body)
+}
+```
+````
+
+<!-- ~1min30. SSRF as ONE example of client-controlled data, not a tutorial.
+     Clicks 1-2: the claim (line 2) goes straight into the request (line 3).
+     Click 3, the code morphs into the fix: check the claim before you act on it. Parse, then allow-list the host: anything not on the list is forbidden, deny by default again.
+     Click 4, line 7: `client`, not http.Get. Not shown: its CheckRedirect runs the same allow-list on every redirect, or an allowed host can bounce you to 169.254.169.254.
+     If you can't allow-list (user-supplied webhooks): resolve the host and reject private and link-local IPs at dial time, not before.
+     go-security-audit in the skills repo (section 03) looks for this pattern. -->
+
 
 ---
 layout: split-code
@@ -182,12 +205,6 @@ No malformed input. No exploit.
 
 Just a request bigger than you planned for.
 
-<v-click>
-
-We'll meet this again, inside the standard library.
-
-</v-click>
-
 ::right::
 
 ```go {1-2|4-6}
@@ -200,7 +217,7 @@ body, err = io.ReadAll(r.Body)
 ```
 
 <!-- ~1min15. Same family: http.Server without ReadHeaderTimeout, unbounded goroutines per request, regex on user input.
-     The v-click line plants the seed for section 02: archive/zip, CVE-2025-61728, super-linear file name indexing → CPU DoS. -->
+     Seed for section 02, said not shown, optional: "Keep this one in mind." The payoff is "Valid zip. Unbounded cost.", same title, inside the standard library (archive/zip, CVE-2025-61728, super-linear file name indexing, CPU DoS). -->
 
 ---
 layout: fact
@@ -924,6 +941,38 @@ transition: fade
 # Make it routine
 
 One run is a demo. Every PR is a habit.
+
+---
+layout: two-cols-header
+---
+
+# What to <Marker>keep</Marker>
+
+::left::
+
+###### the code you write
+
+- Treat request data as a claim
+- Bound every resource
+- Deny by default
+- Test who stays out
+
+::right::
+
+###### the code you use
+
+<v-clicks>
+
+- Scan the Go you ship, not the latest
+- Upgrade Go, not the module
+- `go mod verify` before you build
+
+</v-clicks>
+
+<!-- ~45s. The best practices of the title, in one place. Every line is a slide they already saw: don't explain, point back.
+     Left, on enter: the SSRF slide (check the claim, allow-list), MaxBytesReader (and ReadHeaderTimeout, time is a resource too), deny by default, the fuzz property.
+     Right, one click each: govulncheck with go-version-file, the archive/zip fix lives in a Go release, the checksum database.
+     Then: "Here's how to start on Monday." -->
 
 ---
 layout: default
