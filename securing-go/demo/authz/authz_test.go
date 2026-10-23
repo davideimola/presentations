@@ -26,10 +26,10 @@ func FuzzCanManageOrg(f *testing.F) {
 			return // denied is always safe
 		}
 		if org == "" {
-			t.Fatal("granted with no org")
+			t.Fatalf("granted with no org: %v", u)
 		}
 		if !super && !(admin && uOrg == org) {
-			t.Fatal("granted to a non-admin of this org")
+			t.Fatalf("granted to a non-admin of %q: %v", org, u)
 		}
 	})
 }

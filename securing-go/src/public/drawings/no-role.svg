@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <g fill="none" stroke="#1C2233" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" font-family="IBM Plex Mono, monospace" font-size="24" font-weight="400">
+    <g data-step="2">
+      <text x="105" y="34" fill="#1C2233" stroke="none">not super, not admin</text>
+      <path d="M220 48 C 210 66, 236 76, 230 98"/>
+      <path d="M218 87 L230 101 L241 86"/>
+    </g>
+  </g>
+</svg>

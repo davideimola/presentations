@@ -380,6 +380,53 @@ layout: fact
 <!-- Say it, don't show it: "Not because the code was complex. It's ten lines." -->
 
 ---
+layout: statement
+---
+
+# We wrote those tests after we knew.
+
+<v-click>
+
+# What would have caught it on <Marker>day one</Marker>?
+
+</v-click>
+
+<!-- ~15s. The deny tests came from the AI's hypothesis: they guard a bug we had already found.
+     The question that matters: what would have caught it before anyone told us where to look. -->
+
+---
+layout: default
+clicks: 2
+---
+
+# Who picks the <Marker>inputs</Marker>?
+
+<DrawnSvg src="/drawings/input-space.svg" alt="Inside the space of every possible input: three dots are the cases a table test writes by hand; a dashed grid adds every combination of the values you listed, the matrix; the fuzzer scatters inputs nobody listed outside the grid, and one of them, in red, breaks the rule" steps class="mt-4 mx-auto w-[92%]" />
+
+<!-- ~45s. On enter: the table test. Three cases, picked by hand. Ours were all "who gets in".
+     Click 1: the matrix. Every combination of the values you listed: super yes/no, admin yes/no, same org, other org. Better, and for this function it would have been enough.
+     But it only holds values someone thought of. Nobody lists the empty org.
+     Click 2: the fuzzer. Go makes up the inputs: flips the bools, cuts, adds, swaps characters in the strings. The red one is outside every list.
+     What matrix and fuzzer share: you don't write an expected result per case, you write one rule and check it on every input. -->
+
+---
+layout: default
+clicks: 3
+---
+
+# How a fuzzer <Marker>works</Marker>
+
+<DrawnSvg src="/drawings/fuzz-loop.svg" alt="The fuzzer starts from a seed input, acme and acme, mutates it into acme and an empty org, and checks the rule; if the rule holds and the input took a new path through the code, it keeps it as a seed; if the rule breaks, it shrinks the input and saves it to testdata" steps class="mt-6 mx-auto w-[92%]" />
+
+<p v-click="3" class="text-center mt-6">Hundreds of thousands of times a second, until the rule breaks or time runs out.</p>
+
+<!-- ~1min. On enter: the seed. One input you give it, the happy path: an admin of acme on acme.
+     Click 1: it mutates the seed, here the org becomes empty, and runs the rule on it.
+     Click 2: the rule holds. If that input took a path through the code it hadn't seen, the fuzzer keeps it and mutates from there next. That's coverage-guided: it learns where the branches are, it doesn't guess blind.
+     Click 3: the rule breaks. It shrinks the input to the smallest one that still fails and writes it to testdata/. Commit it: from then on, plain go test replays it.
+     The rule is the whole point: without it, the fuzzer only finds panics. With it, it finds logic bugs like ours. -->
+
+---
 layout: default
 ---
 
@@ -392,49 +439,55 @@ f.Fuzz(func(t *testing.T, super, admin bool, uOrg, org string) {
 		return // denied is always safe
 	}
 	if org == "" {
-		t.Fatal("granted with no org")
+		t.Fatalf("granted with no org: %v", u)
 	}
 	if !super && !(admin && uOrg == org) {
-		t.Fatal("granted to a non-admin of this org")
+		t.Fatalf("granted to a non-admin of %q: %v", org, u)
 	}
 })
 ```
 
 <!-- ~1min15. Callback to "Every test asked who gets in. None asked who stays out.": this is the answer.
-     The table test checks the cases we thought of. The fuzzer checks the ones we didn't.
      Click 1: a denial is always safe, so the fuzzer only cares about grants.
-     Click 2: the rules, written as denials. The failure message IS the rule.
+     Click 2: the rule from the previous slide, written as denials. The failure message IS the rule.
      No oracle that copies the fix: each check is a sentence you'd say out loud.
      Not shown: f.Add(false, true, "acme", "acme"), the happy path, the only case the old tests had. The fuzzer starts from there. -->
 
 ---
 layout: terminal
 title: "$ go test -fuzz=FuzzCanManageOrg"
-clicks: 1
+clicks: 2
 ---
 
-<LiveRun id="fuzz-authz">
+<LiveRun id="fuzz-authz" mark="granted">
 
 ```sh
-fuzz: minimizing 63-byte failing input file
---- FAIL: FuzzCanManageOrg (0.03s)
+fuzz: minimizing 70-byte failing input file
+--- FAIL: FuzzCanManageOrg (0.04s)
     --- FAIL: FuzzCanManageOrg (0.00s)
-        authz_test.go:29: granted with no org
+        authz_test.go:29: granted with no org: {false false acme}
 
-    Failing input written to testdata/fuzz/FuzzCanManageOrg/27605cb7d0003240
-    To re-run:
-    go test -run=FuzzCanManageOrg/27605cb7d0003240
+    Failing input written to testdata/fuzz/FuzzCanManageOrg/a8949c542c89c1fa
 FAIL
 ```
 
+<template #mark>
+<DrawnSvg src="/drawings/no-role.svg" alt="An arrow points at the failing user: not super, not admin" steps class="absolute pointer-events-none" style="left: 562px; top: -106px; width: 400px" />
+</template>
+
 </LiveRun>
 
-<!-- LIVE: the first click (remote "next") runs the fuzzer for real on securing-go/demo/authz, the vulnerable code from these slides, and streams the output here. Next click moves on.
+<!-- LIVE: the first click (remote "next") runs the fuzzer for real on securing-go/demo/authz, the original code from these slides, and streams the output here. Next click moves on.
+     Point at the red line and read the user out loud: "false, false: not a super admin, not an admin. Granted anyway."
+     Say it: "This is the day-one code. No report, no AI, no hint."
+     Then: "Fix only that, and it finds the second one in five hundredths of a second."
      Runs only from `pnpm dev` in the audience window; the presenter view, the static build and any error show the recorded output below instead.
      Before the talk: `go version` in securing-go/demo/authz, and one dry run so the Go build cache is warm.
      Recorded output: against the VULNERABLE version (go1.26, M-series Mac).
-     If you fix only the fail-open, the fuzzer finds "granted to a non-admin of this org" in ~0.05s.
-     Against the fixed version: 11.6M execs in 10s, clean.
+     Read the failing user out loud: {super, admin, org}, the same order as User{super, admin, uOrg} on the property slide.
+     Live, either bug can come out (6 runs: 4 "granted with no org: {false false acme}", 2 "granted to a non-admin of "0": {false false 0}"). The spoken line holds for both: never a super admin, never an admin.
+     If you fix only the fail-open, the fuzzer finds "granted to a non-admin of ..." in ~0.05s.
+     Against the fixed version: 8 to 12M execs in 10s depending on the machine, clean (next slide).
      The failing input lands in testdata/: commit it and it becomes a regression test forever. -->
 
 ---
@@ -445,8 +498,30 @@ layout: fact
 
 for the fuzzer. Thirteen months for us.
 
-<!-- The live run varies between 0.03 and 0.08s in tests: "under a tenth of a second" stays true whatever comes out. -->
+<!-- The live run varies between 0.04 and 0.09s in tests: "under a tenth of a second" stays true whatever comes out. -->
 
+---
+layout: terminal
+title: "$ go test -fuzz=FuzzCanManageOrg -fuzztime=10s"
+---
+
+<div class="relative">
+
+```sh
+fuzz: elapsed: 3s, execs: 2273114 (757675/sec), new interesting: 3 (total: 4)
+fuzz: elapsed: 6s, execs: 4791577 (839219/sec), new interesting: 3 (total: 4)
+fuzz: elapsed: 9s, execs: 7173884 (794115/sec), new interesting: 3 (total: 4)
+fuzz: elapsed: 10s, execs: 8131813 (880762/sec), new interesting: 3 (total: 4)
+PASS
+```
+
+<DrawnSvg src="/drawings/none-gets-in.svg" alt="An arrow from the last execs count: after the fix, 8 million inputs and none gets in" class="absolute pointer-events-none" style="left: 312px; top: calc(100% - 60px); width: 640px" />
+
+</div>
+
+<!-- ~20s. Recorded, not live: the same property against the fixed version (go1.26, M-series Mac, 15 workers). Numbers vary by machine.
+     "new interesting: 3": the inputs that took a new path, the "keep it" arrow of the loop.
+     This is what runs in CI: go-security-setup schedules a weekly bounded fuzz run, and every committed failing input replays on each go test. -->
 
 ---
 layout: default

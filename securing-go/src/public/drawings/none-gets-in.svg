@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 140" width="640" height="140">
+  <g fill="none" stroke="#1C2233" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" font-family="IBM Plex Mono, monospace" font-size="24" font-weight="400">
+    <path d="M118 4 L106 18 M118 4 L130 18"/>
+    <path d="M118 6 C 124 44, 106 80, 132 106"/>
+    <text x="146" y="122" fill="#1C2233" stroke="none">8 million inputs, none gets in</text>
+  </g>
+</svg>

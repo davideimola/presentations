@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 20 1580 520" width="1580" height="520">
+  <g fill="none" stroke="#1C2233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" font-family="IBM Plex Mono, monospace" font-size="38">
+    <g data-step="0">
+      <rect x="40" y="40" width="960" height="480" rx="24"/>
+      <text x="80" y="100" fill="#1C2233" stroke="none" font-size="32">every possible input</text>
+      <circle cx="300" cy="230" r="15" fill="#1C2233"/>
+      <circle cx="390" cy="310" r="15" fill="#1C2233"/>
+      <circle cx="480" cy="230" r="15" fill="#1C2233"/>
+      <circle cx="1090" cy="140" r="15" fill="#1C2233"/>
+      <text x="1130" y="152" fill="#1C2233" stroke="none">table test</text>
+      <text x="1130" y="192" fill="#1C2233" stroke="none" font-size="30">cases you wrote</text>
+    </g>
+    <g data-step="1">
+      <rect x="250" y="180" width="370" height="260" rx="18" stroke-width="6" stroke-dasharray="4 18"/>
+      <circle cx="390" cy="230" r="15"/>
+      <circle cx="570" cy="230" r="15"/>
+      <circle cx="300" cy="310" r="15"/>
+      <circle cx="480" cy="310" r="15"/>
+      <circle cx="570" cy="310" r="15"/>
+      <circle cx="300" cy="390" r="15"/>
+      <circle cx="390" cy="390" r="15"/>
+      <circle cx="480" cy="390" r="15"/>
+      <circle cx="570" cy="390" r="15"/>
+      <circle cx="1090" cy="270" r="15"/>
+      <text x="1130" y="282" fill="#1C2233" stroke="none">matrix</text>
+      <text x="1130" y="322" fill="#1C2233" stroke="none" font-size="30">values you listed</text>
+    </g>
+    <g data-step="2">
+      <circle cx="140" cy="200" r="10"/>
+      <circle cx="170" cy="440" r="10"/>
+      <circle cx="700" cy="120" r="10"/>
+      <circle cx="720" cy="460" r="10"/>
+      <circle cx="880" cy="170" r="10"/>
+      <circle cx="900" cy="420" r="10"/>
+      <circle cx="120" cy="320" r="10"/>
+      <circle cx="460" cy="490" r="10"/>
+      <circle cx="560" cy="110" r="10"/>
+      <circle cx="790" cy="300" r="22" fill="#C91F37" stroke="none"/>
+      <circle cx="1090" cy="400" r="10"/>
+      <text x="1130" y="412" fill="#1C2233" stroke="none">fuzzer</text>
+      <text x="1130" y="452" fill="#1C2233" stroke="none" font-size="30">inputs nobody listed</text>
+    </g>
+  </g>
+</svg>

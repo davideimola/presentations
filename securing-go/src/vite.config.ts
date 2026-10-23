@@ -34,6 +34,14 @@ const commands: Record<string, Command> = {
     args: () => ['test', '-run=^$', '-fuzz=FuzzCanManageOrg', '-fuzztime=30s', '.'],
     // A failing input left in testdata/ would replay instantly and skip the fuzzing.
     clean: ['testdata/fuzz'],
+    drop: [
+      /^fuzz: elapsed: .*gathering baseline coverage/,
+      /^fuzz: elapsed: \d+s, minimizing$/,
+      /^\s+To re-run:$/,
+      /^\s+go test -run=/,
+      /^exit status \d+$/,
+      /^FAIL\s+\S+\s+[\d.]+s$/,
+    ],
   },
   'govulncheck-unzip': {
     cwd: unzip,
