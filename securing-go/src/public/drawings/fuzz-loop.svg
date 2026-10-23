@@ -3,7 +3,8 @@
     <g data-step="0">
       <text x="185" y="165" fill="#1C2233" stroke="none" text-anchor="middle">corpus</text>
       <rect x="40" y="190" width="290" height="120" rx="16"/>
-      <text x="185" y="262" fill="#1C2233" stroke="none" text-anchor="middle" font-size="30">"acme","acme"</text>
+      <text x="185" y="238" fill="#1C2233" stroke="none" text-anchor="middle" font-size="24">your seed</text>
+      <text x="185" y="282" fill="#1C2233" stroke="none" text-anchor="middle" font-size="30">"acme","acme"</text>
     </g>
     <g data-step="1">
       <path d="M330 250 H470 M450 232 L470 250 L450 268"/>

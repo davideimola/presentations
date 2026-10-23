@@ -461,7 +461,7 @@ clicks: 3
 
 # How a fuzzer <Marker>works</Marker>
 
-<DrawnSvg src="/drawings/fuzz-loop.svg" alt="The fuzzer picks an input from its corpus, starting with the seed acme and acme, mutates it and runs the rule. If the rule holds, acme and globex for instance, and the input reached code no earlier input had, it goes back into the corpus to be mutated next. If the rule breaks, acme and an empty org, the fuzzer shrinks the input and saves it to testdata" steps class="mt-6 mx-auto w-[92%]" />
+<DrawnSvg src="/drawings/fuzz-loop.svg" alt="The fuzzer picks an input from its corpus, which starts from your seed, acme and acme, mutates it and runs the rule. If the rule holds, acme and globex for instance, and the input reached code no earlier input had, it goes back into the corpus to be mutated next. If the rule breaks, acme and an empty org, the fuzzer shrinks the input and saves it to testdata" steps class="mt-6 mx-auto w-[92%]" />
 
 <p v-click="3" class="text-center mt-12">Hundreds of thousands of times a second, until the rule breaks or time runs out.</p>
 
