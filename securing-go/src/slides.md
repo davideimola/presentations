@@ -131,9 +131,9 @@ layout: two-cols-header
 
 <v-clicks>
 
-- Who may read this resource <Tape v-click="4" :n="0" :size="14" class="ml-2">our bug</Tape>
+- Who may read this resource <Tape v-click="4" :n="0" :size="14" class="ml-2">access control</Tape>
 - Where this request is going <Tape v-click="4" :n="1" :size="14" class="ml-2">ssrf</Tape>
-- How much this request costs <Tape v-click="4" :n="2" :size="14" class="ml-2">body size</Tape>
+- How much this request costs <Tape v-click="4" :n="2" :size="14" class="ml-2">dos</Tape>
 
 </v-clicks>
 
