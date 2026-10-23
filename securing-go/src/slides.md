@@ -481,7 +481,8 @@ layout: default
 
 # Now ask who stays <Marker>out</Marker>
 
-```go {all|3-5|6-11}
+```go {1|2|4-6|7-12}
+f.Add(false, true, "acme", "acme") // the seed
 f.Fuzz(func(t *testing.T, super, admin bool, uOrg, org string) {
 	u := User{super, admin, uOrg}
 	if !canManageOrg(u, org) {
@@ -497,10 +498,12 @@ f.Fuzz(func(t *testing.T, super, admin bool, uOrg, org string) {
 ```
 
 <!-- ~1min15. Callback to "Every test asked who gets in. None asked who stays out.": this is the answer.
-     Click 1: a denial is always safe, so the fuzzer only cares about grants.
-     Click 2: the rule from the previous slide, written as denials. The failure message IS the rule.
-     No oracle that copies the fix: each check is a sentence you'd say out loud.
-     Not shown: f.Add(false, true, "acme", "acme"), the happy path, the only case the old tests had. The fuzzer starts from there. -->
+     Each highlight is a box of the drawing on the previous slide.
+     On enter, f.Add: the seed, the corpus box. The happy path, the only case the old tests had.
+     Click 1, the parameters: the mutated input box. These four values are what the fuzzer changes, millions of times.
+     Click 2: a denial is always safe, so the fuzzer only cares about grants.
+     Click 3, the rule holds? box, written as denials: each t.Fatalf is the no branch. The failure message IS the rule.
+     No oracle that copies the fix: each check is a sentence you'd say out loud. -->
 
 ---
 layout: terminal
