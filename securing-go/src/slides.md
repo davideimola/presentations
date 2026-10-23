@@ -461,15 +461,19 @@ clicks: 3
 
 # How a fuzzer <Marker>works</Marker>
 
-<DrawnSvg src="/drawings/fuzz-loop.svg" alt="The fuzzer starts from a seed input, acme and acme, mutates it into acme and an empty org, and checks the rule; if the rule holds and the input took a new path through the code, it keeps it as a seed; if the rule breaks, it shrinks the input and saves it to testdata" steps class="mt-6 mx-auto w-[92%]" />
+<DrawnSvg src="/drawings/fuzz-loop.svg" alt="The fuzzer picks an input from its corpus, starting with the seed acme and acme, mutates it and runs the rule. If the rule holds, acme and globex for instance, and the input reached code no earlier input had, it goes back into the corpus to be mutated next. If the rule breaks, acme and an empty org, the fuzzer shrinks the input and saves it to testdata" steps class="mt-6 mx-auto w-[92%]" />
 
-<p v-click="3" class="text-center mt-6">Hundreds of thousands of times a second, until the rule breaks or time runs out.</p>
+<p v-click="3" class="text-center mt-12">Hundreds of thousands of times a second, until the rule breaks or time runs out.</p>
 
-<!-- ~1min. On enter: the seed. One input you give it, the happy path: an admin of acme on acme.
-     Click 1: it mutates the seed, here the org becomes empty, and runs the rule on it.
-     Click 2: the rule holds. If that input took a path through the code it hadn't seen, the fuzzer keeps it and mutates from there next. That's coverage-guided: it learns where the branches are, it doesn't guess blind.
-     Click 3: the rule breaks. It shrinks the input to the smallest one that still fails and writes it to testdata/. Commit it: from then on, plain go test replays it.
-     The rule is the whole point: without it, the fuzzer only finds panics. With it, it finds logic bugs like ours. -->
+<!-- ~1min. On enter: the corpus. At first it holds only the seed you give it, the happy path: an admin of acme on acme.
+     Click 1: it picks an input from the corpus, mutates it (flips a bool, changes characters in a string) and runs the rule on it.
+     Click 2, yes: the rule holds. "acme","globex": an admin of another org, denied, fine. Go instruments the code and knows which branches each input ran. If this one reached code no earlier input had, it goes into the corpus and new mutations start from it too; if not, it's dropped.
+     On our function: the seed only runs the last line. super=true opens the IsSuperAdmin branch, an empty org opens the orgID == "" branch, where the bug is. The corpus ends up with one input per branch, and the fuzzer mutates from there: coverage-guided, not blind. It's the "new interesting: 3" on the terminal slide after the fix.
+     Click 3, no: the rule breaks. "acme","": granted with no org. It shrinks the input to the smallest one that still fails and writes it to testdata/. Commit it: from then on, plain go test replays it.
+     The rule is the whole point: without it, the fuzzer only finds panics. With it, it finds logic bugs like ours.
+     Q&A, if asked:
+       Where is the corpus? In the Go cache, $(go env GOCACHE)/fuzz/<package>/FuzzXxx, not in the repo. Only failures go to testdata/.
+       One file per bug? Yes: a run stops at the first failure and writes one file. Fix it, run again: go test replays testdata first, then fuzzes, and the next bug adds a second file. Each file is a regression test from then on. -->
 
 ---
 layout: default

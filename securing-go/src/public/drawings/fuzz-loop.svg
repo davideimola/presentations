@@ -1,33 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 100 1580 440" width="1580" height="440">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 120 1540 400" width="1540" height="400">
   <g fill="none" stroke="#1C2233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" font-family="IBM Plex Mono, monospace" font-size="34">
     <g data-step="0">
+      <text x="185" y="165" fill="#1C2233" stroke="none" text-anchor="middle">corpus</text>
       <rect x="40" y="190" width="290" height="120" rx="16"/>
-      <text x="185" y="160" fill="#1C2233" stroke="none" text-anchor="middle">seed</text>
       <text x="185" y="262" fill="#1C2233" stroke="none" text-anchor="middle" font-size="30">"acme","acme"</text>
     </g>
     <g data-step="1">
       <path d="M330 250 H470 M450 232 L470 250 L450 268"/>
-      <text x="400" y="215" fill="#1C2233" stroke="none" text-anchor="middle" font-size="30">mutate</text>
-      <rect x="490" y="190" width="260" height="120" rx="16"/>
-      <text x="620" y="262" fill="#1C2233" stroke="none" text-anchor="middle" font-size="30">"acme",""</text>
-      <path d="M750 250 H850 M830 232 L850 250 L830 268"/>
-      <rect x="870" y="190" width="200" height="120" rx="16"/>
-      <text x="970" y="263" fill="#1C2233" stroke="none" text-anchor="middle">rule?</text>
+      <text x="400" y="225" fill="#1C2233" stroke="none" text-anchor="middle" font-size="28">mutate</text>
+      <rect x="490" y="190" width="240" height="120" rx="16"/>
+      <text x="610" y="240" fill="#1C2233" stroke="none" text-anchor="middle" font-size="28">mutated</text>
+      <text x="610" y="280" fill="#1C2233" stroke="none" text-anchor="middle" font-size="28">input</text>
+      <path d="M730 250 H840 M820 232 L840 250 L820 268"/>
+      <text x="785" y="225" fill="#1C2233" stroke="none" text-anchor="middle" font-size="28">run</text>
+      <rect x="860" y="190" width="250" height="120" rx="16"/>
+      <text x="985" y="262" fill="#1C2233" stroke="none" text-anchor="middle" font-size="30">rule holds?</text>
     </g>
     <g data-step="2">
-      <path d="M970 310 V440 H185 V330 M167 348 L185 330 L203 348"/>
-      <text x="585" y="490" fill="#1C2233" stroke="none" text-anchor="middle">holds, new path: keep it</text>
+      <path d="M985 310 V440 H185 V330 M167 348 L185 330 L203 348"/>
+      <text x="960" y="372" fill="#1C2233" stroke="none" text-anchor="end" font-size="28">yes</text>
+      <text x="585" y="418" fill="#1C2233" stroke="none" text-anchor="middle" font-size="28">"acme","globex"</text>
+      <text x="585" y="490" fill="#1C2233" stroke="none" text-anchor="middle">reached new code? mutate it next</text>
     </g>
     <g data-step="3">
-      <path d="M1070 250 H1160"/>
-      <circle cx="1190" cy="250" r="26" fill="#C91F37" stroke="none"/>
-      <text x="1190" y="160" fill="#1C2233" stroke="none" text-anchor="middle">breaks</text>
-      <path d="M1220 250 H1320 M1300 232 L1320 250 L1300 268"/>
-      <text x="1270" y="215" fill="#1C2233" stroke="none" text-anchor="middle" font-size="30">shrink</text>
-      <path d="M1350 170 H1440 L1480 210 V330 H1350 Z"/>
-      <path d="M1440 170 V210 H1480"/>
-      <path d="M1380 240 H1450 M1380 280 H1430"/>
-      <text x="1415" y="390" fill="#1C2233" stroke="none" text-anchor="middle">testdata/</text>
+      <path d="M1110 250 H1190"/>
+      <text x="1150" y="222" fill="#1C2233" stroke="none" text-anchor="middle" font-size="28">no</text>
+      <circle cx="1220" cy="250" r="26" fill="#C91F37" stroke="none"/>
+      <text x="1220" y="315" fill="#1C2233" stroke="none" text-anchor="middle" font-size="28">"acme",""</text>
+      <path d="M1250 250 H1380 M1360 232 L1380 250 L1360 268"/>
+      <text x="1315" y="222" fill="#1C2233" stroke="none" text-anchor="middle" font-size="28">shrink</text>
+      <text x="1470" y="165" fill="#1C2233" stroke="none" text-anchor="middle">testdata/</text>
+      <path d="M1405 190 H1495 L1535 230 V310 H1405 Z"/>
+      <path d="M1495 190 V230 H1535"/>
+      <path d="M1435 255 H1505 M1435 285 H1485"/>
     </g>
   </g>
 </svg>
