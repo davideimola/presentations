@@ -578,7 +578,7 @@ PASS
 
 <!-- ~20s. Recorded, not live: the same property against the fixed version (go1.26, M-series Mac, 15 workers). Numbers vary by machine.
      "new interesting: 3": the inputs that took a new path, the "keep it" arrow of the loop.
-     This is what runs in CI: appsec-setup schedules a weekly bounded fuzz run, and every committed failing input replays on each go test. -->
+     This is what runs in CI: appsec-ci schedules a weekly bounded fuzz run, and every committed failing input replays on each go test. -->
 
 ---
 layout: default
@@ -1058,16 +1058,18 @@ Give them to your agent. Everything they write is tested.
 
 ```text
 skills/
+  appsec-setup/   # start here
   appsec-audit/   # hypotheses
   appsec-prove/   # red or it didn't happen
-  appsec-setup/   # keeps guarding
+  appsec-ci/      # keeps guarding
 ```
 
 <!-- ~1min30. github.com/davideimola/appsec-skills (formerly go-security-skills, the old URL redirects), MIT, open Agent Skills format: Claude Code, Codex, Copilot, Cursor, Gemini CLI.
      One skill per purpose, one pack per ecosystem: Go is the pack today, born from this talk; TypeScript is next. You don't call them by name: ask your agent in plain words ("check the security of my Go service") and it picks the right one.
+     appsec-setup: run it first. A couple of questions: finds the Go modules (and TypeScript packages), asks where the audit gets govulncheck and gosec from. Writes configuration only, no CI, no code.
      appsec-audit: govulncheck, gosec triaged against the code, timeouts and body limits, fail-open authz, trust boundaries, unpinned actions. Reports findings, applies only the fixes you confirm.
-     appsec-prove: the section 01 story, packaged. Deny-by-default tests plus a fuzz property, run on today's code: reproduced or not.
-     appsec-setup: installs security.yml (verify, vet, govulncheck, tests, weekly bounded fuzzing) and grouped Dependabot, checks the toolchain is patched, adds SECURITY.md.
+     appsec-prove: the section 01 story, packaged. Deny-by-default tests plus a fuzz property, run on today's code: reproduced or not. Works on TypeScript too (fast-check), if anyone asks.
+     appsec-ci: installs security.yml (verify, vet, govulncheck, tests, weekly bounded fuzzing) and grouped Dependabot, checks the toolchain is patched, adds SECURITY.md.
      The point for the room: a skill that writes CI is itself supply chain. Every file these skills write already exists in the repo and is verified by its CI, actions pinned to full commit SHAs.
      "and with Argus" (Toolbox mode, skills in ~/.argus/skills/, appsec-setup picks run_govulncheck and run_gosec as the scanners) only if the end-to-end test passed. -->
 
@@ -1080,7 +1082,7 @@ layout: default
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-16 items-center mt-8">
 <div>
 
-Three skills. Claude Code, Codex, Copilot, Cursor, Gemini CLI: any agent that reads `SKILL.md`.
+Four skills. Claude Code, Codex, Copilot, Cursor, Gemini CLI: any agent that reads `SKILL.md`.
 
 ```sh
 npx skills add davideimola/appsec-skills
