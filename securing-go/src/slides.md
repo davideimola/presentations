@@ -193,7 +193,7 @@ func preview(w http.ResponseWriter, r *http.Request) {
      Click 3, the code morphs into the fix: check the claim before you act on it. Parse, then allow-list the host: anything not on the list is forbidden, deny by default again.
      Click 4, line 7: `client`, not http.Get. Not shown: its CheckRedirect runs the same allow-list on every redirect, or an allowed host can bounce you to 169.254.169.254.
      If you can't allow-list (user-supplied webhooks): resolve the host and reject private and link-local IPs at dial time, not before.
-     go-security-audit in the skills repo (section 03) looks for this pattern. -->
+     appsec-audit in the skills repo (section 03) looks for this pattern. -->
 
 
 ---
@@ -578,7 +578,7 @@ PASS
 
 <!-- ~20s. Recorded, not live: the same property against the fixed version (go1.26, M-series Mac, 15 workers). Numbers vary by machine.
      "new interesting: 3": the inputs that took a new path, the "keep it" arrow of the loop.
-     This is what runs in CI: go-security-setup schedules a weekly bounded fuzz run, and every committed failing input replays on each go test. -->
+     This is what runs in CI: appsec-setup schedules a weekly bounded fuzz run, and every committed failing input replays on each go test. -->
 
 ---
 layout: default
@@ -597,7 +597,7 @@ clicks: 4
      Click 1: the AI reads those signals together with the code. Some are dismissed on the spot, with a reason; the rest become hypotheses. Reading the code it can also raise its own, as it did with our bug.
      Click 2: the test. Red is evidence, the only red on the slide. Green is not wasted: the test stays and guards the rule.
      Click 3: the red one gets its fix. Both end in CI, and the arrow back: they keep guarding the whole class of bug, every PR.
-     This is what go-security-audit and verify-with-fuzz do, step by step (section 03).
+     This is what appsec-audit and appsec-prove do, step by step (section 03).
      Every piece is something they just saw on our bug: the prompt was a hypothesis, the red test the evidence, the property in CI the guard. The dismissed branch is the deprecated feature.
      Click 4, the dismissed example: ~45s, the hypothesis that leaves the AI's reading crossed out. After this bug we ran the same process on purpose, with no report to start from: it found things nobody had reported (missing security headers, broken logic).
      It also flagged a real issue in a deprecated feature we would never call again. A true finding that doesn't matter.
@@ -1058,17 +1058,18 @@ Give them to your agent. Everything they write is tested.
 
 ```text
 skills/
-  go-security-audit/   # hypotheses
-  verify-with-fuzz/    # red or it didn't happen
-  go-security-setup/   # keeps guarding
+  appsec-audit/   # hypotheses
+  appsec-prove/   # red or it didn't happen
+  appsec-setup/   # keeps guarding
 ```
 
-<!-- ~1min30. github.com/davideimola/go-security-skills, MIT, open Agent Skills format: Claude Code, Codex, Copilot, Cursor, Gemini CLI.
-     go-security-audit: govulncheck, gosec triaged against the code, timeouts and body limits, fail-open authz, trust boundaries, unpinned actions. Reports findings, applies only the fixes you confirm.
-     verify-with-fuzz: the section 01 story, packaged. Deny-by-default tests plus a fuzz property, run on today's code: reproduced or not.
-     go-security-setup: installs security.yml (verify, vet, govulncheck, tests, weekly bounded fuzzing) and grouped Dependabot, checks the toolchain is patched, adds SECURITY.md.
+<!-- ~1min30. github.com/davideimola/appsec-skills (formerly go-security-skills, the old URL redirects), MIT, open Agent Skills format: Claude Code, Codex, Copilot, Cursor, Gemini CLI.
+     One skill per purpose, one pack per ecosystem: Go is the pack today, born from this talk; TypeScript is next. You don't call them by name: ask your agent in plain words ("check the security of my Go service") and it picks the right one.
+     appsec-audit: govulncheck, gosec triaged against the code, timeouts and body limits, fail-open authz, trust boundaries, unpinned actions. Reports findings, applies only the fixes you confirm.
+     appsec-prove: the section 01 story, packaged. Deny-by-default tests plus a fuzz property, run on today's code: reproduced or not.
+     appsec-setup: installs security.yml (verify, vet, govulncheck, tests, weekly bounded fuzzing) and grouped Dependabot, checks the toolchain is patched, adds SECURITY.md.
      The point for the room: a skill that writes CI is itself supply chain. Every file these skills write already exists in the repo and is verified by its CI, actions pinned to full commit SHAs.
-     "and with Argus" (Toolbox mode, skills in ~/.argus/skills/) only if the end-to-end test passed. -->
+     "and with Argus" (Toolbox mode, skills in ~/.argus/skills/, appsec-setup picks run_govulncheck and run_gosec as the scanners) only if the end-to-end test passed. -->
 
 ---
 layout: default
@@ -1082,11 +1083,11 @@ layout: default
 Three skills. Claude Code, Codex, Copilot, Cursor, Gemini CLI: any agent that reads `SKILL.md`.
 
 ```sh
-npx skills add davideimola/go-security-skills
+npx skills add davideimola/appsec-skills
 ```
 
 </div>
-<QRBlock value="https://github.com/davideimola/go-security-skills" label="go-security-skills" :size="240" />
+<QRBlock value="https://github.com/davideimola/appsec-skills" label="appsec-skills" :size="240" />
 </div>
 
 <!-- ~20s. Leave it on screen long enough for phones to come out. Claude Code plugin install is in the README, not on the slide. -->
