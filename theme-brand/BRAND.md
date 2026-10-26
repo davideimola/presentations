@@ -105,6 +105,6 @@ Loaded from Google Fonts through the theme's `fonts` defaults:
 | `<QRCode>`, `<QRBlock>` | Ink on paper QR code, the block adds a mono label |
 | `<BrowserFrame url bodyBg>` | Screenshot frame: 2px ink border, hard offset shadow, 44px linen bar with three ink-outlined dots and the url in a white field. Images fill the body edge to edge |
 | `<DrawnSvg src alt steps />` | A drawing from `public/` that draws itself with the brand's `draw` module: ink traces in, red lands last. With `steps`, each `<g data-step="n">` draws on click n (0 on enter; set `clicks:` in the frontmatter). Drawn in exports and overview |
-| `<WhoAmI />` | Speaker intro for the `intro` layout: name, the brand line (with the slide's one marker), then the facts by kind (at work, based in, community, off the clock). Slot `line` overrides the brand's words per talk; an optional `lead` slot adds one sentence under it |
+| `<WhoAmI />` | Speaker intro for the `intro` layout: name, the brand line (with the slide's one marker), then the facts by kind (at work, based in, community, off the clock). Slot `line` overrides the brand's words per talk; an optional `lead` slot adds one sentence under it; `hiring` adds a "we're hiring" tape beside the job |
 
 The catalog with one slide per layout and component is [`example.md`](./example.md): `pnpm demo:brand` from the repo root.

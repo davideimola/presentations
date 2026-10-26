@@ -10,7 +10,7 @@
     <dl class="whoami__facts">
       <div>
         <dt>at work</dt>
-        <dd>Tech Lead at RedCarbon</dd>
+        <dd>Tech Lead at RedCarbon<Tape v-if="hiring" class="whoami__tag" :n="2" :size="18">we're hiring</Tape></dd>
       </div>
       <div>
         <dt>based in</dt>
@@ -30,15 +30,25 @@
 
 <script setup lang="ts">
 import Marker from './Marker.vue'
+import Tape from './Tape.vue'
 
 /* The speaker intro, in the brand's voice (brand.md, Positioning and Voice):
    the name, the line with the slide's one marker, then the facts by kind.
    The hobbies stay: they are the ice breakers. Override `line` per talk
    when the room needs another angle (its default is the brand's own
-   words); add a `lead` only when a talk needs one more sentence. */
+   words); add a `lead` only when a talk needs one more sentence. `hiring`
+   puts a "we're hiring" tape beside the job, for the talks where it's true. */
+defineProps({
+  hiring: { type: Boolean, default: false },
+})
 </script>
 
 <style scoped>
+.whoami__tag {
+  margin-left: 14px;
+  vertical-align: 3px;
+}
+
 .whoami__name {
   margin: 0 0 18px !important;
 }
