@@ -19,7 +19,7 @@ github: davideimola
 linkedin: davideimola
 ---
 
-<WhoAmI />
+<WhoAmI hiring />
 
 ---
 layout: default
