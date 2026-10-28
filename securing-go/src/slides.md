@@ -887,45 +887,13 @@ clicks: 2
 layout: split-code
 ---
 
-###### the fix
-
-# Upgrade <Marker>Go</Marker>, not the module
-
-The bug is in the standard library: it ships with Go.
-
-`go get -u` updates your modules. It never touches Go.
-
-::right::
-
-```diff
- // go.mod
- module example.com/unzip
-
- go 1.25.5
-+toolchain go1.26.10
-```
-
-```text
-$ govulncheck ./...
-No vulnerabilities found.
-```
-
-<!-- ~45s. go get toolchain@go1.26.10 adds the toolchain line; with GOTOOLCHAIN=go1.25.5+auto the go command switches to it. Real output, exit 0.
-     Verified: go get -u ./... leaves go.mod unchanged and the finding stays.
-     Why 1.26.10 and not the minimum 1.25.6: go1.25 is out of support since go1.27.0 (2026-08-19).
-     For a service what matters is the Go you actually build with: the CI image, the Dockerfile (golang:1.27.3), the toolchain line. -->
-
----
-layout: split-code
----
-
-###### in CI
+###### the fix, and the catch
 
 # Scan the Go you <Marker>ship</Marker>
 
-By default the action scans with the latest stable Go.
+The bug ships with Go. Updating modules never fixes it: the fix is a newer Go.
 
-It won't see the stdlib bugs of the version you build with.
+<p v-click="1">In CI, the action scans with the latest stable Go. It never sees the Go you build with.</p>
 
 ::right::
 
@@ -942,8 +910,10 @@ jobs:
           go-version-file: go.mod
 ```
 
-<!-- ~45s. golang/govulncheck-action, current major v1 (v1.1.0, 2026-07-10), README still says experimental.
-     It checks out the repo and installs govulncheck itself. Fails the job on findings with text output (not with json/sarif). -->
+<!-- ~1min. Two blind spots, one cause: nobody treats the Go version as a dependency.
+     On enter, the fix: the bug is in the standard library, so it ships with Go. go get -u ./... leaves go.mod unchanged and the finding stays (verified). The fix is a newer Go: go get toolchain@go1.26.10 adds "toolchain go1.26.10" to go.mod, then govulncheck says "No vulnerabilities found." (real output, exit 0). Why 1.26.10 and not the minimum 1.25.6: go1.25 is out of support since go1.27.0 (2026-08-19). For a service what matters is the Go you actually build with: the CI image, the Dockerfile (golang:1.27.3), the toolchain line.
+     Click 1, the catch: golang/govulncheck-action installs the latest stable Go by default, so in CI it would never have reported this bug. go-version-file: go.mod makes it scan the Go you ship.
+     golang/govulncheck-action, current major v1 (v1.1.0, 2026-07-10), README still says experimental. It checks out the repo and installs govulncheck itself. Fails the job on findings with text output (not with json/sarif). -->
 
 ---
 layout: default
