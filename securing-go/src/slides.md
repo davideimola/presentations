@@ -1016,13 +1016,13 @@ layout: default
 layout: split-code
 ---
 
-###### take this
+###### open source, take it
 
-# Everything, in one <Marker>repo</Marker>
+# This talk, as <Marker>skills</Marker>
 
-Every practice from this talk, as Agent Skills.
+Every practice from this talk, packaged as Agent Skills for your agent.
 
-Give them to your agent. Everything they write is tested.
+One skill per step of the process. Everything they write is tested.
 
 ::right::
 
