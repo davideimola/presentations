@@ -990,7 +990,7 @@ layout: statement
 
 <v-click>
 
-# Make them <Marker>red</Marker> first.
+# Make yours <Marker>red</Marker> before they find them.
 
 </v-click>
 
