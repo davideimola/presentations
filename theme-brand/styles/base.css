@@ -79,6 +79,14 @@
     margin: 0 0 12px;
   }
 
+  /* Slidev's base sets h6:not(.opacity-100) to 40% opacity, which turns the
+     graphite meta text into a pale grey that a projector washes out. Same
+     selector shape, so the theme wins; v-click still hides through its own
+     !important rule. */
+  h6:not(.opacity-100) {
+    opacity: 1;
+  }
+
   p {
     font-size: var(--di-slide-body);
     line-height: 1.45;
