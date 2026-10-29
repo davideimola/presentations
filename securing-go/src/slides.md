@@ -143,9 +143,11 @@ layout: split-code
 
 # The client chose this <Marker>URL</Marker>
 
-Every ID, URL and header in a request is a claim, not a fact.
-
-`net/http` fetches whatever you hand it: internal IPs, cloud metadata, redirects included.
+<dl class="beats">
+  <div><dt>the claim</dt><dd>Whatever the client typed.</dd></div>
+  <div v-click="2"><dt>the attack</dt><dd>Ask for <code>169.254.169.254</code>, get cloud credentials.</dd></div>
+  <div v-click="3"><dt>the fix</dt><dd>Allow-list the host. Deny the rest.</dd></div>
+</dl>
 
 ::right::
 
@@ -182,6 +184,7 @@ func preview(w http.ResponseWriter, r *http.Request) {
 ````
 
 <!-- ~1min30. SSRF as ONE example of client-controlled data, not a tutorial.
+     Every ID, URL and header in a request is a claim, not a fact: net/http fetches whatever you hand it, internal IPs, cloud metadata, redirects included.
      Clicks 1-2: the claim (line 2) goes straight into the request (line 3).
      Click 3, the code morphs into the fix: check the claim before you act on it. Parse, then allow-list the host: anything not on the list is forbidden, deny by default again.
      Click 4, line 7: `client`, not http.Get. Not shown: its CheckRedirect runs the same allow-list on every redirect, or an allowed host can bounce you to 169.254.169.254.
@@ -197,9 +200,11 @@ layout: split-code
 
 # Valid request. Unbounded <Marker>cost</Marker>.
 
-No malformed input. No exploit.
-
-Just a request bigger than you planned for.
+<dl class="beats">
+  <div><dt>the request</dt><dd>Well-formed, just bigger than planned.</dd></div>
+  <div v-click="1"><dt>the cost</dt><dd><code>io.ReadAll</code> keeps it all in memory, until the process dies.</dd></div>
+  <div v-click="2"><dt>the fix</dt><dd>One line sets the limit.</dd></div>
+</dl>
 
 ::right::
 

@@ -1,0 +1,27 @@
+/* The story of a code slide, told beside the code: one row per beat
+   (what comes in, what goes wrong, the fix), revealed with the code's clicks.
+   Same rule-and-label look as the CVE facts. */
+.beats {
+  margin: 8px 0 0;
+  border-top: 1px solid var(--di-fg);
+}
+
+.beats > div {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--di-border);
+}
+
+.beats dt {
+  font-family: var(--di-font-family-mono);
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--di-slide-meta);
+}
+
+.beats dd {
+  margin: 4px 0 0;
+  font-size: 24px;
+  line-height: 1.35;
+  color: var(--di-fg);
+}
