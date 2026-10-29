@@ -36,13 +36,15 @@ layout: default
      Click 1: Anthropic, 2025-11-13: the AI performed "80-90% of the campaign", humans only at a few decision points. The agent was a coding agent, the same kind of tool you use every day. The "GTG-1002" name is not on the Anthropic news page: don't say it unless verified.
      Click 2: CrowdStrike Global Threat Report 2026: 27 seconds from initial access to moving to another system. It's the record, not the average: say "fastest".
      Sources verified 2026-07 for ai-defense.
-     Bridge to the teaser: "Bugs used to wait for a patient human. Now a machine looks for them, fast. Here's one that waited thirteen months." -->
+     Bridge to the teaser: "They are fast, and they go for the holes we don't know we have. Like this one." -->
 
 ---
 layout: code-hero
 ---
 
 ###### this shipped
+
+# The bug you don't <Marker>know</Marker> you have
 
 ```go
 func canManageOrg(u User, orgID string) bool {
