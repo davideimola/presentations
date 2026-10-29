@@ -889,13 +889,15 @@ clicks: 2
 layout: split-code
 ---
 
-###### the fix, and the catch
+###### govulncheck in CI
 
 # Scan the Go you <Marker>ship</Marker>
 
-The bug ships with Go. Updating modules never fixes it: the fix is a newer Go.
-
-<p v-click="1">In CI, the action scans with the latest stable Go. It never sees the Go you build with.</p>
+<dl class="beats">
+  <div><dt>the bug</dt><dd>It ships with Go. Updating modules won't touch it.</dd></div>
+  <div><dt>the fix</dt><dd>A newer Go: one <code>toolchain</code> line in <code>go.mod</code>.</dd></div>
+  <div v-click="1"><dt>the catch</dt><dd>The action scans with the latest Go, not the one you ship.</dd></div>
+</dl>
 
 ::right::
 
