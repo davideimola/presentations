@@ -127,15 +127,14 @@ event: <Event name and year>
 
 <!-- Talk note (Trilium): <note title> (<noteId>) · Brief: ./TALK.md -->
 
-# <Title>
+# <Title with one <Marker>word</Marker> marked>
 
-go run talk.go --topic="<subtitle or short hook>"
+<Subtitle: one short sentence>
 
 ---
 layout: intro
 introImage: /theme/me.png
 github: davideimola
-bluesky: "@davideimola.dev"
 linkedin: davideimola
 ---
 
@@ -182,7 +181,7 @@ qr: https://links.davideimola.dev
 
 # Thank you
 
-exit 0
+Slides, links and feedback.
 ```
 
 For each section in the outline generate **two slides**: a `section` divider (labelled `NN · name`, which becomes the tape on the following slides) followed by a `default` with `TODO` as marker. No scaffolded speaker notes. The `qr` of the `end` slide is a placeholder (add `feedback: <url>` for the rating QR when the event provides one) — Davide will update it once he has the deployed URL of the specific talk.
