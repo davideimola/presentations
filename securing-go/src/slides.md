@@ -756,11 +756,11 @@ layout: split-code
 
 # Valid zip. Unbounded <Marker>cost</Marker>.
 
-A file name nested thousands of folders deep.
-
-One upload: **26 seconds of CPU**.
-
-Like the unbounded request body, this time inside the standard library.
+<dl class="beats">
+  <div><dt>the upload</dt><dd>A valid zip. One file name, thousands of folders deep.</dd></div>
+  <div v-click><dt>the cost</dt><dd>26 seconds of CPU per request.</dd></div>
+  <div v-click><dt>the twist</dt><dd>Section 01's bug, inside the standard library.</dd></div>
+</dl>
 
 ::right::
 
