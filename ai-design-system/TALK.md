@@ -1,0 +1,33 @@
+# AI Won't Design Your System. You Have To.
+
+- **Talk note (Trilium)**: AI Won't Design Your System. You Have To (k4FcZJ7Z0QNt)
+- **Thesis**: l'AI amplifica il sistema che ha davanti; senza sistema, amplifica il caos. Il design system è il contratto tra te, l'AI e il team, e una volta che esiste può disegnarlo anche chi non scrive React.
+- **Audience**: sviluppatori React che hanno già provato a generare UI con l'AI e sono tornati indietro per risultati incoerenti. Conoscono componenti e CSS, non per forza hanno mai costruito un design system a token.
+- **Takeaways**:
+  - Frase finale: *"AI amplifies your system. No system, it amplifies chaos."*
+  - Lunedì: prima di chiedere un componente all'AI, scrivi le decisioni che non deve prendere lei: token, ruoli, regole, e un check che fallisce quando le rompe.
+  - Un design system come pacchetto versionato rende un rebrand un version bump e permette a un designer di lavorare direttamente sul codice.
+- **Outline** (30min + 5min Q&A):
+  - (2min) Apertura: "Konnichiwa!" fuori brand apposta ("no, non sono scemo: sono di Verona, 15 minuti da qui in motorino"), il sito con il kanji davanti a "Ciao" ("I told the AI I love Japan"), "I don't read Japanese" (e ancora non so cosa significhi quel kanji). Promessa in una frase: "This is the story of how I learned that AI won't design your system. You have to." Poi `WhoAmI` (manga, Pokémon, jujutsu: ecco perché gliel'ho detto), senza ripetere "sono veronese"
+  - (3min) Atto 1, "Fai": "How did I get there?". Il sito Astro fatto a mano: funzionava, non diceva niente. "Rifammelo": il Giappone ovunque (griglia di 6 pagine), "sembrava un manga", comunicava cose che non volevo comunicare. Colpo di scena (solo fatti, chi ha proposto i kanji non lo ricordo): li ho tolti tutti, a marzo 2026 il sito non ne mostra nessuno, ma nello stesso commit (`1a1a854`) il `CLAUDE.md` dice ancora "Kanji accent characters: 道 創 語 書". Nessuno aveva deciso quanti e dove; ho ripulito il sito, non la regola, pronta a riportarli alla prossima pagina generata. 42 colori hex distinti in `src` (contro i 7 di oggi): nessuno li aveva scelti
+  - (7min) Atto 2, il sistema prima del codice: token, ruoli dei colori (bg, primary, accent), componenti, storie, context file. L'AI ha iniziato a riusare componenti o a proporne di nuovi coerenti col brand
+  - (5min) Demo 3b: l'AI col guinzaglio
+  - (4min) Atto 3, il rebrand è un version bump: dal terminale (hacker) al light (builder) dopo il feedback in conferenza, stesso processo partendo dai token. `@davideimola/brand` come pacchetto, sito e slide come consumer. Demo 3a
+  - (6min) Atto 4, il team: in RedCarbon la designer lavora su un design system versionato (Storybook, PR sui componenti, story test gate), valida, le app aggiornano l'import. Niente lost in translation Figma → dev. Solo diagrammi del processo, replicato sul brand repo personale, niente screenshot di RedCarbon
+  - (2min) Chiusura: la frase, poi l'azione di lunedì
+- **Demo / code**:
+  - **3a** (deterministica, ~20s): il deck usa `theme-brand`, che dipende da `@davideimola/brand`. Nel branch del talk il brand punta a un clone locale; in scena cambio un token (l'accent), il watch ricostruisce `dist/css/tokens.css` e le slide cambiano colore. Revert con `git checkout`.
+  - **3b** (AI col guinzaglio, timebox 3min): repo da `git tag demo-start`, context file presente, Storybook aperto. Prompt già scritto e incollato, un componente piccolo. Poi richiesta fuori brand apposta ("make it green, add a kanji"): a fermarla è un gate deterministico (lint che vieta hex raw fuori dai token), non il prompt. Se l'AI rifiuta, bene; se scrive un hex, il gate va rosso. Plan B: `git checkout demo-done` + registrazione.
+  - Mantiene la promessa dell'abstract: componente React costruito con Claude Code guidato da un context file, "no magic prompts, no frameworks to install".
+- **Format**: 35min Q&A incluso, inglese (slide in inglese)
+- **Conference**: reactjsday 2026 (2026-11-19, Verona)
+- **Sources**:
+  - Post: https://www.davideimola.dev/blog/i-rebuilt-my-site-twice
+  - Repo `davideimola.dev`: branch `old-site` (Astro, prima), `website-next-cursor-1.0` (arlecchino, `CLAUDE.md`/`README.md` coi kanji, `src/styles/japanese-patterns.css`), `main` (rebrand light, 2026-10-14)
+  - Brand: https://github.com/davideimola/brand (`tokens/tokens.json`, `scripts/build.mjs`, `AGENTS.md`, `test/`)
+- **Screenshot**: in `src/public/old-site/`, a 1600×1000. Il Giappone nei commit c'è (prop `kanji` di `PageHero`, pattern seigaiha, parentesi 「」, `CLAUDE.md`/`README.md`), ma nessuna pagina committata mostra un kanji: quelli negli screenshot `cursor-kanji-*` sono ricostruiti nello stile della prop originale.
+- **Open questions**:
+  - 3a: `tokens.css` è generato da `scripts/build.mjs`, nessun watch. Verificare `node --watch-path=tokens scripts/build.mjs` + HMR di Vite su `dist` con il link locale, solo nel branch del talk.
+  - 3b: su quale repo? Il brand repo non ha componenti React, quindi probabilmente il sito, che ha ancora 7 hex raw da ripulire prima di accendere il gate. Quale componente?
+  - Atto 4: confermare con RedCarbon cosa si può dire, anche solo a voce e senza nomi.
+  - Prova cronometrata: 7 blocchi in 30 minuti.

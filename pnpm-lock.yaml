@@ -60,6 +60,8 @@ importers:
 
   ai-defense/src: {}
 
+  ai-design-system/src: {}
+
   go-ddd/src: {}
 
   greenops/src: {}
