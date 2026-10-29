@@ -756,11 +756,9 @@ layout: split-code
 
 # Valid zip. Unbounded <Marker>cost</Marker>.
 
-<dl class="beats">
-  <div><dt>the upload</dt><dd>A valid zip. One file name, thousands of folders deep.</dd></div>
-  <div v-click><dt>the cost</dt><dd>26 seconds of CPU per request.</dd></div>
-  <div v-click><dt>the twist</dt><dd>Section 01's bug, inside the standard library.</dd></div>
-</dl>
+One file name, thousands of folders deep.
+
+<Stat v-click value="26 s" source="the fix's own benchmark" class="mt-6">of CPU for one upload</Stat>
 
 ::right::
 
@@ -779,6 +777,7 @@ layout: split-code
 </style>
 
 <!-- ~45s. Don't say which call triggers it yet: the next slide asks the room. The title echoes "Valid request. Unbounded cost." from the code you write.
+     Say it: "Section 01's bug, this time inside the standard library."
      Official text: "archive/zip uses a super-linear file name indexing algorithm that is invoked the first time a file in an archive is opened. This can lead to a denial of service when consuming a maliciously constructed ZIP archive."
      How it works: zip.Reader is an fs.FS, so on the first Open it indexes every file's parent folders. The old loop called path.Dir at each level (re-scanning the whole name) and never stopped early, even for folders already indexed: cost ~ depth x length per file. A zip name can be 64 KB, so "a/a/a/..." thousands of levels deep is cheap to send.
      26 s: the fix's own benchmark, ReaderOneDeepDir on an Apple M4 Pro, 25.98 s before, 46 ms after (commit bb7c0c7, "archive/zip: reduce CPU usage in index construction").
