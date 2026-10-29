@@ -403,9 +403,11 @@ layout: split-code
 
 # Deny by <Marker>default</Marker>
 
-Two explicit ways in. Everything else stays out, including the request we can't place.
-
-Red to green, released right away.
+<dl class="beats">
+  <div><dt>the rule</dt><dd>Two explicit ways in. Everything else stays out.</dd></div>
+  <div v-click="1"><dt>the unresolved org</dt><dd>Can't place the request? Denied, even for a super admin.</dd></div>
+  <div v-click="2"><dt>the role</dt><dd>Admin of this org. Being a member isn't enough.</dd></div>
+</dl>
 
 ::right::
 
@@ -421,7 +423,8 @@ func canManageOrg(u User, orgID string) bool {
 }
 ```
 
-<!-- ~1min. Note the order: the deny check comes BEFORE the super admin shortcut.
+<!-- ~1min. Red to green: the three deny tests pass, released right away.
+     Note the order: the deny check comes BEFORE the super admin shortcut.
      The follow-up PR added negative tests, multi-role scenarios and edge cases to every authorization check, not only this one. -->
 
 ---
