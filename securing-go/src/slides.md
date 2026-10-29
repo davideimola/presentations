@@ -39,22 +39,10 @@ layout: default
      Bridge to the teaser: "Bugs used to wait for a patient human. Now a machine looks for them, fast. Here's one that waited thirteen months." -->
 
 ---
-layout: split-code
+layout: code-hero
 ---
 
-###### intro / teaser
-
-# This <Marker>shipped</Marker>
-
-Thirteen months in production.
-
-Code review approved it. Tests were green.
-
-Hold that thought.
-
-<!-- Go port of the real bug (the original was a GraphQL directive). Don't explain it here: the audience gets 10 seconds to spot it, then we move on. It comes back in section 01. -->
-
-::right::
+###### this shipped
 
 ```go
 func canManageOrg(u User, orgID string) bool {
@@ -67,6 +55,9 @@ func canManageOrg(u User, orgID string) bool {
 	return u.OrgID == orgID
 }
 ```
+
+<!-- ~30s. Go port of the real bug (the original was a GraphQL directive). Don't explain it here: the audience gets 10 seconds to spot it, then we move on. It comes back in section 01, on this same layout.
+     Say it, it's not on the slide: "Thirteen months in production. Code review approved it. Tests were green. Hold that thought." -->
 
 ---
 layout: statement
