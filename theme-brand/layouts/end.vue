@@ -11,9 +11,11 @@
           <li v-for="link in links" :key="link">{{ link }}</li>
         </ul>
       </div>
-      <div v-if="qr || feedback" class="end__qrs">
-        <QRBlock v-if="feedback" :value="feedback" :label="feedbackLabel" :size="190" />
-        <QRBlock v-if="qr" :value="qr" :label="qrLabel" :size="190" />
+      <div v-if="qr || feedback || $slots.qrs" class="end__qrs">
+        <slot name="qrs">
+          <QRBlock v-if="feedback" :value="feedback" :label="feedbackLabel" :size="190" />
+          <QRBlock v-if="qr" :value="qr" :label="qrLabel" :size="190" />
+        </slot>
       </div>
     </div>
 
@@ -36,8 +38,9 @@ import Wordmark from '../components/Wordmark.vue'
 
 /* Closing slide: thanks, links, and room for up to two QR codes
    (`qr` for links, `feedback` for the talk rating). Same frame as the
-   cover, without the L mark so the QR codes stay the focus. The event
-   tape falls back to the cover's `event`. */
+   cover, without the L mark so the QR codes stay the focus. The `qrs`
+   slot replaces them when a talk needs its own (say, one that changes on
+   a click). The event tape falls back to the cover's `event`. */
 const props = defineProps({
   event: { type: String, default: '' },
   role: { type: String, default: 'davideimola.dev' },

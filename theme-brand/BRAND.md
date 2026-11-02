@@ -85,7 +85,7 @@ Loaded from Google Fonts through the theme's `fonts` defaults:
 | `quote` | Large quote with a small ink square; the next line is the attribution |
 | `center` | Centered content |
 | `image-left`, `image-right` | Image beside text. `image`, and `grayscale: true` for portraits |
-| `end` | Closing slide. Frontmatter: `event` (falls back to the cover's), `links`, `qr`, `qrLabel`, `feedback`, `feedbackLabel`, `role` |
+| `end` | Closing slide. Frontmatter: `event` (falls back to the cover's), `links`, `qr`, `qrLabel`, `feedback`, `feedbackLabel`, `role`. Slot `::qrs::` replaces the QR codes |
 
 ## Components
 
