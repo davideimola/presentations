@@ -1092,9 +1092,20 @@ layout: statement
 
 ---
 layout: end
-qr: https://links.davideimola.dev
+clicks: 1
 ---
 
 # Thank you
 
 Slides, links and feedback.
+
+::qrs::
+
+<QRBlock v-if="$clicks < 1" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" label="links.davideimola.dev" :size="190" />
+<QRBlock v-else value="https://links.davideimola.dev" :size="190" />
+
+<!-- The last lesson, a joke. On enter the QR is a rickroll, labelled links.davideimola.dev.
+     Wait for the first laughs from the phones. Then: "Remember: never scan a QR code you didn't verify. The label said links.davideimola.dev. A QR code can say anything."
+     Click: the real one. "This one is safe. Promise." Same lesson as the checksum database: the name isn't the content.
+     Click late enough for the joke, early enough that nobody leaves with the wrong link. Leave the real one up through Q&A.
+     The exported PDF and the static build show the rickroll first: that's fine, it's the end slide. -->
