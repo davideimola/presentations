@@ -98,7 +98,7 @@ Loaded from Google Fonts through the theme's `fonts` defaults:
 | `<Badge type="default\|accent\|success\|warning">` | Small mono label; `accent` is filled ink |
 | `<Chat>`, `<ChatBubble user>` | Chat mockup: user in ink, model on white |
 | `<Rungs :active="2" />`, `<RungBadge :n="1" />` | Step indicator, active step in ink |
-| `<Ladder>`, `<LadderRung :n title tag>` | Vertical list of steps split by hairlines; `compact` for one line per rung; `tag` adds a small tape beside a rung's title ("built by me") |
+| `<Ladder>`, `<LadderRung :n title tag>` | Vertical list of steps split by hairlines; the number sits on the middle of the title's first line. `compact` puts each rung on one line with the descriptions in one column, and sizes the ladder on its rungs (3 or fewer, 4, 5: bigger type and more air) so it fills the slide. `total` sizes it on the rungs it will reach over several slides and keeps the missing ones as empty numbered slots, with the title column at a fixed width, so a list that grows slide by slide stays put; `tag` adds a small tape beside a rung's title ("built by me") |
 | `<StatGrid>`, `<Stat value source>` | Big numbers in ink under a rule |
 | `<Ledger valueWidth>`, `<LedgerRow value source n>` | Big numbers as rows between ink rules: the number on the left, its meaning beside it, the source on a small tape (alternate `n` row to row). `v-click` on a row reveals it |
 | `<Timeline from to ticks>`, `<TimelineEvent at time title align mark>`, `<TimelineSpan from to>` | Events on an ink axis, any unit (`ticks` as `[at, label]` pairs). Labels run right from their event, or end there with `align="end"`; `mark` fills the dot of the event that matters. Spans bracket a stretch under the axis, in the `spans` slot. Never red |

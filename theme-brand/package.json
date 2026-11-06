@@ -22,7 +22,8 @@
         "custom": "Barlow Condensed",
         "weights": "400,500,600,700",
         "italic": true
-      }
+      },
+      "favicon": "/theme/favicon.svg"
     }
   },
   "dependencies": {

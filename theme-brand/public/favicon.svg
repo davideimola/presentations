@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- The slides' favicon: the brand's own favicon mark (assets/svg/favicon.svg,
+       same paths, scaled, never redrawn) on a paper card framed in ink, so a
+       deck's tab reads apart from the site's. Always light, like the slides. -->
+  <rect x="8" y="8" width="184" height="184" rx="30" fill="#F7F5F0" stroke="#1C2233" stroke-width="14"/>
+  <g transform="translate(26 22) scale(0.74)">
+    <path d="M150 174 V70" fill="none" stroke="#1C2233" stroke-width="32" stroke-linecap="round"/>
+    <path d="M100 174 V108 C100 80 120 64 144 60" fill="none" stroke="#1C2233" stroke-width="32" stroke-linecap="round"/>
+    <circle cx="62" cy="138" r="24" fill="none" stroke="#1C2233" stroke-width="32" stroke-linecap="round"/>
+    <rect x="122" y="22" width="56" height="52" rx="10" fill="#C91F37" transform="rotate(-6 150 48)"/>
+  </g>
+</svg>

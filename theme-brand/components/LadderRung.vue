@@ -26,7 +26,7 @@ defineProps({
   display: flex;
   align-items: baseline;
   gap: 20px;
-  padding: 14px 0;
+  padding: var(--ladder-rung-pad, 14px) 0;
   border-bottom: 1px solid var(--di-border);
 }
 
@@ -34,17 +34,28 @@ defineProps({
   border-top: 1px solid var(--di-border);
 }
 
+/* The number sits on the middle of the title's first line, whatever the
+   title size: its box is exactly one title line tall. */
 .ladder-rung__marker {
   flex-shrink: 0;
+  align-self: start;
+  display: flex;
+  align-items: center;
   min-width: 36px;
+  height: calc(var(--ladder-title-size, 28px) * 1.2);
   font-family: var(--di-font-family-mono);
   font-size: 18px;
   font-weight: 500;
+  line-height: 1;
   color: var(--di-slide-meta);
 }
 
+.ladder-rung__body {
+  align-self: start;
+}
+
 .ladder-rung__title {
-  font-size: 28px;
+  font-size: var(--ladder-title-size, 28px);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
