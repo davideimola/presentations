@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 580" width="1700" height="580">
+  <g fill="none" stroke="#1C2233" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <g data-step="0">
+      <text x="210" y="60" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="38" text-anchor="middle">component</text>
+      <rect x="70" y="280" width="280" height="130" rx="12"/>
+      <text x="210" y="356" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">&lt;Marker&gt;</text>
+      <path d="M125 380 Q210 372 295 380" stroke="#C91F37"/>
+    </g>
+    <g data-step="1">
+      <path d="M365 345 H445"/>
+      <path d="M423 325 L445 345 L423 365"/>
+      <text x="610" y="60" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="38" text-anchor="middle">role</text>
+      <text x="610" y="104" fill="#5B6070" stroke="none" font-family="IBM Plex Mono, monospace" font-size="28" text-anchor="middle">what it is for</text>
+      <rect x="460" y="280" width="300" height="130" rx="12"/>
+      <text x="610" y="361" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="46" text-anchor="middle">accent</text>
+    </g>
+    <g data-step="2">
+      <path d="M775 345 C840 345 840 225 905 225"/>
+      <path d="M883 205 L905 225 L883 245"/>
+      <text x="800" y="230" fill="#5B6070" stroke="none" font-family="IBM Plex Mono, monospace" font-size="30" text-anchor="end">light</text>
+      <text x="1080" y="60" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="38" text-anchor="middle">token</text>
+      <text x="1080" y="104" fill="#5B6070" stroke="none" font-family="IBM Plex Mono, monospace" font-size="28" text-anchor="middle">a value with a name</text>
+      <rect x="920" y="160" width="320" height="130" rx="12"/>
+      <text x="1080" y="241" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="46" text-anchor="middle">akane</text>
+    </g>
+    <g data-step="3">
+      <path d="M1255 225 H1335"/>
+      <path d="M1313 205 L1335 225 L1313 245"/>
+      <text x="1520" y="60" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="38" text-anchor="middle">value</text>
+      <rect x="1350" y="180" width="90" height="90" rx="8" fill="#C91F37" stroke="#C91F37"/>
+      <text x="1462" y="241" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="42">#C91F37</text>
+    </g>
+    <g data-step="4">
+      <path d="M775 345 C840 345 840 465 905 465"/>
+      <path d="M883 445 L905 465 L883 485"/>
+      <text x="800" y="490" fill="#5B6070" stroke="none" font-family="IBM Plex Mono, monospace" font-size="30" text-anchor="end">dark</text>
+      <rect x="920" y="400" width="320" height="130" rx="12"/>
+      <text x="1080" y="479" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">akane-night</text>
+      <path d="M1255 465 H1335"/>
+      <path d="M1313 445 L1335 465 L1313 485"/>
+      <rect x="1350" y="420" width="90" height="90" rx="8" fill="#E0475C" stroke="#E0475C"/>
+      <text x="1462" y="481" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="42">#E0475C</text>
+    </g>
+  </g>
+</svg>

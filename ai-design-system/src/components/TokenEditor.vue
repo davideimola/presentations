@@ -13,6 +13,11 @@
     <div class="token-editor__status">
       <span v-if="state === 'building'" class="token-editor__dot" />{{ status }}
     </div>
+    <div class="token-editor__output" aria-label="dist/css/tokens.css, what the build makes of the token">
+      <div v-for="(value, name) in output" :key="name">
+        {{ name }}: <b :class="{ 'token-editor__changed': value.toLowerCase() !== shipped[name]?.toLowerCase() }">{{ value }}</b>; <span class="token-editor__role">/* {{ name.startsWith('--di-color-') ? 'token' : 'role' }} */</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -22,13 +27,19 @@ import { computed, onMounted, ref, unref } from 'vue'
 
 /* Demo 3a: one token of the brand, editable on the slide. ⌘S (Ctrl+S) sends
    it to the dev server, which writes it into a clone of the brand repo, runs
-   the brand's own build and returns the palette variables that changed. They
+   the brand's own build and returns the tokens that changed (the palette entry
+   and the roles built from it, such as --di-accent). They
    are applied in memory to every window of the deck (audience and presenter),
-   so the marker and the knot change colour. Nothing on disk changes for the
+   so the marker and the knot change colour. Under the editor, the lines of
+   the built tokens.css that carry the token: palette and roles. Nothing on disk changes for the
    deck: putting the original value back, or reloading, restores the brand.
    Without the dev server (build, export) it is a plain code block. */
 const props = defineProps({
   token: { type: String, default: 'akane' },
+  fallbackOutput: {
+    type: Object as () => Record<string, string>,
+    default: () => ({ '--di-color-akane': '#C91F37', '--di-accent': '#C91F37' }),
+  },
   fallback: {
     type: String,
     default: '"akane": {\n  "$value": "#C91F37",\n  "$description": "Akane red: the knot and the marker, nothing else"\n}',
@@ -38,7 +49,10 @@ const props = defineProps({
 const snippet = ref(props.fallback)
 const live = ref(false)
 const state = ref<'idle' | 'building' | 'done' | 'error'>('idle')
-const status = ref('⌘S builds the brand')
+const status = ref('⌘S runs the brand build → dist/css/tokens.css')
+// The built lines that carry the token: as shipped, and after the last build.
+const shipped = ref<Record<string, string>>({ ...props.fallbackOutput })
+const output = ref<Record<string, string>>({ ...props.fallbackOutput })
 const rows = computed(() => snippet.value.split('\n').length)
 
 const { isPrintMode } = useNav()
@@ -52,6 +66,12 @@ onMounted(async () => {
     if (!res.ok)
       throw new Error(body.error)
     snippet.value = body.snippet
+    // A dev server started before the endpoint returned the built lines
+    // sends none: keep the shipped values rather than an empty block.
+    if (body.output) {
+      shipped.value = body.output
+      output.value = { ...body.output }
+    }
     live.value = true
   }
   catch (err) {
@@ -70,7 +90,7 @@ async function build() {
   if (!live.value || state.value === 'building')
     return
   state.value = 'building'
-  status.value = 'node scripts/build.mjs'
+  status.value = 'node scripts/build.mjs …'
   try {
     const res = await fetch(`/__brand/build?token=${props.token}`, { method: 'POST', body: snippet.value })
     const body = await res.json()
@@ -78,8 +98,9 @@ async function build() {
       throw new Error(body.error)
     applyBrand(body.vars)
     broadcast(body.vars)
-    const changed = Object.entries(body.vars as Record<string, string>).map(([k, v]) => `${k} → ${v}`)
-    status.value = `build.mjs · ${(body.ms / 1000).toFixed(1)}s · ${changed.length ? changed.join(', ') : 'back to the brand'}`
+    output.value = body.output ?? output.value
+    const changed = Object.keys(body.vars).length
+    status.value = `scripts/build.mjs · ${(body.ms / 1000).toFixed(1)}s → dist/css/tokens.css${changed ? '' : ' · back to the brand'}`
     state.value = 'done'
   }
   catch (err) {
@@ -149,6 +170,31 @@ channel?.addEventListener('message', event => applyBrand(event.data))
   font-family: var(--di-font-family-mono);
   font-size: 18px;
   color: var(--di-slide-meta);
+}
+
+.token-editor__output {
+  padding: 22px 28px;
+  font-family: var(--di-font-family-mono);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--di-fg);
+  background: var(--di-surface);
+  border: 1px solid var(--di-border);
+}
+
+.token-editor__output b {
+  font-weight: 500;
+}
+
+.token-editor__role {
+  color: var(--di-slide-meta);
+}
+
+.token-editor__changed {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
 }
 
 .token-editor__dot {

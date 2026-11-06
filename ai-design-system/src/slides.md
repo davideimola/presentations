@@ -345,38 +345,150 @@ layout: default
 [click] Stories: every state of every component, on a page I can look at.
 [click] And the context file: the same rules, written where the AI reads them.
 None of this is new. Design systems are older than LLMs. What changed is who reads them.
-Let's look at the real files, from that March.
+Before the files, one colour, all the way down.
+-->
+
+---
+layout: default
+clicks: 4
+---
+
+###### davideimola/brand · the red of these slides
+
+# One colour, three <Marker>layers</Marker>
+
+<DrawnSvg src="/drawings/token-layers.svg" alt="One Marker component asks for one role, accent. In light, accent points to the token akane, #C91F37. In dark, the same accent points to akane-night, #E0475C." steps class="mt-8 w-full" />
+
+<!--
+The red under "layers", up there. Let's follow it down.
+It's drawn by a component, the Marker. The Marker doesn't know any colour.
+[click] It asks for a role: accent. What the colour is for. Every component asks for roles, never for colours.
+[click] In the light theme, accent points to a token: akane. A name for the colour itself, whatever it's used for.
+[click] And akane holds the value. #C91F37. The only place where a hex lives.
+[click] Why not just accent equals a hex? Dark mode. One Marker, one accent. The theme only picks the other branch: akane-night, a lighter red that reads on a dark ground. The component didn't change. The role didn't change.
+Change a value, every akane moves. Change where a role points, every component using it moves. Nobody touches a component.
+Here's the same thing in the files.
 -->
 
 ---
 layout: code-hero
 ---
 
-###### src/app/globals.css · March 2026
+###### davideimola/brand · tokens/tokens.json · the colours
 
-```css {all|3-4|7-9|12}
-:root {
-  /* Backgrounds */
-  --bg: #080807;
-  --bg-card: #0f0e0d;
-
-  /* Text hierarchy */
-  --text-1: #eae5df;
-  --text-2: #9a948e;
-  --text-3: #4e4a46;
-
-  /* Accent */
-  --accent: #c91f37;
-}
+```json {all|13-14|37|52}{maxHeight:'420px'}
+"color": {
+  "$type": "color",
+  "palette": {
+    "paper": { "$value": "#F7F5F0" },
+    "ink": { "$value": "#1C2233" },
+    "ink-body": { "$value": "#2A3042" },
+    "graphite": { "$value": "#3B4152" },
+    "slate": { "$value": "#5B6070" },
+    "rule": { "$value": "#DEDCD5" },
+    "pencil": { "$value": "#94969B" },
+    "white": { "$value": "#FFFFFF" },
+    "linen": { "$value": "#EDEAE3" },
+    "akane": { "$value": "#C91F37" },
+    "akane-night": { "$value": "#E0475C" },
+    "night": { "$value": "#13151C" },
+    "night-surface": { "$value": "#1B1E27" },
+    "night-inline": { "$value": "#262A35" },
+    "night-rule": { "$value": "#2C3040" },
+    "pencil-night": { "$value": "#757475" },
+    "chalk": { "$value": "#ECE9E2" },
+    "chalk-body": { "$value": "#D6D3CC" },
+    "fog": { "$value": "#B4B2AC" },
+    "ash": { "$value": "#8E8C86" },
+    "code-string": { "$value": "#2F5D3A" },
+    "code-string-night": { "$value": "#8FBF96" }
+  },
+  "light": {
+    "bg": { "$value": "{color.palette.paper}" },
+    "fg": { "$value": "{color.palette.ink}" },
+    "fg-body": { "$value": "{color.palette.ink-body}" },
+    "fg-muted": { "$value": "{color.palette.graphite}" },
+    "fg-subtle": { "$value": "{color.palette.slate}" },
+    "border": { "$value": "{color.palette.rule}" },
+    "rule": { "$value": "{color.palette.pencil}" },
+    "surface": { "$value": "{color.palette.white}" },
+    "surface-inline": { "$value": "{color.palette.linen}" },
+    "accent": { "$value": "{color.palette.akane}" },
+    "tape-bg": { "$value": "{color.palette.ink}" },
+    "tape-fg": { "$value": "{color.palette.paper}" },
+    "code-string": { "$value": "{color.palette.code-string}" }
+  },
+  "dark": {
+    "bg": { "$value": "{color.palette.night}" },
+    "fg": { "$value": "{color.palette.chalk}" },
+    "fg-body": { "$value": "{color.palette.chalk-body}" },
+    "fg-muted": { "$value": "{color.palette.fog}" },
+    "fg-subtle": { "$value": "{color.palette.ash}" },
+    "border": { "$value": "{color.palette.night-rule}" },
+    "rule": { "$value": "{color.palette.pencil-night}" },
+    "surface": { "$value": "{color.palette.night-surface}" },
+    "surface-inline": { "$value": "{color.palette.night-inline}" },
+    "accent": { "$value": "{color.palette.akane-night}" },
+    "tape-bg": { "$value": "{color.palette.chalk}" },
+    "tape-fg": { "$value": "{color.palette.night}" },
+    "code-string": { "$value": "{color.palette.code-string-night}" }
+  }
 ```
 
 <!--
-This is where I started. Before any page.
-[click] Backgrounds.
-[click] A text hierarchy: first, second, third.
-[click] And one accent. One red: Akane.
-Look at the names. Not "dark grey" or "light beige". bg, text-1, accent. A name that says what the value is for. That's already a role.
-Forty-two colours before. A handful now, and every one of them chosen.
+The source of the brand. One JSON file, the design tokens format. This is the real thing, the whole colour section: I'll scroll it for you.
+[click] The palette: the tokens. A name, a value. Here's akane, and akane-night just below. The only hex values in the whole system live up here.
+[click] Further down, the light theme: the roles. Accent doesn't hold a colour, it holds a reference. Curly braces: go and read akane.
+[click] And at the bottom, the dark theme: same role, accent, another reference. akane-night.
+Same file, three layers, top to bottom. The brand stops here: it declares them. Who uses them?
+-->
+
+---
+layout: two-cols-header
+---
+
+# One name, two <Marker>themes</Marker>
+
+::left::
+
+###### @davideimola/brand · dist/css/tokens.css
+
+```css
+:root {
+  --di-color-akane: #C91F37;
+  --di-color-akane-night: #E0475C;
+  --di-accent: #C91F37;
+}
+
+[data-theme="dark"],
+.dark {
+  --di-accent: #E0475C;
+}
+```
+
+::right::
+
+###### davideimola.dev · globals.css
+
+```css
+.end-mark {
+  background: var(--di-accent);
+}
+```
+
+<h6 style="margin-top: 48px">these slides · Marker.vue</h6>
+
+```vue
+<path stroke="var(--di-accent)" />
+```
+
+<!--
+And this is what the brand ships. Nobody writes this file: the build does, from the JSON. The tokens become CSS variables, and the role too: --di-accent. In CSS the reference is already resolved to the value.
+Look at the bottom: dark. Same variable, --di-accent, another value. That's the whole dark mode, for this colour.
+On the right, two consumers. My site: the little red square that closes every blog post asks for var(--di-accent). Flip the site to dark with the toggle, and it turns akane-night. The component didn't change.
+And these slides: the red under "themes" asks for the same variable. These slides are always light, so it's always akane.
+Neither knows akane. Neither knows a hex. They know what the colour is for.
+Now, back to March, and the real files of the site.
 -->
 
 ---
@@ -396,6 +508,7 @@ const variantClasses: Record<BadgeVariant, string> = {
 ```
 
 <!--
+In March, the first thing I wrote, before any page, was a handful of colours with names: backgrounds, a text hierarchy, and one accent. One red: Akane. Forty-two colours before. A handful now, and every one of them chosen.
 Then the components. A badge, from the same commit.
 [click] text-text-3, bg-border, text-accent. Roles, through Tailwind utilities generated from the tokens.
 When the AI writes a new component next to this one, this is the example it copies. Roles in, roles out.
@@ -842,41 +955,7 @@ So the brand got its own repo, exactly like at work. It starts from one file: to
 [click] The site installs it.
 [click] These slides install it too, through the Slidev theme. That red line is the marker you've been seeing all talk.
 Nobody copies a colour. Everybody imports it.
--->
-
----
-layout: two-cols-header
----
-
-# From hacker to <Marker>builder</Marker>
-
-::left::
-
-###### before · until October 2026
-
-<BrowserFrame url="davideimola.dev" class="w-full">
-  <div style="height: 300px; overflow: hidden"><img src="/site/hacker-home.png" alt="The terminal site, dark only: a whoami prompt over the name in monospace, a blinking red cursor" style="width: 140%; max-width: none; margin: -6px 0 0 -20%"></div>
-</BrowserFrame>
-
-::right::
-
-<div v-click>
-
-###### after · October 2026
-
-<BrowserFrame url="davideimola.dev" class="w-full">
-  <div style="height: 300px; overflow: hidden"><img src="/site/light-home.png" alt="The light site: paper ground, the line in ink with one red marker under security, a black and white portrait" style="width: 140%; max-width: none; margin: -6px 0 0 -20%"></div>
-</BrowserFrame>
-
-</div>
-
-<!--
-And while the brand moved out, it changed.
-The March site had character: a terminal. A shell command over every page title, monospace everywhere, dark only. It said hacker.
-[TO SOURCE: why light. The blog post and ADR-0004 don't say]
-[click] In October: light first, paper, ink, one red.
-Same process as in March: I didn't start from the pages. I started from the tokens.
-And dark mode didn't need a second design: same roles, a second palette under them.
+The brand repo and the new light site landed the same day, in October. From then on, the site doesn't own a single colour.
 -->
 
 ---
@@ -907,7 +986,7 @@ layout: default
 LIVE (about 30 seconds). This is the real tokens.json of my brand, at the exact version these slides install. Not a copy of the value: the file.
 Look at the description first: the knot and the marker, nothing else. A value with a name, and a reason.
 Click in the block, change the value. Try #2F5D3A, the green of the code strings. Cmd+S.
-The brand's own build runs, about two seconds, and look: the marker on this slide changes colour. The knot in the footer too. Every slide of this talk, the ones behind and the ones ahead.
+The brand's own build runs, about two seconds. Under the editor, what it wrote into tokens.css: the palette line, and the role built on it, --di-accent. That's the one the slides read. And look: the marker on this slide changes colour. The knot in the footer too. Every slide of this talk, the ones behind and the ones ahead.
 I didn't touch the theme. I didn't touch a slide. One token.
 And look at the mark, bottom left: still red. That one is a drawing the brand ships, built into the package. It changes when these slides take the new version: that's the version bump.
 Put #C91F37 back, Cmd+S: akane again.

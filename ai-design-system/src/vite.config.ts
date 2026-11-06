@@ -79,8 +79,10 @@ function liveRun(): Plugin {
 /* Brand preview (demo 3a): the token editor on the slide sends the edited
    token here. It is written into demo/brand-scratch, a clone of the brand repo
    at the commit the deck installs (demo/brand/setup.sh), the brand's own
-   scripts/build.mjs runs there, and the palette variables that changed in the
-   generated tokens.css go back to the slide, which applies them in memory.
+   scripts/build.mjs runs there, and every token that changed in the light
+   :root block of the generated tokens.css (the palette entry and the roles
+   built from it, such as --di-accent) goes back to the slide, which applies
+   them in memory. Slides are always light, so the dark blocks are left out.
    The clone is restored right after every build, and the deck's dependency is
    never touched. Dev server only: a build or an export never sees any of it. */
 
@@ -97,10 +99,21 @@ function tokenSnippet(name: string) {
   return `"${name}": {\n  "$value": ${JSON.stringify(entry.$value)},\n  "$description": ${JSON.stringify(entry.$description)}\n}`
 }
 
-// The --di-color-* declarations of the first :root block of a tokens.css.
-function paletteVars(css: string) {
-  const block = css.slice(css.indexOf(':root {'), css.indexOf('}', css.indexOf(':root {')))
-  return Object.fromEntries([...block.matchAll(/(--di-color-[\w-]+):\s*([^;]+);/g)].map(m => [m[1], m[2].trim()]))
+// Every --di-* declaration of the first :root block of a tokens.css: the
+// palette and the roles, as the brand's build writes them.
+function rootVars(css: string) {
+  const start = css.indexOf(':root {')
+  const block = css.slice(start, css.indexOf('}', start))
+  return Object.fromEntries([...block.matchAll(/(--di-[\w-]+):\s*([^;]+);/g)].map(m => [m[1], m[2].trim()]))
+}
+
+// The lines of the built tokens.css that carry the token, as the brand ships
+// it: its palette variable and every role built from it (--di-accent).
+function builtLines(name: string) {
+  const value = JSON.parse(git('show', 'HEAD:tokens/tokens.json')).color.palette[name].$value.toLowerCase()
+  return Object.entries(rootVars(git('show', 'HEAD:dist/css/tokens.css')))
+    .filter(([, v]) => v.toLowerCase() === value)
+    .map(([k]) => k)
 }
 
 function buildToken(name: string, snippet: string) {
@@ -119,10 +132,11 @@ function buildToken(name: string, snippet: string) {
   try {
     writeFileSync(join(scratch, 'tokens/tokens.json'), next)
     execFileSync(process.execPath, ['scripts/build.mjs'], { cwd: scratch, stdio: 'ignore' })
-    const before = paletteVars(git('show', 'HEAD:dist/css/tokens.css'))
-    const after = paletteVars(readFileSync(join(scratch, 'dist/css/tokens.css'), 'utf8'))
+    const before = rootVars(git('show', 'HEAD:dist/css/tokens.css'))
+    const after = rootVars(readFileSync(join(scratch, 'dist/css/tokens.css'), 'utf8'))
     const vars = Object.fromEntries(Object.entries(after).filter(([k, v]) => before[k] !== v))
-    return { ms: Date.now() - started, vars }
+    const output = Object.fromEntries(builtLines(name).map(k => [k, after[k]]))
+    return { ms: Date.now() - started, vars, output }
   }
   finally {
     git('checkout', '--quiet', '--', '.')
@@ -154,7 +168,8 @@ function brandPreview(): Plugin {
         }
         try {
           if (req.method === 'GET' && url.pathname === '/token') {
-            reply(200, { snippet: tokenSnippet(name) })
+            const output = rootVars(git('show', 'HEAD:dist/css/tokens.css'))
+            reply(200, { snippet: tokenSnippet(name), output: Object.fromEntries(builtLines(name).map(k => [k, output[k]])) })
             return
           }
           if (req.method === 'POST' && url.pathname === '/build') {
