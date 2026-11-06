@@ -24,6 +24,7 @@
 <script setup lang="ts">
 import { useNav } from '@slidev/client'
 import { computed, onMounted, ref, unref } from 'vue'
+import { LIVE } from '../logic/demo'
 
 /* Demo 3a: one token of the brand, editable on the slide. ⌘S (Ctrl+S) sends
    it to the dev server, which writes it into a clone of the brand repo, runs
@@ -58,6 +59,10 @@ const rows = computed(() => snippet.value.split('\n').length)
 const { isPrintMode } = useNav()
 
 onMounted(async () => {
+  if (!LIVE) {
+    status.value = 'live in the talk: ⌘S rebuilds the brand → dist/css/tokens.css'
+    return
+  }
   if (unref(isPrintMode))
     return
   try {

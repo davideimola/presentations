@@ -26,13 +26,14 @@
 import { useNav, useSlideContext } from '@slidev/client'
 import { computed, onUnmounted, ref, unref, watch } from 'vue'
 import ChatBubble from '../../../theme-brand/components/ChatBubble.vue'
+import { LIVE, asset } from '../logic/demo'
 
 /* A Claude Code run told as a chat: the prompt in an ink bubble, then what
    the agent touches as small labels (read: outlined, write: filled ink, so
    reuse shows before the code does), a ticking "working" line, and its
    answer in a white bubble. Runs a whitelisted command through the live-run
-   endpoint (see vite.config.ts) on the slide's first click; the presenter
-   view, the export and any error replay `recorded` instead, the output of
+   endpoint (see vite.config.ts) on the slide's first click, under `pnpm dev` only; the presenter
+   view, the deployed deck, the export and any error replay `recorded` instead, the output of
    the last rehearsal. The command prints one line per step (demo/ai.mjs). */
 const props = defineProps({
   id: { type: String, required: true },
@@ -87,7 +88,7 @@ const { isPresenter, isPrintMode } = useNav()
 const { $clicks } = useSlideContext()
 
 async function replay() {
-  const res = await fetch(props.recorded)
+  const res = await fetch(asset(props.recorded))
   output.value = await res.text()
   state.value = 'done'
 }
@@ -102,6 +103,8 @@ watch(() => unref($clicks), (clicks) => {
 })
 
 async function run() {
+  if (!LIVE)
+    return replay()
   state.value = 'running'
   output.value = ''
   elapsed.value = 0

@@ -7,7 +7,7 @@
         :style="{ width: `${100 / scale}%`, height: `${100 / scale}%`, transform: `scale(${scale})` }"
         :title="title"
       />
-      <img v-else :src="fallback" :alt="alt">
+      <img v-else :src="asset(fallback)" :alt="alt">
     </div>
   </BrowserFrame>
 </template>
@@ -15,9 +15,11 @@
 <script setup lang="ts">
 import { useNav } from '@slidev/client'
 import { onMounted, ref, unref } from 'vue'
+import { LIVE, asset } from '../logic/demo'
 
 /* A Storybook story, live, inside a browser frame: whatever the AI just
-   wrote shows up here. Without Storybook running (or in an export) it shows
+   wrote shows up here, under `pnpm dev`. Without Storybook running, in the
+   deployed deck or in an export it shows
    `fallback`, a screenshot taken during the rehearsal. */
 const props = defineProps({
   id: { type: String, required: true },
@@ -32,7 +34,7 @@ const live = ref(false)
 const { isPrintMode } = useNav()
 
 onMounted(async () => {
-  if (unref(isPrintMode))
+  if (!LIVE || unref(isPrintMode))
     return
   try {
     // no-cors: an opaque answer is enough to know Storybook is up.

@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { useNav, useSlideContext } from '@slidev/client'
 import { computed, ref, unref, watch } from 'vue'
+import { LIVE } from '../logic/demo'
 
 /* Runs a whitelisted command (see vite.config.ts) and streams its output
    into the slide. Starts on the slide's first click, or by clicking the
@@ -51,6 +52,10 @@ watch(() => unref($clicks), (clicks) => {
 async function run() {
   if (state.value !== 'idle')
     return
+  if (!LIVE) {
+    state.value = 'fallback'
+    return
+  }
   state.value = 'running'
   output.value = ''
   try {
