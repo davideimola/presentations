@@ -1,0 +1,10 @@
+● look for src/{components/ui,stories}/**/*
+● read src/components/ui/Tape.tsx
+● read src/stories/Tape.stories.tsx
+● read src/components/ui/Badge.tsx
+● write src/components/ui/Callout.tsx
+● write src/stories/Callout.stories.tsx
+
+I added Callout in src/components/ui/Callout.tsx. It's a bordered bg-surface block with the existing Tape component pinned to its top-left edge, and it uses only brand tokens with no red. Its story is …
+
+done in 15s

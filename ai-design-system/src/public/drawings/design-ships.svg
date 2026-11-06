@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 440" width="1600" height="440">
+  <g fill="none" stroke="#1C2233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <g data-step="0">
+      <circle cx="150" cy="140" r="45"/>
+      <path d="M70 300 C70 230 110 205 150 205 C190 205 230 230 230 300"/>
+      <path d="M211 40 H289 Q305 40 305 56 V94 Q305 110 289 110 H245 L212 134 L220 110 H211 Q195 110 195 94 V56 Q195 40 211 40 Z"/>
+      <text x="250" y="89" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="38" font-weight="600" text-anchor="middle">AI</text>
+      <text x="150" y="390" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">designer</text>
+    </g>
+    <g data-step="1">
+      <path d="M260 195 H375"/>
+      <path d="M350 173 L375 195 L350 217"/>
+      <path d="M405 90 H515 L555 130 V300 H405 Z"/>
+      <path d="M515 90 V130 H555"/>
+      <path d="M440 170 H520 M440 210 H500 M440 250 H520"/>
+      <text x="480" y="390" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">pull request</text>
+    </g>
+    <g data-step="2">
+      <path d="M585 195 H690"/>
+      <path d="M665 173 L690 195 L665 217"/>
+      <rect x="720" y="100" width="170" height="180" rx="16"/>
+      <path d="M755 150 H855 M755 190 H825"/>
+      <circle cx="885" cy="270" r="38" fill="#F7F5F0" stroke="#C91F37"/>
+      <path d="M867 271 L881 285 L905 258" stroke="#C91F37"/>
+      <text x="805" y="390" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">story tests</text>
+    </g>
+    <g data-step="3">
+      <path d="M940 195 H1015"/>
+      <path d="M990 173 L1015 195 L990 217"/>
+      <path d="M1045 135 H1170 L1220 195 L1170 255 H1045 Z"/>
+      <circle cx="1170" cy="195" r="10"/>
+      <text x="1130" y="390" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">new version</text>
+    </g>
+    <g data-step="4">
+      <path d="M1250 195 H1340"/>
+      <path d="M1315 173 L1340 195 L1315 217"/>
+      <rect x="1370" y="90" width="180" height="120" rx="12"/>
+      <path d="M1370 125 H1550"/>
+      <rect x="1400" y="175" width="180" height="120" rx="12" fill="#F7F5F0"/>
+      <path d="M1400 210 H1580"/>
+      <text x="1475" y="390" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">apps</text>
+    </g>
+  </g>
+</svg>

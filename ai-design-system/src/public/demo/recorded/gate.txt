@@ -1,0 +1,8 @@
+✗ src/components/ui/Badge.tsx:9  raw colour function: rgba(
+✗ src/components/ui/Callout.tsx:15  Tailwind palette colour: border-green-600
+✗ src/components/ui/Callout.tsx:15  Tailwind palette colour: bg-green-50
+✗ src/components/ui/Callout.tsx:15  Tailwind palette colour: text-green-900
+✗ src/components/ui/Callout.tsx:6  kanji or kana: 注
+✗ src/components/ui/Callout.tsx:17  kanji or kana: 注
+
+6 off-brand values. Use a brand role: text-fg, bg-surface, border-rule, ...

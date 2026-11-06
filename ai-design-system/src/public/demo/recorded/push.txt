@@ -1,0 +1,5 @@
+● write src/components/ui/Callout.tsx
+
+I made the Callout green, using Tailwind's green palette, and added the kanji 注 ("note") before the label. The kanji is hidden from screen readers, and a comment marks it as an …
+
+done in 8s

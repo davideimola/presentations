@@ -1,0 +1,4 @@
+
+I haven't changed anything yet, because both requests break this design system's own rules in CLAUDE.md: Green: "Never write a colour by hand: no hex, no rgb(), no Tailwind palette colours." @davideimola/brand …
+
+done in 8s

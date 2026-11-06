@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@import "@davideimola/brand/tailwind.css";
+
+/* The demo adds components while Storybook runs, and Tailwind does not always
+   rebuild for a file it has never seen. Generate up front what a new
+   component may reach for: spacing, position, size, and the palette colours
+   the off-brand request asks for, so the result never depends on timing. */
+@source inline("{,-}{m,mx,my,mt,mb,ml,mr,p,px,py,pt,pb,pl,pr,gap,gap-x,gap-y,space-x,space-y,top,bottom,left,right,inset,inset-x,inset-y,translate-x,translate-y}-{0,0.5,1,1.5,2,2.5,3,3.5,4,5,6,7,8,9,10,11,12,14,16,20,24}");
+@source inline("{,-}{translate-x,translate-y}-{1/2,full}");
+@source inline("{w,h,max-w,min-w,min-h}-{full,fit,auto,screen,prose,xs,sm,md,lg,xl,2xl,3xl}");
+@source inline("{static,relative,absolute,fixed,sticky,block,inline-block,inline,flex,inline-flex,grid,hidden,contents,isolate,flex-col,flex-row,flex-wrap,grow,shrink-0,truncate,uppercase,italic,underline,overflow-hidden,overflow-visible,select-none,whitespace-nowrap,pointer-events-none}");
+@source inline("{items,self}-{start,center,end,baseline,stretch}");
+@source inline("justify-{start,center,end,between}");
+@source inline("{rounded,rounded-t,rounded-b,rounded-l,rounded-r}{,-none,-sm,-md,-lg,-xl,-full}");
+@source inline("{border,border-t,border-b,border-l,border-r}{,-0,-2,-4}");
+@source inline("{z}-{0,10,20,30,40,50}");
+@source inline("{shadow}{,-sm,-md,-lg,-none}");
+@source inline("{font}-{normal,medium,semibold,bold,sans,mono,label}");
+@source inline("text-{xs,sm,base,lg,xl,2xl,3xl,left,center,right}");
+@source inline("leading-{none,tight,snug,normal,relaxed,loose}");
+@source inline("tracking-{tight,normal,wide,wider,widest}");
+@source inline("{,-}rotate-{0,1,2,3}");
+@source inline("{bg,text,border,ring,fill,stroke}-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone}-{50,{100..900..100},950}");
+
+body {
+  background: var(--di-bg);
+  color: var(--di-fg-body);
+  font-family: var(--di-font-family-sans);
+}

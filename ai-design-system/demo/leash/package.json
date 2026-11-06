@@ -1,0 +1,24 @@
+{
+  "name": "demo-leash",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev -p 6006 --no-open",
+    "check": "node scripts/check-brand.mjs"
+  },
+  "dependencies": {
+    "@davideimola/brand": "github:davideimola/brand",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@storybook/react-vite": "^10.6.2",
+    "@tailwindcss/vite": "^4",
+    "@types/react": "^19",
+    "@vitejs/plugin-react": "^6.1.2",
+    "storybook": "^10.6.2",
+    "tailwindcss": "^4",
+    "typescript": "^6",
+    "vite": "^8.3.4"
+  }
+}

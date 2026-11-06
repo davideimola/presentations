@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 470" width="1700" height="470">
+  <g fill="none" stroke="#1C2233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <g data-step="0">
+      <path d="M120 110 H210 L250 150 V330 H120 Z"/>
+      <path d="M210 110 V150 H250"/>
+      <path d="M150 190 H220 M150 230 H220 M150 270 H195"/>
+      <text x="185" y="420" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">tokens.json</text>
+    </g>
+    <g data-step="1">
+      <path d="M290 220 H470"/>
+      <path d="M445 198 L470 220 L445 242"/>
+      <text x="380" y="180" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="32" text-anchor="middle">build</text>
+      <rect x="510" y="130" width="220" height="180" rx="12"/>
+      <path d="M510 180 H730"/>
+      <path d="M620 130 V180"/>
+      <text x="620" y="420" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">@davideimola/brand</text>
+    </g>
+    <g data-step="2">
+      <path d="M770 220 C850 220 880 120 960 120"/>
+      <path d="M935 98 L960 120 L935 142"/>
+      <rect x="1000" y="50" width="280" height="150" rx="12"/>
+      <path d="M1000 95 H1280"/>
+      <circle cx="1030" cy="72" r="7" fill="#1C2233" stroke="none"/>
+      <circle cx="1055" cy="72" r="7" fill="#1C2233" stroke="none"/>
+      <circle cx="1080" cy="72" r="7" fill="#1C2233" stroke="none"/>
+      <path d="M1035 140 H1200 M1035 170 H1150"/>
+      <text x="1320" y="138" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40">davideimola.dev</text>
+    </g>
+    <g data-step="3">
+      <path d="M770 220 C850 220 880 340 960 340"/>
+      <path d="M935 318 L960 340 L935 362"/>
+      <rect x="1000" y="262" width="280" height="158" rx="12"/>
+      <path d="M1035 305 H1180"/>
+      <path d="M1035 380 H1240"/>
+      <path d="M1035 335 H1135" stroke="#C91F37"/>
+      <text x="1320" y="355" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40">these slides</text>
+    </g>
+  </g>
+</svg>

@@ -3,7 +3,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "slidev --open slides.md",
+    "dev": "node ../demo/dev.mjs",
+    "dev:slides": "slidev --open slides.md",
+    "demo:prep": "node ../demo/prep.mjs",
     "build": "slidev build slides.md",
     "export": "slidev export slides.md"
   }
