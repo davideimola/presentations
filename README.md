@@ -62,6 +62,6 @@ Deployed on Vercel: `scripts/build.mjs` builds each deck under `/<talk>/` and th
 
 Talks are forged and edited with Claude Code skills living in `.claude/skills/`:
 
-- `talk-forge` — grills the idea into a brief (`TALK.md` + tracking issue) and scaffolds the folder
-- `slide-craft` — layout coach and structural editor for the deck itself
+- `talk-forge` — grills the idea into a brief (`TALK.md`) and creates the talk folder
+- `slide-craft` — creates and drafts the whole deck from the brief (slide copy + presenter notes), then revises it on feedback
 - `cfp-submit` — prepares CFP submissions for a forged talk (output stays local, gitignored)

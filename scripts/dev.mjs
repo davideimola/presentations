@@ -27,7 +27,8 @@ const talk = await search({
 
 const talkDir = resolve(root, talk, 'src')
 
-const child = spawn('pnpm', ['exec', 'slidev', '--open', 'slides.md'], {
+// The talk's own dev script: a talk with live demos prepares them there.
+const child = spawn('pnpm', ['run', 'dev'], {
   stdio: 'inherit',
   shell: true,
   cwd: talkDir,

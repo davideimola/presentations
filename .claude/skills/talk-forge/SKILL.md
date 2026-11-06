@@ -1,11 +1,11 @@
 ---
 name: talk-forge
-description: Forge a technical talk for Davide via aggressive grilling, producing the Artifact (TALK.md Brief + Slidev scaffold) for a talk note in Davide's Trilium and writing back only a pointer to the Artifact. Use when the user wants to start a new talk, structure a talk idea, import an existing document into a talk, or reshape an existing talk Brief. Trigger: "voglio fare un talk", "talk forge", "nuovo talk", "forgiamo un talk", "aiutami a strutturare il talk", "ho un'idea di talk".
+description: Forge a technical talk for Davide via aggressive grilling, producing the Artifact (the TALK.md Brief in a new talk folder) for a talk note in Davide's Trilium and writing back only a pointer to the Artifact. Use when the user wants to start a new talk, structure a talk idea, import an existing document into a talk, or reshape an existing talk Brief. Trigger: "voglio fare un talk", "talk forge", "nuovo talk", "forgiamo un talk", "aiutami a strutturare il talk", "ho un'idea di talk".
 ---
 
 # talk-forge
 
-Forge a technical talk via aggressive grilling. The talk's editorial home is a **talk note** in Davide's Trilium; this skill produces the **Artifact** — the `TALK.md` **Brief** + a scaffolded Slidev folder — that references it, and writes back only a pointer to the Artifact.
+Forge a technical talk via aggressive grilling. The talk's editorial home is a **talk note** in Davide's Trilium; this skill produces the **Artifact** — the `TALK.md` **Brief** in its talk folder — that references it, and writes back only a pointer to the Artifact.
 
 Be a demanding editor, not a stenographer. Davide is an experienced speaker (17+ talks): he wants pressure checks, not a questionnaire. Push back. Challenge vague theses, abstract takeaways, ambitious outlines, risky demos, generic titles.
 
@@ -18,7 +18,7 @@ talk-forge is **reference-only**. The **talk note** is the editorial item: a Tri
 
 ## Output language
 
-Davide works in Italian. **All user-facing output is in Italian**: chat replies and `TALK.md`. Placeholders inside `slides.md` are language-neutral (section titles taken from the outline, `TODO` as a marker). The talk itself can be in IT or EN — ask in phase 4.
+Davide works in Italian. **All user-facing output is in Italian**: chat replies and `TALK.md`. The talk itself can be in IT or EN — ask in phase 4.
 
 This skill file is in English for clarity, but it does NOT change the output language.
 
@@ -83,7 +83,7 @@ Derive from the title in kebab-case (strip articles, accents, punctuation). Exam
 ### 2. Folder scaffolding
 
 Check if `<slug>/` already exists:
-- **Exists** → idempotent re-run mode: do NOT touch the folder. Print explicitly "La cartella esiste già, non l'ho toccata. Differenze rispetto al brief aggiornato: [...]" and list what Davide needs to sync manually in `slides.md` and `TALK.md`.
+- **Exists** → idempotent re-run mode: do NOT touch the folder. Print explicitly "La cartella esiste già, non l'ho toccata. Differenze rispetto al brief aggiornato: [...]" and list what Davide needs to sync manually in `TALK.md`; if `src/slides.md` exists, suggest `/slide-craft` to realign the deck with the new Brief.
 - **Doesn't exist** → scaffold:
 
 Structure:
@@ -91,7 +91,6 @@ Structure:
 <slug>/
   src/
     package.json
-    slides.md
     public/
   TALK.md
 ```
@@ -109,82 +108,6 @@ Structure:
   }
 }
 ```
-
-**`<slug>/src/slides.md`** — clone the pattern of `theme-brand/example.md` (source of truth; brand rules in `theme-brand/BRAND.md`). The current theme for new talks is `theme-brand`. Older talks use `theme-davideimola` (e.g. `ai-defense`) or `../../theme` (`go-ddd/`, `greenops/`): do NOT use them as reference for new talk scaffolds. The scaffold carries a reference to the owning talk note (title + noteId) as an HTML comment after the cover frontmatter.
-
-Pattern: **cover** (event tape + title with one `<Marker>` + subtitle) → **intro WhoAmI** → **section** + **default** for each outline section → **end** "Thank you" with the links QR.
-
-```markdown
----
-theme: ../../theme-brand
-title: "<Title>"
-highlighter: shiki
-transition: slide-left
-mdc: true
-layout: cover
-event: <Event name and year>
----
-
-<!-- Talk note (Trilium): <note title> (<noteId>) · Brief: ./TALK.md -->
-
-# <Title with one <Marker>word</Marker> marked>
-
-<Subtitle: one short sentence>
-
----
-layout: intro
-introImage: /theme/me.png
-github: davideimola
-linkedin: davideimola
----
-
-<WhoAmI />
-
----
-layout: section
-label: "01 · <section 1 name>"
-transition: fade
----
-
-# <Section 1 name>
-
----
-layout: default
----
-
-<!-- Section 1: <name> (Xmin) -->
-# <Section 1 name>
-
-TODO
-
----
-layout: section
-label: "02 · <section 2 name>"
-transition: fade
----
-
-# <Section 2 name>
-
----
-layout: default
----
-
-<!-- Section 2: <name> (Xmin) -->
-# <Section 2 name>
-
-TODO
-
----
-layout: end
-qr: https://links.davideimola.dev
----
-
-# Thank you
-
-Slides, links and feedback.
-```
-
-For each section in the outline generate **two slides**: a `section` divider (labelled `NN · name`, which becomes the tape on the following slides) followed by a `default` with `TODO` as marker. No scaffolded speaker notes. The `qr` of the `end` slide is a placeholder (add `feedback: <url>` for the rating QR when the event provides one) — Davide will update it once he has the deployed URL of the specific talk.
 
 **`<slug>/src/public/`** — empty folder (or create a `.gitkeep` if needed).
 
@@ -225,7 +148,7 @@ Write back exactly one thing to the talk note: a pointer to the Artifact you jus
 At the end, print a summary of what you did (in Italian):
 - Talk note anchored (title + noteId, created or existing) + Artifact pointer written/skipped (with reason)
 - Folder scaffolded or skipped (with reason)
-- Suggested next steps (e.g.: "lavora a `<slug>/src/slides.md`, partendo dalla sezione 1")
+- Suggested next steps (e.g.: "scrivi il deck con `/slide-craft`")
 
 ## Things you do NOT do
 
@@ -233,8 +156,7 @@ At the end, print a summary of what you did (in Italian):
 - Don't create the `talk` label (or any label) on presentations.
 - Don't change the talk note's status or attributes, and don't edit its body beyond the `## Artifact` fallback — the only Trilium write is the Artifact pointer.
 - Don't duplicate the Brief into Trilium; it lives only in `TALK.md`.
-- Don't write slide content (Davide writes it by hand).
-- Don't create automatic speaker notes.
+- Don't write slide content or presenter notes: drafting the deck is `slide-craft`'s job.
 - Don't do external scraping.
 - Don't commit anything, don't push, don't open PRs.
 - Don't update `.gitignore` or other files outside the talk folder.
@@ -243,4 +165,4 @@ At the end, print a summary of what you did (in Italian):
 
 ## After the forge
 
-After scaffolding, Davide will work on `<slug>/src/slides.md` in a normal chat (without skill). The `TALK.md` file gives that Claude immediate context without calling `gh`.
+The deck is `slide-craft`'s: it creates `<slug>/src/slides.md` on its first draft, from `TALK.md`. Offer `/slide-craft` as the next step.

@@ -1,148 +1,81 @@
 ---
 name: slide-craft
-description: Scaffold and edit Slidev slides for one of Davide's talks, using the talk's TALK.md as content source and the deck's theme catalog (theme-brand/example.md for new talks) as layout catalog. Acts as a slide editor (layout coach + structural pressure check), not a writer — Davide writes the actual words. Use when Davide wants to start drafting slides, organize a section visually, choose layouts, or pressure-test slide density. Trigger: "scriviamo le slide", "slide craft", "lavoriamo alle slide", "aiutami con le slide", "che layout uso qui", "scaffolda la sezione".
+description: Draft and revise the Slidev deck of one of Davide's talks from its TALK.md Brief: creates the deck when missing, writes slide copy in the right layout plus the spoken script as presenter notes, then revises slides, narration or visuals on his feedback. Use when Davide wants to write the slides of a forged talk, or rework a section or a single slide. Trigger: "scriviamo le slide", "riscrivi questa slide".
 ---
 
 # slide-craft
 
-Edit and scaffold Slidev slides for Davide's talks. Be a layout-aware editor, not a writer. Davide owns the words; you own the structural choices.
+Davide's **ghostwriter** for the deck. Turn his ideas into a finished **draft**: every slide written, in the right layout, in correct and idiomatic talk language, with the spoken script beside it. Davide then edits a complete flow instead of filling blanks. He owns the ideas and the final word; you own a first version good enough to cut.
 
-## Output language
+## Language
 
-- **Chat replies to Davide**: in Italian (he works in Italian).
-- **Slide content placeholders and scaffolds**: in the talk's language. Look at the existing `slides.md` frontmatter (`title`) and the `TALK.md` `Format` line to determine the language. For Securing Go and most talks at international conferences this is English; for IT-only events it's Italian. If the talk language isn't stated explicitly, ask once.
-- **Skill instructions** (this file): English for clarity.
+- **Chat with Davide**: Italian.
+- **Slide copy and presenter notes**: the talk's language, from the `Format` line of `TALK.md` (slides are in English even when the talk is spoken in Italian). Ask once if `Format` doesn't say.
 
-## Inputs you read
+## Inputs
 
-When invoked, locate the talk folder from the user's prompt (e.g. `securing-go/`) and read:
+Locate the talk folder from the prompt and read:
 
-1. **`<talk>/TALK.md`** — the brief: thesis, audience, takeaways, outline, demo plan, anti-vendor rules. This is your primary source of truth for *what* to scaffold.
-2. **`<talk>/src/slides.md`** — the current state of the slide deck. Some slides may already be scaffolded; respect them. Ask before overwriting.
-3. **The theme catalog** — check the `theme:` line of the deck. For `../../theme-brand` (the default for new talks) read `theme-brand/example.md` and `theme-brand/BRAND.md`: layouts `cover`, `intro`, `default`, `section`, `statement`, `fact`, `quote`, `center`, `two-cols`, `two-cols-header`, `split-code`, `code-hero`, `image-right`, `image-left`, `terminal`, `end`, plus `<Marker>` (one per slide) and `<Tape>`. Brand limits: body at least 24px, code at least 22px, at most 14 lines of code per slide. For `../../theme-davideimola` (older decks such as `ai-defense`) read `theme-davideimola/example.md`. Read the catalog before suggesting layouts to confirm syntax and slot names (`::right::`, `::left::`, etc.).
-4. **The owning talk note in Trilium** (referenced by `TALK.md`, read through the `trilium` MCP server — only if Davide explicitly asks you to). Otherwise the brief in `TALK.md` is enough.
+1. **`<talk>/TALK.md`**: the Brief. Thesis, audience, takeaways, outline with minutes, demo plan, sources. The source of truth for *what* the talk says.
+2. **`<talk>/src/slides.md`**: the deck as it stands.
+3. **The theme catalog** named by the deck's `theme:` line. For `../../theme-brand` read `theme-brand/example.md` (layouts, slots, components such as `<Marker>`, `<Ladder>`, `<StatGrid>`, `<Chat>`, `<BrowserFrame>`, `<Callout>`) and `theme-brand/BRAND.md` (limits: body at least 24px, code at least 22px, at most 14 lines of code). For `../../theme-davideimola` read `theme-davideimola/example.md`.
+4. **The Sources listed in `TALK.md`** (blog post, repos, files) when a slide shows real code or real facts: quote them, don't paraphrase from memory.
+5. **The talk note in Trilium**, only when Davide asks.
 
-If the talk folder doesn't exist or `TALK.md` is missing, stop and tell Davide to run `/talk-forge` first.
+If `TALK.md` is missing, stop and point Davide to `/talk-forge`.
 
-## Core principle: editor, not writer
+## Scaffold
 
-You DO:
-- Recommend a layout per slide, with reasoning ("here a `fact` because the stat number is the message; bullet-list would dilute it").
-- Scaffold the slide skeleton: frontmatter, headings, layout-specific slots, structural placeholders with guidance.
-- Push back on anti-patterns (see below).
-- Suggest direction when Davide is stuck on content ("you could open with a stat, with a question, with a cold codeblock — which feels right?").
-- Recommend Slidev components when they fit: `<Callout>`, `<Badge>`, `<v-clicks>`, `<kbd>`, `<QRCode>`.
+When `<talk>/src/slides.md` doesn't exist yet, create it before the first draft, on the pattern of `theme-brand/example.md`:
 
-You DO NOT:
-- Write the actual words of the slide. Always leave a placeholder with guidance, never a finished sentence in Davide's voice.
-- Invent facts or numbers not present in `TALK.md`. If a stat is needed and absent, mark it `[STAT — to source]` and remind Davide.
-- Re-litigate the talk strategy (thesis, takeaways, outline). That's `talk-forge`'s job. If Davide wants structural changes, redirect: "questo è un cambio di brief, ne parliamo in `talk-forge`?"
-- Auto-commit. Write only to `<talk>/src/slides.md` (and only with confirmation). Never touch `TALK.md`, the issue, or anything else.
+- headmatter: `theme: ../../theme-brand`, `title`, `highlighter: shiki`, `transition: slide-left`, `mdc: true`, then the cover (`layout: cover`, `event: <event and year>` from the Brief's `Conference`);
+- right after the cover frontmatter, the pointer comment `<!-- Talk note (Trilium): <note title> (<noteId>) · Brief: ./TALK.md -->`, copied from `TALK.md`;
+- an `intro` slide with `<WhoAmI />` (`introImage: /theme/me.png`, `github`/`linkedin: davideimola`);
+- a `section` divider per outline section (`label: "NN · <name>"`, `transition: fade`);
+- an `end` slide with `qr: https://links.davideimola.dev` (add `feedback: <url>` when the event provides a rating link).
 
-## Placeholders convention
+Then draft into it.
 
-Use `[BRACKET PLACEHOLDERS]` with explicit guidance, length limits, and examples when helpful:
+## Draft
 
-- `# [STAT NUMBER — single big number, e.g. "47%"]`
-- `# [Your one-sentence thesis — keep it brutal, 8-12 words]`
-- `[1-2 lines framing the question. NOT the answer.]`
-- `// [paste the actual broken auth `if` snippet here, 6-8 lines max]`
+Default flow when Davide asks to write the talk, or a section of it.
 
-Never write filler English/Italian copy that Davide might leave in by mistake. Brackets + uppercase intent + length cap = unmistakable placeholder.
+1. **Ideas first.** Read the outline section by section. Where the Brief is too thin to write from (a section that is only a list of nouns, a demo with open questions), ask Davide 2-3 sharp questions about the *content*: the story, the example, the line the audience must take home. Batch all questions for the requested scope into one message. Skip this when the Brief already carries the material.
+2. **Write.** Write the requested scope straight into `<talk>/src/slides.md`, in outline order, replacing `TODO` slides. Each slide gets:
+   - the layout that carries its message (see *Craft*);
+   - final copy: the heading, the body, the code, the component props;
+   - a **presenter note** as the last HTML comment of the slide: what Davide says on that slide, as a spoken script in short sentences, including the transition into the next slide. Mark clicks with `[click]` so the script follows the `v-click` reveals.
+3. **Report.** In chat: the slide list (layout + one-line purpose), the minutes per section against the outline, and every `[TO SOURCE]` marker left. Done when every slide in scope has copy and a presenter note, and every gap is a visible marker.
 
-## Anti-patterns to push back on
+Scope is the whole remaining talk unless Davide names a section. Slides Davide already wrote stay as they are; you may suggest edits to them in chat, and you rewrite them only when he asks.
 
-When you see them in Davide's draft or you're tempted to scaffold them, raise a flag:
+## Revise
 
-- **Wall of text**: more than ~25 words on a `default` slide. Either split, or switch layout to `quote`/`statement`.
-- **Bullet flood**: more than 5 bullets on one slide. Either cut, split, or use `<v-clicks>` to reveal progressively.
-- **Bullet wrapping**: a single bullet that wraps onto a third line. Either tighten or split.
-- **Layout monotony**: 4+ consecutive `default` slides. Inject a `statement`, `fact`, `quote`, `terminal`, or `split-code` to break rhythm.
-- **`fact` without payoff**: a big number that doesn't connect to anything. The fact slide must be the setup for the next slide.
-- **Code blocks > 12 lines** without highlighting steps. Use Shiki step highlighting (`go {1-3|5-9|all}`) to focus attention.
-- **`split-code` with 1-line code or 1-line text**: misuses the layout. Use `default` instead.
-- **Missing transition**: section break with no `transition: fade` (or equivalent). Section breaks need a visual reset.
+When Davide reacts to the draft ("questa slide è troppo piena", "la narrazione dell'atto 2 non mi convince", "qui vorrei un'immagine"):
 
-## Modes of operation
+1. Re-read the slides in question from the file: Davide edits by hand between turns, and his edits are the new baseline.
+2. For a visual change, propose 1-3 alternatives in chat with the reason, then write the one he picks. For a copy or narration change, rewrite directly and show the before/after of the changed lines.
+3. Touch only what the feedback targets, plus the presenter notes that bridge into and out of it.
 
-### Default — batch by section
+## Truth
 
-When Davide says *"scaffolda sezione 2"* or *"lavoriamo a sez 1"*:
+The draft is fluent, so a wrong fact reads as true. Every number, date, quote, anecdote, commit hash and screenshot comes from `TALK.md` or its Sources. When a slide needs one that isn't there, write `[TO SOURCE: what is needed]` in its place and list it in the report. Connective narration (transitions, framing, jokes built on facts already in the Brief) is yours to write.
 
-1. Read `TALK.md` outline for that section. Identify how many minutes are allocated and what's in scope.
-2. Propose a slide-by-slide plan: **how many slides**, **which layout each**, **one-line purpose per slide**. No skeleton yet — just the plan, in chat.
-3. Wait for Davide's reaction. He may cut, reorder, change layouts, ask to grill on specific content.
-4. After confirmation, generate the full scaffolded section in `<talk>/src/slides.md` (or print it in chat first if Davide prefers to review before write).
-5. Highlight what Davide needs to fill in: stats, snippets, quotes, exact wording.
+The thesis, takeaways and outline belong to the Brief: write the talk the Brief describes. When Davide's feedback changes the thesis or the outline, say it's a Brief change and offer `/talk-forge`.
 
-### On-demand — single slide zoom
+## Craft
 
-When Davide says *"zoom su slide X"* or *"questa slide non funziona"*:
+Write in Davide's **voice**: match the slides he already wrote in the deck (short, direct, a bit self-ironic, one idea per slide). Keep visible text tight, and put the explanation in the presenter note.
 
-1. Read the current slide (or the placeholder).
-2. Propose 1-3 layout/structure alternatives with motivation.
-3. Davide picks. Scaffold that one slide in detail.
-4. Iterate until he's happy.
+- **One message per slide.** A heading that states the point, not a topic label ("Tokens are decisions with names", not "Tokens").
+- **Density**: at most ~25 words of body on a `default` slide, at most 5 bullets, no bullet wrapping past two lines. More than that: split, reveal with `<v-clicks>`, or move it to the note.
+- **Rhythm**: never 4 `default` slides in a row; break with `statement`, `fact`, `quote`, `terminal`, `split-code` or `code-hero`.
+- **Layout fit**: `fact` and `<StatGrid>` when the number is the message, and the next slide pays it off. `split-code` when both the text and the code carry weight (more than one line each). Code past 12 lines gets Shiki step highlighting (`ts {1-3|5-9|all}`).
+- **Section breaks** carry `transition: fade`.
+- **Brand**: one `<Marker>` per slide. Visible text uses colons in bullets and commas or full stops in sentences, never an em dash (presenter notes are free).
 
-### Grill mode — content extraction
+## Boundaries
 
-When Davide doesn't know yet what to put in a section ("non so di cosa parlare nei 3 minuti su SBOM"):
-
-1. Don't scaffold. Don't suggest layouts yet.
-2. Ask 2-3 sharp content questions, e.g.:
-   - "Una statistica, un esempio concreto, un'analogia, o una storia personale?"
-   - "Qual è la cosa che il pubblico DEVE portarsi a casa di questi 3 minuti?"
-   - "Hai una frase memorabile, o serve costruirla?"
-3. Once material emerges, switch to batch or single-slide mode.
-
-Switch modes silently as needed. Don't announce "entering grill mode" — just do it.
-
-## Examples of good interactions
-
-**Davide**: *"Lavoriamo all'intro di Securing Go."*
-
-**You** (after reading TALK.md):
-
-> Sez INTRO è 4 minuti. Dal brief: stat urgency + auth bug teaser + thesis + roadmap. Proposta scaffolding:
->
-> 1. **Cover** — titolo + subtitle (già fatto, conferma?)
-> 2. **Intro WhoAmI** — già fatto
-> 3. **`fact`** — il numero della stat RedCarbon (es. "47%" / "incident growth YoY"). Fact perché il numero è il messaggio.
-> 4. **`split-code`** — auth bug teaser: a sinistra "we shipped this", a destra il code snippet del broken `if`. Layout perché il codice È il punto narrativo.
-> 5. **`statement`** — thesis: una frase brutale ("The compiler won't save you. Your toolchain might.")
-> 6. **`default`** con `<v-clicks>`: roadmap 3 sezioni, una alla volta.
->
-> 4 minuti, 6 slide → ~40s a slide media, 1min sulla thesis. Ti torna come ritmo? Conferma e scaffoldo, oppure cambia layout.
-
-Davide reagisce, poi scaffoldi.
-
-**Davide**: *"Sez 1 boh non so come gestire la slide del crypto/rand"*
-
-**You**:
-
-> Modalità grill veloce, 3 domande:
-> 1. Stai mostrando il bug (qualcuno usa `math/rand` per token) o stai insegnando il pattern (sempre `crypto/rand` per security)?
-> 2. Hai un esempio reale di codice broken da mostrare, o è didattico astratto?
-> 3. Quanti secondi le dai in totale?
->
-> Da queste 3 risposte capisco se è `split-code` (codice a destra), `two-cols` (broken vs fixed), o `default` con un solo snippet.
-
-Wait for answers, then scaffold.
-
-## Things you do NOT do
-
-- Don't generate full prose for the slide. Placeholders with guidance only.
-- Don't update `TALK.md`, the GitHub issue, or any file outside `<talk>/src/slides.md`.
-- Don't run `slidev` or build commands — that's Davide's loop.
-- Don't commit, push, or open PRs.
-- Don't restructure the talk's outline or thesis. Redirect to `talk-forge`.
-- Don't add slides not derivable from the brief without asking ("dalla brief vedo 5 punti, propongo 5 slide; vuoi una slide extra che non è nel brief?").
-- Don't recap "what I just did" at the end of every reply. Get to the point.
-
-## Coordination with other skills
-
-- `talk-forge` owns the **Brief** (`TALK.md`) and the scaffolded folder structure; the editorial **talk note** lives in Trilium. If Davide wants to change thesis/outline/takeaways, redirect there.
-- `cfp-submit` owns submitting talks to conferences. Unrelated to slide content.
-- `slide-craft` (this skill) owns the **slide deck** (`<talk>/src/slides.md`). It's a pure Artifact editor: it inherits the owning talk note link transitively through `TALK.md` and writes nothing to Trilium.
-
-If Davide blurs the line ("aggiungi una sezione AI alla sezione 1"), check: is this a content change inside an existing brief outline (you handle it) or a structural change to the brief itself (redirect to `talk-forge`)?
+- Write only `<talk>/src/slides.md` (and assets in `<talk>/src/public/` when Davide provides them). `TALK.md` belongs to `talk-forge`, Trilium to the editorial skills.
+- Leave git to Davide: no commits, pushes or PRs. The draft lives in the working tree so he can diff it.
+- Leave `slidev` runs to Davide.
