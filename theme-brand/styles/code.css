@@ -14,6 +14,47 @@
   overflow: hidden;
 }
 
+/* A real file longer than 14 lines: give the block a maxHeight
+   ({maxHeight:'420px'}, about 12 lines) and Slidev scrolls to the highlighted
+   line on each click. Still at most 14 lines in view. The frame moves to the
+   scrolling wrapper so it stays put, the scrollbar never shows, and the lines
+   fade into the surface at both edges instead of being cut. */
+.slidev-layout .slidev-code-wrapper[style*='max-height'] {
+  background: var(--di-surface);
+  border: 1px solid var(--di-border);
+  scrollbar-width: none;
+}
+
+.slidev-layout .slidev-code-wrapper[style*='max-height']::-webkit-scrollbar {
+  display: none;
+}
+
+.slidev-layout .slidev-code-wrapper[style*='max-height'] pre.shiki {
+  border: none;
+}
+
+.slidev-layout .slidev-code-wrapper[style*='max-height']::before,
+.slidev-layout .slidev-code-wrapper[style*='max-height']::after {
+  content: '';
+  position: sticky;
+  z-index: 1;
+  display: block;
+  height: 48px;
+  pointer-events: none;
+}
+
+.slidev-layout .slidev-code-wrapper[style*='max-height']::before {
+  top: 0;
+  margin-bottom: -48px;
+  background: linear-gradient(var(--di-surface), transparent);
+}
+
+.slidev-layout .slidev-code-wrapper[style*='max-height']::after {
+  bottom: 0;
+  margin-top: -48px;
+  background: linear-gradient(transparent, var(--di-surface));
+}
+
 .slidev-layout .slidev-code code {
   tab-size: 4;
   font-weight: var(--di-slide-code-weight);

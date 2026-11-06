@@ -17,7 +17,7 @@ A few slide-only values are not brand tokens yet and live in `styles/vars.css`: 
 - **Always light.** `colorSchema: light`, and the light token values are pinned even when the OS is dark.
 - **Red is for the knot, the marker and code keywords.** Nothing else: callouts, badges, stats, links at rest, terminal windows are ink and hairlines. Code keywords use a darker akane (`#A8192E`); the knot and the marker keep `#C91F37`.
 - **Canvas 1280 x 720.** Body text 28px at weight 500, code at least 22px at weight 500, titles 700. No text on a slide below 18px.
-- **At most 14 lines of code per slide.** The `split-code` column fits about 54 columns at 22px; `two-cols` about 37. Longer lines wrap instead of clipping; treat a wrap as a cue to cut, never shrink the code.
+- **At most 14 lines of code per slide.** The `split-code` column fits about 54 columns at 22px; `two-cols` about 37. Longer lines wrap instead of clipping; treat a wrap as a cue to cut, never shrink the code. A real file that must stay whole can scroll instead: give the block `{maxHeight:'420px'}` (about 12 lines in view) and one highlight per click, and Slidev scrolls each highlighted line into view.
 - **One marker per slide**, on the word that matters most.
 - **One tape per block**, never stacked; the tilt alternates (-1deg, 1deg, -0.5deg).
 - **No git-graph decoration** anywhere except the mark.
