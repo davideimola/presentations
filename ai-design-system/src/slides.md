@@ -18,7 +18,7 @@ What I learned rebuilding my site twice with AI.
 layout: center
 ---
 
-<span class="inline-block font-serif italic" style="font-size: 160px; color: #16a34a; transform: rotate(-4deg)">Konnichiwa!</span>
+<span class="inline-block" style="font-family: 'Potta One', serif; font-size: 160px; color: #16a34a; transform: rotate(-4deg)">Konnichiwa!</span>
 
 <!--
 Deliberately off brand: the room should feel the "what?" before seeing the site.
@@ -188,21 +188,20 @@ Japan on every page. It looked like a manga. And it was telling people things ab
 
 ---
 layout: default
+clicks: 3
 ---
 
 # No system, no <Marker>decisions</Marker>
 
-<StatGrid class="mt-6">
-  <Stat v-click value="42" source="website-next-cursor-1.0 · 2026">distinct hex colours in src</Stat>
-  <Stat v-click value="7" source="main · 2026">distinct hex colours in src today</Stat>
-</StatGrid>
+<HexChaos />
 
 <!--
 And it wasn't only the kanji.
-[click] Forty-two. Forty-two distinct hex colours in the source. I counted.
+[click] These are the colours of that site. Every distinct hex in the source, darkest to lightest. Thirty-four. I counted.
+[click] And twenty-three of them are grey. Not quite fifty shades, but the AI was getting there.
+Nobody chose those thirty-four. Not me, not the AI. Each page just picked whatever looked right in the moment.
 [click] Today there are seven.
-Nobody chose those forty-two. Not me, not the AI. Each page just picked whatever looked right in the moment.
-When you don't make the decisions, the AI makes them for you. Forty-two times.
+When you don't make the decisions, the AI makes them for you. Thirty-four times.
 -->
 
 ---
@@ -321,7 +320,7 @@ The first time, my question was: can the AI build my site? It can. It did. Six p
 The second time, March 2026, with Claude Code, I gave myself one rule before touching a single page: the design system comes first.
 I'd never defined one. I am not a designer. I can tell when something works, I couldn't build the system that makes it consistent.
 So I stopped using the AI as a site generator and started using it as a collaborator. On one piece at a time.
-What does "the system" mean, concretely? Five layers.
+What does "the system" mean, concretely? Three things.
 -->
 
 ---
@@ -331,21 +330,17 @@ layout: default
 # A system is decisions, <Marker>written</Marker> down
 
 <Ladder compact>
-  <LadderRung v-click :n="1" title="Tokens">the values, each with a name</LadderRung>
-  <LadderRung v-click :n="2" title="Roles">what each value is for</LadderRung>
-  <LadderRung v-click :n="3" title="Components">built only from roles</LadderRung>
-  <LadderRung v-click :n="4" title="Stories">every state, on a page you can see</LadderRung>
-  <LadderRung v-click :n="5" title="Context file">the rules, where the AI reads them</LadderRung>
+  <LadderRung v-click :n="1" title="Tokens and roles">named values, and what each is for</LadderRung>
+  <LadderRung v-click :n="2" title="Components">built only from roles, every state in a story</LadderRung>
+  <LadderRung v-click :n="3" title="Context file">the rules, where the AI reads them</LadderRung>
 </Ladder>
 
 <!--
-[click] Tokens: the raw values, but with a name. Colours, and type too: in March, IBM Plex Sans for the text and JetBrains Mono for everything that looked like a terminal. Two families, chosen once, and nothing else.
-[click] Roles: what a value is for. Background, text, accent.
-[click] Components: built from roles, never from values.
-[click] Stories: every state of every component, on a page I can look at.
+[click] Tokens and roles: the values, with a name, and what each one is for. Colours, and type too: in March, IBM Plex Sans for the text and JetBrains Mono for everything that looked like a terminal. Chosen once.
+[click] Components built only from roles, never from values. And every state of every component in a story, on a page I can look at.
 [click] And the context file: the same rules, written where the AI reads them.
 None of this is new. Design systems are older than LLMs. What changed is who reads them.
-Before the files, one colour, all the way down.
+The first one is the one people get wrong. One colour, all the way down.
 -->
 
 ---
@@ -355,15 +350,15 @@ clicks: 4
 
 ###### davideimola/brand · the red of these slides
 
-# One colour, three <Marker>layers</Marker>
+# Components ask for a <Marker>role</Marker>, not a colour
 
 <DrawnSvg src="/drawings/token-layers.svg" alt="One Marker component asks for one role, accent. In light, accent points to the token akane, #C91F37. In dark, the same accent points to akane-night, #E0475C." steps class="mt-8 w-full" />
 
 <!--
-The red under "layers", up there. Let's follow it down.
+The red under "role", up there: that's a Marker. Let's follow it down.
 It's drawn by a component, the Marker. The Marker doesn't know any colour.
 [click] It asks for a role: accent. What the colour is for. Every component asks for roles, never for colours.
-[click] In the light theme, accent points to a token: akane. A name for the colour itself, whatever it's used for.
+[click] In the light theme, accent points to a token: akane. A name for the colour itself, whatever it's used for. If you live in Tailwind you'd call it red-600. I have two reds, not eleven, so they got names. Scale or name, it doesn't matter: the component never sees it.
 [click] And akane holds the value. #C91F37. The only place where a hex lives.
 [click] Why not just accent equals a hex? Dark mode. One Marker, one accent. The theme only picks the other branch: akane-night, a lighter red that reads on a dark ground. The component didn't change. The role didn't change.
 Change a value, every akane moves. Change where a role points, every component using it moves. Nobody touches a component.
@@ -440,55 +435,7 @@ The source of the brand. One JSON file, the design tokens format. This is the re
 [click] The palette: the tokens. A name, a value. Here's akane, and akane-night just below. The only hex values in the whole system live up here.
 [click] Further down, the light theme: the roles. Accent doesn't hold a colour, it holds a reference. Curly braces: go and read akane.
 [click] And at the bottom, the dark theme: same role, accent, another reference. akane-night.
-Same file, three layers, top to bottom. The brand stops here: it declares them. Who uses them?
--->
-
----
-layout: two-cols-header
----
-
-# One name, two <Marker>themes</Marker>
-
-::left::
-
-###### @davideimola/brand · dist/css/tokens.css
-
-```css
-:root {
-  --di-color-akane: #C91F37;
-  --di-color-akane-night: #E0475C;
-  --di-accent: #C91F37;
-}
-
-[data-theme="dark"],
-.dark {
-  --di-accent: #E0475C;
-}
-```
-
-::right::
-
-###### davideimola.dev · globals.css
-
-```css
-.end-mark {
-  background: var(--di-accent);
-}
-```
-
-<h6 style="margin-top: 48px">these slides · Marker.vue</h6>
-
-```vue
-<path stroke="var(--di-accent)" />
-```
-
-<!--
-And this is what the brand ships. Nobody writes this file: the build does, from the JSON. The tokens become CSS variables, and the role too: --di-accent. In CSS the reference is already resolved to the value.
-Look at the bottom: dark. Same variable, --di-accent, another value. That's the whole dark mode, for this colour.
-On the right, two consumers. My site: the little red square that closes every blog post asks for var(--di-accent). Flip the site to dark with the toggle, and it turns akane-night. The component didn't change.
-And these slides: the red under "themes" asks for the same variable. These slides are always light, so it's always akane.
-Neither knows akane. Neither knows a hex. They know what the colour is for.
-Now, back to March, and the real files of the site.
+Same file, three layers, top to bottom. The brand declares them. Who uses them? Back to March, and the real files of the site.
 -->
 
 ---
@@ -508,9 +455,10 @@ const variantClasses: Record<BadgeVariant, string> = {
 ```
 
 <!--
-In March, the first thing I wrote, before any page, was a handful of colours with names: backgrounds, a text hierarchy, and one accent. One red: Akane. Forty-two colours before. A handful now, and every one of them chosen.
+In March, the first thing I wrote, before any page, was a handful of colours with names: backgrounds, a text hierarchy, and one accent. One red: Akane. Thirty-four colours before. A handful now, and every one of them chosen.
 Then the components. A badge, from the same commit.
 [click] text-text-3, bg-border, text-accent. Roles, through Tailwind utilities generated from the tokens.
+Badge never says a colour. It says accent, and the theme decides which red.
 When the AI writes a new component next to this one, this is the example it copies. Roles in, roles out.
 Keep this file in mind. We'll come back to it.
 -->
@@ -536,19 +484,6 @@ layout: code-hero
 And the context file. Same file name as the one with the kanji. Remember? "Kanji accent characters".
 That one described a mood. This one states decisions. Every component has a story. Red is for accents only, and here's what an accent is.
 No magic prompt. No framework to install. A Markdown file in the repo, next to the code it talks about.
-And once the rules were written down, something I didn't expect happened.
--->
-
----
-layout: statement
----
-
-# Then the AI started <Marker>reusing</Marker>, not inventing.
-
-<!--
-And then the real change: when I asked for something new, the AI reused my components. Or it proposed new ones that were coherent with the brand.
-Not because it got smarter. Because it finally had something to be coherent with.
-And it started pushing back on me, the way a designer would, when I asked for something the rules didn't allow.
 -->
 
 ---
@@ -599,28 +534,9 @@ const variantClasses: Record<BadgeVariant, string> = {
 <!--
 Look at line five. rgba, 201, 31, 55. That's Akane red, typed by hand, at 20 percent.
 Same commit that created the design system. The tokens were right there. The rules were right there. And a raw colour slipped in anyway.
-Some of you spotted it two chapters ago. I didn't, for months.
+Some of you spotted it a chapter ago. I didn't, for months.
 Rules written down are a request. And requests get ignored. By the AI, by me, by anyone in a hurry.
 So let's try to break it. On purpose. Live.
--->
-
----
-layout: default
----
-
-# The leash is not the <Marker>prompt</Marker>
-
-<Ladder compact>
-  <LadderRung :n="1" title="Context file">the rules, in the repo</LadderRung>
-  <LadderRung :n="2" title="Storybook">the result, in front of us</LadderRung>
-  <LadderRung :n="3" title="A gate">a check that fails off brand</LadderRung>
-</Ladder>
-
-<!--
-Here's the setup. The repo at the demo-start tag.
-The context file is there. Storybook is open, so we all see what comes out.
-And a gate: a check that fails when a colour or a script outside the brand lands in the code.
-Keep an eye on number three. That's the leash. Not the prompt.
 -->
 
 ---
@@ -645,7 +561,7 @@ layout: code-hero
 ```
 
 <!--
-This is the entire context file of the demo repo. Nothing hidden, no system prompt of mine on top.
+Live demo. A small copy of my design system: a Tape, a Badge, Storybook open so we all see what comes out. And this, the entire context file of the demo repo. Nothing hidden, no system prompt of mine on top.
 [click] The brand: where colours come from, what never to write by hand, where red goes, no kanji.
 [click] The components: reuse first, and every component gets a story.
 [click] Twelve lines of Markdown. No magic prompt, no framework to install. Let's see how far it gets.
@@ -681,6 +597,17 @@ layout: default
 Live from Storybook. The component it just wrote.
 The tape on the corner is my Tape, not a copy. The block is surface and border, roles from the brand. No red, no hex.
 This is the good part: with the rules written down, the AI composes instead of inventing.
+-->
+
+---
+layout: statement
+---
+
+# The AI started <Marker>reusing</Marker>, not inventing.
+
+<!--
+That's what changed in March, the moment the rules were written down. When I asked for something new, the AI reused my components, or proposed new ones coherent with the brand. You just saw it.
+Not because it got smarter. Because it finally had something to be coherent with.
 Now, the client from chapter one is back.
 -->
 
@@ -712,7 +639,7 @@ clicks: 1
 <!--
 [click] One sentence. "I'm the owner, do it anyway."
 And it does. One write, and it's green.
-It even tells me the check will fail, and offers to add an exception to the check for me. Remember that offer.
+If it offers to add an exception to the check for me (it did at the rehearsal), point at it: remember that offer.
 -->
 
 ---
@@ -755,7 +682,7 @@ This is the gate. The whole idea fits on a slide.
 Every one of them is a decision from the context file, turned into something a machine can check.
 [click] Then three lines: every file in src, every rule, every hit gets reported. Any hit, and it exits with 1.
 [click] No model. No prompt. Nothing to negotiate with. It doesn't care who's the owner.
-In the real repo it runs in CI on every pull request, and it lives where the AI can't edit it. Remember the offer to add an exception? That's why.
+In the real repo it runs in CI on every pull request, and it lives where the AI can't edit it. An AI that's been talked into green will happily offer to loosen the check too. That's why.
 -->
 
 ---
@@ -828,54 +755,54 @@ Then at work we realised it could hold in a much bigger context. With a team. Wi
 -->
 
 ---
-layout: statement
----
-
-# Every handoff is a <Marker>translation</Marker>.
-
-<!--
-You know the usual flow. The designer draws in Figma. A developer looks at the drawing and rewrites it in React.
-Every time, something gets lost in translation. A spacing, a state nobody drew, a colour that's almost the same.
-And now we add the AI in the middle: a third translator, and the most confident one.
--->
-
----
 layout: default
-clicks: 4
+clicks: 5
 ---
 
-# At work, design ships as a <Marker>package</Marker>
+# <span v-if="$clicks < 3">Every handoff is a <Marker>translation</Marker></span><span v-else>The designer ships <Marker>components</Marker></span>
 
-<DrawnSvg src="/drawings/design-ships.svg" alt="The designer, helped by the AI, opens a pull request on the design system, the story tests gate it, a new version is released and the apps bump the import" steps class="mt-6 mx-auto w-[92%]" />
+<HandoffMorph class="mt-6 mx-auto w-[92%]" alt="The usual flow: the designer means akane, Figma stores #C91F37, the developer with the AI writes bg-red-600, and in the app an override paints another red. Then Figma and the developer leave the chain, the AI moves to the designer, a pull request ships the components into Storybook behind the story tests, and a new version reaches the same app, still akane" />
 
 <!--
-At RedCarbon the designer works on the design system itself. Versioned, in Storybook.
-And with the AI next to them. Because a designer traditionally doesn't open pull requests: branches, React, a diff to explain. That's the part the AI helps with. The designer decides, the AI writes the code and the PR.
-[click] So they open a PR on the components.
-[click] The story tests are the gate. Green, and validated.
-[click] A new version goes out.
-[click] The apps update the import. That's it. No drawing to reinterpret.
-[TO SOURCE: confirm with RedCarbon what can be said, even only out loud and without names]
+You know the usual flow. Take it on a bad day: worst case, but I bet each of you has seen at least one of these steps. Let's follow one colour.
+The designer means akane. The brand red, with a name and a reason. In Figma it becomes #C91F37: the name is already gone.
+[click] The developer opens Figma and translates it, with the AI next to them: the most confident translator in the room. It never saw akane. It saw a red, and wrote the red it knows: bg-red-600.
+[click] And in the app? Not even that. Some global style, some override somewhere wins, and paints another red. It happened to me on these very slides: a grey I'd picked for the text came out too light, because a Slidev default won over my theme.
+Nobody along the chain was wrong, and nobody chose that red.
+[click] At work we moved the AI. From the one who translates to the one who decides. A designer traditionally doesn't open pull requests: branches, React, a diff to explain. That's the part the AI helps with.
+[click] So the designer ships the components. Not the app: the building blocks. A pull request, and the components run in Storybook: the designer looks at what ships, not at a picture of it. The story tests are the gate, the same kind of gate that stopped the green kanji.
+[click] A new version goes out, and the app takes it when it's ready: it bumps the import. The developers still build the app, with blocks nobody has to translate.
+Same red, all the way down.
 -->
 
 ---
 layout: split-code
 ---
 
-###### src/stories/Tape.stories.tsx
+###### davideimola.dev · Tape.stories.tsx
 
-# A story is a rule you can <Marker>see</Marker>
+# One story, two <Marker>readers</Marker>
 
-Every state on a page. Every story runs as a test, in a real browser.
+<h6 style="margin-top: 28px">the designer sees</h6>
+
+<BrowserFrame url="UI/Tape/TiltCycle" class="w-full">
+  <div class="flex flex-col gap-5" style="padding: 28px 32px">
+    <Tape :n="0" :size="28">Writing</Tape>
+    <Tape :n="1" :size="28">Building</Tape>
+    <Tape :n="2" :size="28">Next talk</Tape>
+  </div>
+</BrowserFrame>
 
 ::right::
 
-```tsx
+###### the AI reads
+
+```tsx {1-2}
 /** Neighbouring tapes cycle through the tilts
     so they never all lean one way. */
 export const TiltCycle: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-6 p-4">
+    <div className="flex flex-wrap gap-6">
       <Tape tilt={0}>Writing</Tape>
       <Tape tilt={1}>Building</Tape>
       <Tape tilt={2}>Next talk</Tape>
@@ -885,48 +812,28 @@ export const TiltCycle: Story = {
 ```
 
 <!--
-This is why the story is the right unit. From my site: the tape, the label you've seen on every slide of this talk.
-The comment is a brand rule: neighbouring tapes never lean the same way. The story shows it, so a designer can look at it and say yes or no.
-And through the Storybook Vitest plugin, every story also runs as a test in a headless browser.
-So the same file is the documentation, the review surface, and the gate.
--->
-
----
-layout: default
----
-
-# What the designer gets
-
-<Ladder compact>
-  <LadderRung v-click :n="1" title="Storybook">what ships, not a drawing of it</LadderRung>
-  <LadderRung v-click :n="2" title="A history">every decision on record, the AI does the Git</LadderRung>
-  <LadderRung v-click :n="3" title="Story tests">the gate catches what eyes miss</LadderRung>
-  <LadderRung v-click :n="4" title="A version">apps choose when to take it</LadderRung>
-</Ladder>
-
-<!--
-[click] Storybook: the designer looks at what ships, not at a picture of it.
-[click] A history. Every change is a commit, every decision a pull request, reviewed, with its reason written down.
-The designer doesn't need to be a Git expert for this: the AI does the branches, the commits, the PR description.
-And that history pays the AI back too: next time, it reads why things are the way they are, instead of guessing.
-[click] Story tests: the same kind of gate that stopped the green kanji.
-[click] A version: every app takes the change when it's ready.
-And the AI? It's in the loop too. It reads the same rules, it hits the same gate. It's one more contributor.
+You all know Storybook, I won't sell it to you. What changed is who reads it.
+One file from my site: the story of the tape, the label you've seen on every slide of this talk.
+The designer looks at the left: three tapes, each leaning its own way. Yes or no.
+The AI reads the right: the same story, as code. And the comment on top is a brand rule, in the one place both of them look.
+In the demo you saw the agent open Tape and its story before writing the Callout. The context file said reuse first; the story showed it how.
+Today, on my site, that's a smoke test: if a component breaks, its story breaks. The next step is assertions: a play function, an accessibility check that fails instead of warning.
 -->
 
 ---
 layout: statement
 ---
 
-# Once the system exists, you don't need React to <Marker>design</Marker> it.
+# The system is the <Marker>contract</Marker>.
+
+Once it exists, you don't need React to design it.
 
 <!--
 This is the part I care about most.
 The system is the contract: between me, the AI and the team.
 Once it exists, the person who designs it doesn't have to write React. The AI writes it, inside the rules, and the gate checks it. The designer decides.
-And I thought: if it works for a team with many apps, why not for me?
+And I thought: if it works for a team with many apps, why not for my own repos?
 -->
-
 ---
 layout: section
 label: "06 · One brand, many repos"
@@ -955,7 +862,7 @@ So the brand got its own repo, exactly like at work. It starts from one file: to
 [click] The site installs it.
 [click] These slides install it too, through the Slidev theme. That red line is the marker you've been seeing all talk.
 Nobody copies a colour. Everybody imports it.
-The brand repo and the new light site landed the same day, in October. From then on, the site doesn't own a single colour.
+The brand repo and the new light site landed the same day, in October. From then on, every colour of the site comes from the brand.
 -->
 
 ---
@@ -1023,7 +930,7 @@ transition: fade
 <!--
 Closing. By the way, I still don't know what that kanji means. The one in front of "Ciao".
 And that's the point. Nobody decided it, so the AI decided for me.
-Today it can't happen. Not because the AI changed. Because now I decide, and it's written down, and a check enforces it.
+Today it can't ship. The AI can still write it, we just saw that. But now I decide, it's written down, and a check stops it before it goes anywhere.
 -->
 
 ---
@@ -1041,7 +948,7 @@ layout: statement
 <!--
 If you take one line home, take this one.
 AI amplifies your system.
-[click] No system, it amplifies chaos. Forty-two colours of chaos, and a kanji I can't read.
+[click] No system, it amplifies chaos. Thirty-four colours of chaos, and a kanji I can't read.
 -->
 
 ---
@@ -1051,21 +958,17 @@ layout: default
 # On Monday, before the <Marker>prompt</Marker>
 
 <Ladder compact>
-  <LadderRung v-click :n="1" title="Decide first">the AI fills every gap you leave</LadderRung>
-  <LadderRung v-click :n="2" title="Write it down">where the AI reads it, and keep it current</LadderRung>
-  <LadderRung v-click :n="3" title="Tokens and roles">named values, each with a job</LadderRung>
-  <LadderRung v-click :n="4" title="A check">that fails when the rules break</LadderRung>
-  <LadderRung v-click :n="5" title="A version">one system for the team, the AI, every repo</LadderRung>
+  <LadderRung :n="1" title="Write five decisions">colours, type, what red is for, in your CLAUDE.md</LadderRung>
+  <LadderRung :n="2" title="Name one colour">move a hex into a token, and give it a role</LadderRung>
+  <LadderRung :n="3" title="Add one check">a script in CI that fails on a raw colour</LadderRung>
 </Ladder>
 
 <!--
-Remember my note to self? Here it is, the whole list. That's your Monday.
-Before you ask the AI for a component, write down the decisions it must not make.
-[click] Decide first.
-[click] Write it down, where the AI reads it.
-[click] Tokens and roles.
-[click] A check that fails when they break. Because the prompt asks, the gate decides.
-[click] And once it works, version it, and let everyone import it.
+The note to self was the why. This is the how, for Monday. Three things, one afternoon.
+One: write five decisions where the AI reads them. Your colours, your type, what your accent is for. Five lines in your CLAUDE.md.
+Two: take one hex you typed by hand, give it a name and a role. Then do it again tomorrow.
+Three: one check in CI that fails on a raw colour. Mine is forty lines, and it caught a bug I'd missed for months.
+Then, when it works, version it, and let everyone import it.
 AI won't design your system. You have to.
 Grazie. And konnichiwa, I guess.
 -->

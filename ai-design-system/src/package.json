@@ -8,5 +8,8 @@
     "demo:prep": "node ../demo/prep.mjs",
     "build": "slidev build slides.md",
     "export": "slidev export slides.md"
+  },
+  "dependencies": {
+    "@fontsource/potta-one": "5.3.0"
   }
 }
