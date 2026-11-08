@@ -761,7 +761,7 @@ clicks: 5
 
 # <span v-if="$clicks < 3">Every handoff is a <Marker>translation</Marker></span><span v-else>The designer ships <Marker>components</Marker></span>
 
-<HandoffMorph class="mt-6 mx-auto w-[92%]" alt="The usual flow: the designer means akane, Figma stores #C91F37, the developer with the AI writes bg-red-600, and in the app an override paints another red. Then Figma and the developer leave the chain, the AI moves to the designer, a pull request ships the components into Storybook behind the story tests, and a new version reaches the same app, still akane" />
+<HandoffMorph class="mt-6 mx-auto w-[92%]" alt="The usual flow: the designer means akane, Figma stores #C91F37, the developer with the AI writes bg-red-600, and in the app an override paints another red. Then Figma and the developer leave the chain, the AI moves to the designer, a pull request ships the components into Storybook behind the story tests, and a new version reaches the same app, where the override is still there" />
 
 <!--
 You know the usual flow. Take it on a bad day: worst case, but I bet each of you has seen at least one of these steps. Let's follow one colour.
@@ -772,52 +772,8 @@ Nobody along the chain was wrong, and nobody chose that red.
 [click] At work we moved the AI. From the one who translates to the one who decides. A designer traditionally doesn't open pull requests: branches, React, a diff to explain. That's the part the AI helps with.
 [click] So the designer ships the components. Not the app: the building blocks. A pull request, and the components run in Storybook: the designer looks at what ships, not at a picture of it. The story tests are the gate, the same kind of gate that stopped the green kanji.
 [click] A new version goes out, and the app takes it when it's ready: it bumps the import. The developers still build the app, with blocks nobody has to translate.
-Same red, all the way down.
--->
-
----
-layout: split-code
----
-
-###### davideimola.dev · Tape.stories.tsx
-
-# One story, two <Marker>readers</Marker>
-
-<h6 style="margin-top: 28px">the designer sees</h6>
-
-<BrowserFrame url="UI/Tape/TiltCycle" class="w-full">
-  <div class="flex flex-col gap-5" style="padding: 28px 32px">
-    <Tape :n="0" :size="28">Writing</Tape>
-    <Tape :n="1" :size="28">Building</Tape>
-    <Tape :n="2" :size="28">Next talk</Tape>
-  </div>
-</BrowserFrame>
-
-::right::
-
-###### the AI reads
-
-```tsx {1-2}
-/** Neighbouring tapes cycle through the tilts
-    so they never all lean one way. */
-export const TiltCycle: Story = {
-  render: () => (
-    <div className="flex flex-wrap gap-6">
-      <Tape tilt={0}>Writing</Tape>
-      <Tape tilt={1}>Building</Tape>
-      <Tape tilt={2}>Next talk</Tape>
-    </div>
-  ),
-};
-```
-
-<!--
-You all know Storybook, I won't sell it to you. What changed is who reads it.
-One file from my site: the story of the tape, the label you've seen on every slide of this talk.
-The designer looks at the left: three tapes, each leaning its own way. Yes or no.
-The AI reads the right: the same story, as code. And the comment on top is a brand rule, in the one place both of them look.
-In the demo you saw the agent open Tape and its story before writing the Callout. The context file said reuse first; the story showed it how.
-Today, on my site, that's a smoke test: if a component breaks, its story breaks. The next step is assertions: a play function, an accessibility check that fails instead of warning.
+And the AI? It reads the same stories. That's how it reused the tape in the demo.
+Now, does the app get the same red? Not guaranteed. The component arrives right, but the app has its own CSS. That's exactly where my grey went wrong on these slides. The designer fixed the handoff. The app is still a translator.
 -->
 
 ---
@@ -862,6 +818,7 @@ So the brand got its own repo, exactly like at work. It starts from one file: to
 [click] The site installs it.
 [click] These slides install it too, through the Slidev theme. That red line is the marker you've been seeing all talk.
 Nobody copies a colour. Everybody imports it.
+Remember the app with the override? Does the package kill it? Not by itself. My grey had the right token: a Slidev rule faded it. The fix was one line, in the theme, the slides' own layer. But now there is one place for that line, and every slide gets it.
 The brand repo and the new light site landed the same day, in October. From then on, every colour of the site comes from the brand.
 -->
 

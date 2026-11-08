@@ -16,7 +16,8 @@ import { computed, nextTick, onMounted, ref, unref, watch } from 'vue'
    developer. Click 3: Figma and the developer fade, the AI moves to the
    designer's shoulder. Click 4: a pull request to the components, running in
    Storybook behind the story-test gate. Click 5: a new version reaches the
-   same app, still akane. Outside the live slide (overview, export, print)
+   same app. Its override stays: the app's own CSS can still repaint the red,
+   the question chapter 6 answers. Outside the live slide (overview, export, print)
    every due step shows drawn. */
 defineProps({ alt: { type: String, default: '' } })
 
@@ -61,9 +62,12 @@ const SVG = `
       <circle cx="970" cy="265" r="5" fill="#1C2233" stroke="none" />
       <text x="970" y="390" class="t t-name" fill="#1C2233" stroke="none">developer</text>
     </g>
-    <g class="fade" data-step="2">
+    <!-- The override stays at the turn: the app's own CSS can still repaint the red. -->
+    <g data-step="2">
       <text x="1380" y="62" class="t t-label" fill="#1C2233" stroke="none">an override</text>
       <rect x="1356" y="-58" width="48" height="48" rx="6" fill="#EF4444" stroke="#EF4444" />
+    </g>
+    <g class="fade" data-step="2">
       <path d="M1080 195 H1245" />
       <path d="M1220 173 L1245 195 L1220 217" />
     </g>
@@ -105,8 +109,6 @@ const SVG = `
       <path d="M925 195 H1245" />
       <path d="M1220 173 L1245 195 L1220 217" />
       <text x="1085" y="160" class="t t-caption" fill="#3B4152" stroke="none">new version</text>
-      <text x="1380" y="62" class="t t-label" fill="#1C2233" stroke="none">akane</text>
-      <rect x="1356" y="-58" width="48" height="48" rx="6" fill="#C91F37" stroke="#C91F37" />
       <text x="1380" y="440" class="t t-caption" fill="#3B4152" stroke="none">bumps the import</text>
     </g>
   </g>
