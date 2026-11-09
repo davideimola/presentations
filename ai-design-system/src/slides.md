@@ -371,7 +371,7 @@ layout: code-hero
 
 ###### davideimola/brand · tokens/tokens.json · the colours
 
-```json {all|13-14|37|52}{maxHeight:'420px'}
+```json {all|13-14|27-41|37|42-56|52}{maxHeight:'420px'}
 "color": {
   "$type": "color",
   "palette": {
@@ -433,8 +433,10 @@ layout: code-hero
 <!--
 The source of the brand. One JSON file, the design tokens format. This is the real thing, the whole colour section: I'll scroll it for you.
 [click] The palette: the tokens. A name, a value. Here's akane, and akane-night just below. The only hex values in the whole system live up here.
-[click] Further down, the light theme: the roles. Accent doesn't hold a colour, it holds a reference. Curly braces: go and read akane.
-[click] And at the bottom, the dark theme: same role, accent, another reference. akane-night.
+[click] Further down, a block called light: the light theme. These are the roles.
+[click] Accent doesn't hold a colour, it holds a reference. Curly braces: go and read akane.
+[click] And at the bottom, a block called dark: the same roles, for the dark theme.
+[click] Same role, accent, another reference. akane-night.
 Same file, three layers, top to bottom. The brand declares them. Who uses them? Back to March, and the real files of the site.
 -->
 
@@ -536,7 +538,20 @@ Look at line five. rgba, 201, 31, 55. That's Akane red, typed by hand, at 20 per
 Same commit that created the design system. The tokens were right there. The rules were right there. And a raw colour slipped in anyway.
 Some of you spotted it a chapter ago. I didn't, for months.
 Rules written down are a request. And requests get ignored. By the AI, by me, by anyone in a hurry.
-So let's try to break it. On purpose. Live.
+So how far does a request get?
+-->
+
+---
+layout: statement
+---
+
+# Let's put the AI on a <Marker>leash</Marker>.
+
+<!--
+Let's find out. On purpose, live.
+On this laptop there's a repo called leash. A small copy of my design system: the brand package, two components, a Tape and a Badge, and Storybook open, so we all see what comes out.
+And one context file. That's the leash. No system prompt of mine on top, nothing hidden.
+First I ask for something new. Then I try to make it break the rules.
 -->
 
 ---
@@ -561,7 +576,7 @@ layout: code-hero
 ```
 
 <!--
-Live demo. A small copy of my design system: a Tape, a Badge, Storybook open so we all see what comes out. And this, the entire context file of the demo repo. Nothing hidden, no system prompt of mine on top.
+This is the leash. The entire context file of the demo repo.
 [click] The brand: where colours come from, what never to write by hand, where red goes, no kanji.
 [click] The components: reuse first, and every component gets a story.
 [click] Twelve lines of Markdown. No magic prompt, no framework to install. Let's see how far it gets.
@@ -603,7 +618,7 @@ This is the good part: with the rules written down, the AI composes instead of i
 layout: statement
 ---
 
-# The AI started <Marker>reusing</Marker>, not inventing.
+# The AI started <Marker>reusing</Marker>. Mostly.
 
 <!--
 That's what changed in March, the moment the rules were written down. When I asked for something new, the AI reused my components, or proposed new ones coherent with the brand. You just saw it.
@@ -761,12 +776,12 @@ clicks: 5
 
 # <span v-if="$clicks < 3">Every handoff is a <Marker>translation</Marker></span><span v-else>The designer ships <Marker>components</Marker></span>
 
-<HandoffMorph class="mt-6 mx-auto w-[92%]" alt="The usual flow: the designer means akane, Figma stores #C91F37, the developer with the AI writes bg-red-600, and in the app an override paints another red. Then Figma and the developer leave the chain, the AI moves to the designer, a pull request ships the components into Storybook behind the story tests, and a new version reaches the same app, where the override is still there" />
+<HandoffMorph class="mt-6 mx-auto w-[92%]" alt="The usual flow: the designer means akane, Figma gives it the role accent, the developer with the AI writes bg-red-600, and in the app an override paints another red. Then the developer leaves the chain and the AI moves to the designer: a pull request ships the components into Storybook, the source of truth. Figma follows through the MCP, and a new version reaches the same app, where the override is still there" />
 
 <!--
 You know the usual flow. Take it on a bad day: worst case, but I bet each of you has seen at least one of these steps. Let's follow one colour.
-The designer means akane. The brand red, with a name and a reason. In Figma it becomes #C91F37: the name is already gone.
-[click] The developer opens Figma and translates it, with the AI next to them: the most confident translator in the room. It never saw akane. It saw a red, and wrote the red it knows: bg-red-600.
+The designer means akane. The brand red, with a name and a reason. And a good designer doesn't paint a hex in Figma: they use a variable with a role. Accent. Perfect. But that accent lives in Figma. The code doesn't know it.
+[click] The developer opens Figma and translates it, with the AI next to them: the most confident translator in the room. It never saw akane. In the code there's no accent to point at, so it looks at the swatch, sees a red, and writes the red it knows: bg-red-600.
 [click] And in the app? Not even that. Some global style, some override somewhere wins, and paints another red. It happened to me on these very slides: a grey I'd picked for the text came out too light, because a Slidev default won over my theme.
 Nobody along the chain was wrong, and nobody chose that red.
 [click] At work we moved the AI. From the one who translates to the one who decides. A designer traditionally doesn't open pull requests: branches, React, a diff to explain. That's the part the AI helps with.
@@ -810,7 +825,7 @@ clicks: 3
 
 # One package, every <Marker>consumer</Marker>
 
-<DrawnSvg src="/drawings/brand-package.svg" alt="tokens.json is built into the @davideimola/brand package, which both davideimola.dev and these slides install" steps class="mt-6 mx-auto w-[92%]" />
+<DrawnSvg src="/drawings/brand-package.svg" alt="tokens.json and DESIGN.md go into the @davideimola/brand package, which both davideimola.dev and these slides install" steps class="mt-6 mx-auto w-[92%]" />
 
 <!--
 So the brand got its own repo, exactly like at work. It starts from one file: tokens.json.
@@ -915,7 +930,7 @@ layout: default
 # On Monday, before the <Marker>prompt</Marker>
 
 <Ladder compact>
-  <LadderRung :n="1" title="Write five decisions">colours, type, what red is for, in your CLAUDE.md</LadderRung>
+  <LadderRung :n="1" title="Write five decisions">colours, type, what red is for, in your context files</LadderRung>
   <LadderRung :n="2" title="Name one colour">move a hex into a token, and give it a role</LadderRung>
   <LadderRung :n="3" title="Add one check">a script in CI that fails on a raw colour</LadderRung>
 </Ladder>

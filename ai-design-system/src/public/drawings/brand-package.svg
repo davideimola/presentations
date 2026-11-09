@@ -1,15 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 470" width="1700" height="470">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 480" width="1700" height="480">
   <g fill="none" stroke="#1C2233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
     <g data-step="0">
-      <path d="M120 110 H210 L250 150 V330 H120 Z"/>
-      <path d="M210 110 V150 H250"/>
-      <path d="M150 190 H220 M150 230 H220 M150 270 H195"/>
-      <text x="185" y="420" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="40" text-anchor="middle">tokens.json</text>
+      <path d="M120 20 H200 L235 55 V170 H120 Z"/>
+      <path d="M200 20 V55 H235"/>
+      <path d="M145 85 H210 M145 115 H210 M145 145 H185"/>
+      <text x="178" y="222" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="34" text-anchor="middle">tokens.json</text>
+      <path d="M120 270 H200 L235 305 V420 H120 Z"/>
+      <path d="M200 270 V305 H235"/>
+      <path d="M145 335 H210 M145 365 H210 M145 395 H185"/>
+      <text x="178" y="465" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="34" text-anchor="middle">DESIGN.md</text>
     </g>
     <g data-step="1">
-      <path d="M290 220 H470"/>
+      <path d="M275 95 C360 95 390 220 470 220"/>
+      <path d="M275 345 C360 345 390 220 470 220"/>
       <path d="M445 198 L470 220 L445 242"/>
-      <text x="380" y="180" fill="#1C2233" stroke="none" font-family="IBM Plex Mono, monospace" font-size="32" text-anchor="middle">build</text>
       <rect x="510" y="130" width="220" height="180" rx="12"/>
       <path d="M510 180 H730"/>
       <path d="M620 130 V180"/>
