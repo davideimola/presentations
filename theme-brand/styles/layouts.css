@@ -23,9 +23,10 @@
 /* ── End ─────────────────────────────────────────────────────────────── */
 
 .slidev-layout.end .end__text {
+  /* Same room as the cover for a two-line title. */
   h1 {
     font-size: 112px;
-    line-height: 0.96;
+    line-height: 1.1;
     letter-spacing: -0.055em;
     margin: 0 0 22px;
   }

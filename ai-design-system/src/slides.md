@@ -950,6 +950,6 @@ layout: end
 qr: https://links.davideimola.dev
 ---
 
-# Thank you
+# <Marker>Arigatō</Marker> gozaimasu.
 
-Slides, links and feedback.
+Slides, feedback and everything else.
