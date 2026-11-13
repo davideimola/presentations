@@ -81,7 +81,7 @@ github: davideimola
 linkedin: davideimola
 ---
 
-<WhoAmI />
+<WhoAmI hiring />
 
 <!--
 I'm Davide. Tech lead at RedCarbon.
