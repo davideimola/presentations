@@ -65,4 +65,5 @@ Talks are forged and edited with Claude Code skills living in `.claude/skills/`:
 - `talk-forge` — grills the idea into a brief (`TALK.md`) and creates the talk folder
 - `slide-craft` — creates and drafts the whole deck from the brief (slide copy + presenter notes), then revises it on feedback
 - `talk-review` — a cold read of a deck against its brief: what works, what doesn't hold, format changes, timing (read-only)
-- `cfp-submit` — prepares CFP submissions for a forged talk (output stays local, gitignored)
+
+Calls for papers are handled by the user-wide `cfp` skill from [davideimola/skills](https://github.com/davideimola/skills), which tracks them on Trilium from any repo.
