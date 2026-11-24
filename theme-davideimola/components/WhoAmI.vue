@@ -16,7 +16,7 @@
       </tr>
       <tr>
         <td class="whoami__key">community</td>
-        <td class="whoami__val">Schrödinger Hat · Open Source Day</td>
+        <td class="whoami__val">Schrödinger Hat · Open Source Day, 2022–2026</td>
       </tr>
       <tr>
         <td class="whoami__key">location</td>

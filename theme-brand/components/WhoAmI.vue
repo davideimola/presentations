@@ -18,7 +18,7 @@
       </div>
       <div>
         <dt>community</dt>
-        <dd>Schrödinger Hat · Open Source Day</dd>
+        <dd>Schrödinger Hat · Open Source Day, 2022–2026</dd>
       </div>
       <div>
         <dt>off the clock</dt>
